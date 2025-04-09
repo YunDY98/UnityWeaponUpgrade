@@ -39,9 +39,12 @@ public class Player : MonoBehaviour
 
     #endregion
    
-    
-    PState pState;
+    [HideInInspector]
+    public State state;
     SkeletonAnimation skeletonAnimation;
+
+    
+   
 
     // Spine.AnimationState and Spine.Skeleton are not Unity-serialized objects. You will not see them as fields in the inspector.
     public Spine.AnimationState spineAnimationState;
@@ -49,25 +52,31 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerStats.Instance.Player(this);
+
         skeletonAnimation = GetComponent<SkeletonAnimation>();
         spineAnimationState = skeletonAnimation.AnimationState;
         skeleton = skeletonAnimation.Skeleton;
        
-        pState = PState.Run;
+        state = State.Run;
     }
 
     void Update()
     {
+
         
         
         
-        switch(pState)
+        switch(state)
         {
-            case PState.Idle: 
+            case State.Idle: 
                 Idle();
                 break;
-            case PState.Run:
+            case State.Run:
                 Run();
+                break;
+            case State.Die:
+                //Die();
                 break;
 
         }
@@ -89,7 +98,7 @@ public class Player : MonoBehaviour
         SetAnim(runAnimationName);
         if(!GameManager.Instance.IsMove)
         {
-            pState = PState.Idle;
+            state = State.Idle;
         }
     }
     public void Idle()
@@ -102,6 +111,10 @@ public class Player : MonoBehaviour
         SetAnim(atkAnimationName_1);
     }
 
+    public void Die()
+    {
+        SetAnim(deathAnimationName);
+    }
 
 
 
@@ -110,7 +123,7 @@ public class Player : MonoBehaviour
 }
 
 
-public enum PState
+public enum State
 {
     Idle,
     Run,
