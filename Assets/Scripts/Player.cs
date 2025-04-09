@@ -53,19 +53,20 @@ public class Player : MonoBehaviour
         spineAnimationState = skeletonAnimation.AnimationState;
         skeleton = skeletonAnimation.Skeleton;
        
-    
+        pState = PState.Run;
     }
 
     void Update()
     {
-        pState = GameManager.Instance.State;
+        
+        
         
         switch(pState)
         {
             case PState.Idle: 
                 Idle();
                 break;
-            case PState.Move:
+            case PState.Run:
                 Run();
                 break;
 
@@ -86,6 +87,10 @@ public class Player : MonoBehaviour
     public void Run()
     {
         SetAnim(runAnimationName);
+        if(!GameManager.Instance.IsMove)
+        {
+            pState = PState.Idle;
+        }
     }
     public void Idle()
     {
@@ -105,7 +110,17 @@ public class Player : MonoBehaviour
 }
 
 
+public enum PState
+{
+    Idle,
+    Run,
+    Die,
+    Damaged,
+    Attack,
+    Buff = 20,
 
+   
+}
 
 
 

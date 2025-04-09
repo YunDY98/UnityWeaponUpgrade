@@ -20,13 +20,7 @@ public class GameManager : MonoBehaviour
         set{ _isMove = value; }
     }
 
-    PState _State;
-
-    public PState State
-    {
-        get{ return _State;}
-        set{ _State = value; }
-    }
+  
 
     void Awake()
     {
@@ -51,8 +45,39 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         IsMove = true;
-        State = PState.Move;
+       
          
+    }
+
+    void Update()
+    {
+        if(IsEnemy())
+        {
+            IsMove = false;
+        }
+        else
+        {
+            IsMove = true;
+        }
+    }
+
+    bool IsEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject enemy in enemies)
+        {
+            Vector3 viewPos = Camera.main.WorldToViewportPoint(enemy.transform.position);
+
+            if (viewPos.x >= 0 && viewPos.x <= 1 &&
+                viewPos.y >= 0 && viewPos.y <= 1 &&
+                viewPos.z > 0)
+            {
+                return true; // 하나라도 화면 안에 있으면 true
+            }
+        }
+
+        return false; // 모두 화면 밖에 있음
     }
 
 
@@ -63,15 +88,4 @@ public class GameManager : MonoBehaviour
 
 
 
-}
-public enum PState
-{
-    Idle,
-    Move,
-    Die,
-    Damaged,
-    Attack,
-    Buff = 20,
-
-   
 }

@@ -21,7 +21,7 @@ public class Move : MonoBehaviour
     void Update()
     {
 
-        if(GameManager.Instance.State == PState.Move)
+        if(GameManager.Instance.IsMove)
         {
             MoveBackGround();
 
