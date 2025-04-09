@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy0
   m_EditorClassIdentifier: 
   enemyName: zombie0
-  maxHP: 1000
+  maxHP: 50
   attackPower: 10
-  moveSpeed: 1
+  moveSpeed: 10
   attackDelay: 2

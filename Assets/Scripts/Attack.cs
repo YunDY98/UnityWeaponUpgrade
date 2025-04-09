@@ -1,47 +1,48 @@
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Attack : MonoBehaviour
 {
-    protected List<GameObject> enemies = new(); // 적 배열
+    List<GameObject> enemies = new(); // 적 배열
+    int cnt; // 공격 가능 적 수 
 
-    int cnt;
-    float range;
 
-    
 
-    void MultiAttack()
+    public void Atk()
     {
-        // 주변의 적을 감지
-        Collider[] colliders = Physics.OverlapSphere(transform.position, range);
-        enemies.Clear(); // 리스트 초기화
-        foreach(Collider other in colliders)
-        {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-            {
-                enemies.Add(other.gameObject); // 적을 리스트에 추가
-            }
-        }
+        float attackDelay = 0.6f; // 스파인 애니메이션에 맞춰서 딜레이
+        cnt = PlayerStats.Instance.AttackCnt;
+        // 박스 중심과 크기 설정
+        Vector2 center = transform.position;
+        Vector2 size = new Vector2(PlayerStats.Instance.AttackRange, 3f);
+        float angle = 0f;
 
-        // cnt 수만큼 적 공격 
-    
-        foreach(GameObject enemy in enemies)
+        // 적 레이어 마스크
+        int enemyLayer = LayerMask.GetMask("Enemy");
+
+        // 공격 범위 내의 모든 적 감지
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(center, size, angle, enemyLayer);
+
+        // 감지된 적마다 데미지 처리
+        foreach (Collider2D col in colliders)
         {
             if(0 < cnt)
             {
-                // EnemyFSM 컴포넌트 가져오기
-                EnemyFSM efsm = enemy.GetComponent<EnemyFSM>();
-                if (efsm != null)
+                EnemyFSM enemy = col.GetComponent<EnemyFSM>();
+                if (enemy != null)
                 {
-                    
+                    enemy.HitEnemy(PlayerStats.Instance.Damage,attackDelay);
                     cnt--;
                 }
+
             }
             else
             {
-                break; // 최대 공격수에 도달하면 루프 종료
+                break;
             }
+            
         }
+
+        
     }
 
 

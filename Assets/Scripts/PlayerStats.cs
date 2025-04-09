@@ -27,6 +27,10 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         HP = 1000;
+        AttackRange = 10;
+        AttackCnt = 10;
+        Damage = 10;
+        AttackDelay = 3f;
     }
 
     void Update()
@@ -56,7 +60,11 @@ public class PlayerStats : MonoBehaviour
     public float AttackRange
     {
         get { return _atkRange;}
-        set { _atkRange = value; }
+        set 
+        {
+            _atkRange = value;
+           
+        }
     }
 
     int _attackCnt;
@@ -64,6 +72,20 @@ public class PlayerStats : MonoBehaviour
     {
         get { return _attackCnt; }
         set { _attackCnt = value; }
+
+    }
+    float _damage;
+    public float Damage
+    {
+        get { return _damage; }
+        set { _damage = value; }
+    }
+
+    float _attackDelay;
+    public float AttackDelay
+    {
+        get { return _attackDelay; }
+        set { _attackDelay = value; }
 
     }
 

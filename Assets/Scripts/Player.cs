@@ -43,6 +43,11 @@ public class Player : MonoBehaviour
     public State state;
     SkeletonAnimation skeletonAnimation;
 
+    Attack attack;
+    
+    
+    float attackDelay = 0f; // 공격 시간 
+
     
    
 
@@ -50,6 +55,12 @@ public class Player : MonoBehaviour
     public Spine.AnimationState spineAnimationState;
     public Spine.Skeleton skeleton;
     // Start is called before the first frame update
+
+    void Awake()
+    {
+        attack = GetComponentInChildren<Attack>();
+        
+    }
     void Start()
     {
         PlayerStats.Instance.Player(this);
@@ -63,9 +74,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-
         
-        
+        if(GameManager.Instance.IsMove)
+        {
+            state = State.Run;
+        }
         
         switch(state)
         {
@@ -76,7 +89,10 @@ public class Player : MonoBehaviour
                 Run();
                 break;
             case State.Die:
-                //Die();
+                Die();
+                break;
+            case State.Attack:
+                Attack();
                 break;
 
         }
@@ -84,12 +100,22 @@ public class Player : MonoBehaviour
 
     }
 
-    public void SetAnim(string animName)
+    void OnTriggerStay2D(Collider2D other)
+    {
+        
+        if(other.CompareTag("Enemy"))
+        {
+            state = State.Attack;
+        }
+        
+    }
+
+    public void SetAnim(string animName,bool loop = true)
     {
         string current = skeletonAnimation.AnimationName;
 
         if(current != animName)
-            spineAnimationState.SetAnimation(0, animName, true);
+            spineAnimationState.SetAnimation(0, animName, loop);
 
     }
 
@@ -108,7 +134,19 @@ public class Player : MonoBehaviour
 
     public void Attack()
     {
-        SetAnim(atkAnimationName_1);
+        
+        attackDelay += Time.deltaTime;
+        if(attackDelay > PlayerStats.Instance.AttackDelay)
+        {
+            attackDelay = 0f;
+            spineAnimationState.SetAnimation(0, atkAnimationName_1, false);
+
+        
+            attack.Atk();
+           
+
+        }
+        
     }
 
     public void Die()

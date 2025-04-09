@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class EnemyFSM : MonoBehaviour
 {
@@ -7,7 +8,8 @@ public class EnemyFSM : MonoBehaviour
     Transform player;
     State state;
 
-    int curHP;
+    
+    float HP;
 
     float currentTime = 0;
 
@@ -20,7 +22,7 @@ public class EnemyFSM : MonoBehaviour
     void Awake()
     {
         anim = GetComponent<Animator>();
-        curHP = enemySO.maxHP;
+        HP = enemySO.maxHP;
         
     }
 
@@ -40,6 +42,9 @@ public class EnemyFSM : MonoBehaviour
                 break;
             case State.Attack:
                 Attack();
+                break;
+            case State.Die:
+                Die();
                 break;
 
         }
@@ -99,7 +104,36 @@ public class EnemyFSM : MonoBehaviour
 
     }
 
-  
+    public void HitEnemy(float damage,float delay)
+    {
+        
+        StartCoroutine(HitDelay(damage,delay));
+       
+        
+    }
+
+    void Die()
+    {
+        
+        {
+            anim.SetTrigger("Dead");
+        }
+
+    }
+
+    IEnumerator HitDelay(float damage,float delay)
+    {
+        // 스파인 애니메이션에 맞춰 딜레이 ( 스파인 에디터 사용 불가 이슈)
+        yield return new WaitForSeconds(delay);
+        
+        HP -= damage;
+        if(HP <= 0)
+            anim.SetTrigger("Dead");
+        else
+            anim.SetTrigger("Hit");
+    }
+
+
 }
 
 
