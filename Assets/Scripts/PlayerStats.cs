@@ -1,8 +1,13 @@
+using System;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
     public Player player;
+
+    int maxHP = 1000;
+
+    public event Action<float> HPEvent;
     private static PlayerStats _instance;
     public static PlayerStats Instance
     {
@@ -27,7 +32,7 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
-        HP = 1000;
+        HP = maxHP;
         AttackRange = 10;
         AttackCnt = 10;
         Damage = 10;
@@ -48,6 +53,7 @@ public class PlayerStats : MonoBehaviour
         set
         { 
             _hp = value; 
+            HPEvent?.Invoke((float)_hp/maxHP);
             if (_hp <= 0 && player.state != State.Die)
             {
                 player.state = State.Die;

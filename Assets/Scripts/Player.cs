@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
     float attackDelay = 0f; // 공격 시간 
 
     
-    bool isLive = true;
+    bool isLive;
 
     // Spine.AnimationState and Spine.Skeleton are not Unity-serialized objects. You will not see them as fields in the inspector.
     public Spine.AnimationState spineAnimationState;
@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
         spineAnimationState = skeletonAnimation.AnimationState;
         skeleton = skeletonAnimation.Skeleton;
        
-        state = State.Run;
+        Init();
     }
 
     void Init()
