@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-  
+    public Player player;
     private static PlayerStats _instance;
     public static PlayerStats Instance
     {
@@ -22,6 +22,7 @@ public class PlayerStats : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(this);
         }
+        player = GetComponent<Player>();
     }
 
     void Start()
@@ -38,7 +39,7 @@ public class PlayerStats : MonoBehaviour
         print(HP);
     }
 
-    Player player;
+   
 
     int _hp;
     public int HP
@@ -98,8 +99,5 @@ public class PlayerStats : MonoBehaviour
 
 
 
-    public void Player(Player player)
-    {
-        this.player = player;
-    }
+    
 }

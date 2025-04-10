@@ -1,8 +1,19 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-   
+    float time;
+    float spawnTime = 2f;
+    int _enemyCnt;
+    public int EnemyCnt
+    {
+        get { return _enemyCnt; }
+        set { _enemyCnt = value; }
+    }
+
+    int spawnCnt = 5;
+    public EnemyFactory EnemyFactory;
 
 
     private static GameManager _instance;
@@ -45,15 +56,28 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         IsMove = true;
+
+        
        
          
     }
 
     void Update()
     {
+        
+        time += Time.deltaTime;
+
+        if(EnemyCnt <= 0 && spawnTime < time)
+        {
+            StartCoroutine(Spawn(spawnCnt));
+            EnemyCnt = spawnCnt;
+
+        }
+
         if(IsEnemy())
         {
             IsMove = false;
+            
         }
         else
         {
@@ -65,7 +89,7 @@ public class GameManager : MonoBehaviour
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        foreach (GameObject enemy in enemies)
+        foreach (var enemy in enemies)
         {
             Vector3 viewPos = Camera.main.WorldToViewportPoint(enemy.transform.position);
 
@@ -80,6 +104,18 @@ public class GameManager : MonoBehaviour
         return false; // 모두 화면 밖에 있음
     }
 
+
+    WaitForSeconds wait = new WaitForSeconds(2f);
+
+    IEnumerator Spawn(int cnt)
+    {
+
+        yield return wait;
+
+        EnemyFactory.Spawn(cnt);
+
+
+    }
 
 
 

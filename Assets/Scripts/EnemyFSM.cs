@@ -1,14 +1,17 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class EnemyFSM : MonoBehaviour
 {
-    [SerializeField]
-    Transform player;
-    State state;
 
+    public event Action<GameObject> ReturnEvent;
     
+    Player player;
+    State state;
+    
+    [SerializeField]
     float HP;
 
     float attackTime = 0;
@@ -16,21 +19,33 @@ public class EnemyFSM : MonoBehaviour
     [SerializeField]
     EnemySO enemySO;
     Animator anim; 
-    WaitForFixedUpdate wait;
+    WaitForFixedUpdate wait = new ();
 
     Rigidbody2D rigid;
     void Awake()
     {
         anim = GetComponent<Animator>();
+        anim.runtimeAnimatorController = enemySO.animCon;
         rigid = GetComponent<Rigidbody2D>();
         HP = enemySO.maxHP;
-        wait = new ();
+      
+
+        
+    }
+
+    void Start()
+    {
+        player = PlayerStats.Instance.player;
+        
         
     }
 
     void OnEnable()
     {
+
         state = State.Run;
+        
+
     }
 
     void Update()
@@ -38,9 +53,6 @@ public class EnemyFSM : MonoBehaviour
         switch(state)
         {
             case State.Idle:
-                break;
-            case State.Run:
-                Run();
                 break;
             case State.Attack:
                 Attack();
@@ -53,11 +65,29 @@ public class EnemyFSM : MonoBehaviour
         
     }
 
+    void FixedUpdate()
+    {
+        switch(state)
+        {
+            
+            case State.Run:
+                Run();
+                break;
+
+        }
+        
+    }
+
     void Run()
     {
-        float distance = Vector3.Distance(transform.position, player.position);
+       
+
+        float distance = Vector3.Distance(transform.position, player.transform.position);
 
         float stopDistance = 1.5f;
+
+        float moveSpeed = enemySO.moveSpeed;
+
 
         if (distance <= stopDistance)
         {
@@ -65,16 +95,16 @@ public class EnemyFSM : MonoBehaviour
             return;
         }
 
-        Vector3 dir = (player.position - transform.position).normalized;
+        Vector3 dir = (player.transform.position - transform.position).normalized;
 
         // y축 이동 제거 → x축 방향만 사용
         dir = new Vector3(dir.x, 0, 0);
 
-        float moveSpeed = enemySO.moveSpeed;
-
+        
         // ✅ Rigidbody2D 기반 이동
-        Vector2 nextPos = rigid.position + new Vector2(dir.x, 0) * moveSpeed * Time.deltaTime;
+        Vector2 nextPos = rigid.position + new Vector2(dir.x, 0) * moveSpeed * Time.fixedDeltaTime;
         rigid.MovePosition(nextPos);
+
 
         // 캐릭터 방향 반전
         if (dir.x != 0)
@@ -83,13 +113,17 @@ public class EnemyFSM : MonoBehaviour
             scale.x = dir.x > 0 ? 1 : -1;
             transform.localScale = scale;
         }
+
+       
         
         
     }
 
+
     void Attack()
     {
-        float distance = Vector3.Distance(transform.position, player.position);
+       
+        float distance = Vector3.Distance(transform.position, player.transform.position);
 
         float runDistance = 1.5f;
 
@@ -121,9 +155,13 @@ public class EnemyFSM : MonoBehaviour
 
     void Die()
     {
+
+        GameManager.Instance.EnemyCnt -= 1;
         
         anim.SetTrigger("Dead");
         
+
+        ReturnEvent?.Invoke(this.gameObject);
 
     }
 
@@ -151,7 +189,7 @@ public class EnemyFSM : MonoBehaviour
     {
         yield return wait;
 
-        Vector3 dir = (transform.position - player.position).normalized;
+        Vector3 dir = (transform.position - player.transform.position).normalized;
         Vector2 velocity = rigid.linearVelocity;
         rigid.linearVelocity = Vector2.zero;
         rigid.AddForce(dir * 2f, ForceMode2D.Impulse);

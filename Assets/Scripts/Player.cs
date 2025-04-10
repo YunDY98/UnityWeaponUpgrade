@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
     float attackDelay = 0f; // 공격 시간 
 
     
-   
+    bool isLive = true;
 
     // Spine.AnimationState and Spine.Skeleton are not Unity-serialized objects. You will not see them as fields in the inspector.
     public Spine.AnimationState spineAnimationState;
@@ -59,11 +59,12 @@ public class Player : MonoBehaviour
     void Awake()
     {
         attack = GetComponentInChildren<Attack>();
+       
         
     }
     void Start()
     {
-        PlayerStats.Instance.Player(this);
+        
 
         skeletonAnimation = GetComponent<SkeletonAnimation>();
         spineAnimationState = skeletonAnimation.AnimationState;
@@ -72,8 +73,17 @@ public class Player : MonoBehaviour
         state = State.Run;
     }
 
+    void Init()
+    {
+        isLive = true;
+        state = State.Run;
+        
+    }
+
     void Update()
     {
+        if(!isLive) return;
+            
         
         if(GameManager.Instance.IsMove)
         {
@@ -111,10 +121,11 @@ public class Player : MonoBehaviour
         
     }
 
+
     void OnTriggerExit2D(Collider2D collision)
     {
-        if(state != State.Die)
-            state = State.Idle;
+        
+        state = State.Idle;
     }
 
     public void SetAnim(string animName,bool loop = true)
@@ -158,6 +169,7 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
+        isLive = false;
         SetAnim(deathAnimationName,false);
        
     }
