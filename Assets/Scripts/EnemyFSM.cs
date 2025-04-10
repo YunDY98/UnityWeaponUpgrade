@@ -11,18 +11,20 @@ public class EnemyFSM : MonoBehaviour
     
     float HP;
 
-    float currentTime = 0;
+    float attackTime = 0;
 
     [SerializeField]
     EnemySO enemySO;
-    Animator anim;
+    Animator anim; 
+    WaitForFixedUpdate wait;
 
-    WaitForSeconds delay = new(1f);
-
+    Rigidbody2D rigid;
     void Awake()
     {
         anim = GetComponent<Animator>();
+        rigid = GetComponent<Rigidbody2D>();
         HP = enemySO.maxHP;
+        wait = new ();
         
     }
 
@@ -53,10 +55,8 @@ public class EnemyFSM : MonoBehaviour
 
     void Run()
     {
-        // 플레이어와의 거리 계산
         float distance = Vector3.Distance(transform.position, player.position);
 
-      
         float stopDistance = 1.5f;
 
         if (distance <= stopDistance)
@@ -64,7 +64,7 @@ public class EnemyFSM : MonoBehaviour
             state = State.Attack;
             return;
         }
-        
+
         Vector3 dir = (player.position - transform.position).normalized;
 
         // y축 이동 제거 → x축 방향만 사용
@@ -72,36 +72,43 @@ public class EnemyFSM : MonoBehaviour
 
         float moveSpeed = enemySO.moveSpeed;
 
-        transform.position += dir * moveSpeed * Time.deltaTime;
+        // ✅ Rigidbody2D 기반 이동
+        Vector2 nextPos = rigid.position + new Vector2(dir.x, 0) * moveSpeed * Time.deltaTime;
+        rigid.MovePosition(nextPos);
 
-        // 캐릭터 방향 반전 (왼쪽/오른쪽 보기)
+        // 캐릭터 방향 반전
         if (dir.x != 0)
         {
             Vector3 scale = transform.localScale;
-            scale.x = dir.x > 0 ? 1 : -1; // 오른쪽이면 1, 왼쪽이면 -1
+            scale.x = dir.x > 0 ? 1 : -1;
             transform.localScale = scale;
         }
-    
         
         
     }
 
     void Attack()
     {
+        float distance = Vector3.Distance(transform.position, player.position);
 
-       
-        
-        currentTime += Time.deltaTime;
-       
-        if(currentTime >= enemySO.attackDelay)
+        float runDistance = 1.5f;
+
+        if (distance >= runDistance)
         {
-            currentTime = 0;
+            attackTime = 0;
+            state = State.Run;
+            return;
+        }
+
+        attackTime += Time.deltaTime;
+       
+        if(attackTime >= enemySO.attackDelay)
+        {
+            attackTime = 0;
             PlayerStats.Instance.HP -= enemySO.attackPower;
             
         }
-       
-
-
+    
     }
 
     public void HitEnemy(float damage,float delay)
@@ -115,11 +122,12 @@ public class EnemyFSM : MonoBehaviour
     void Die()
     {
         
-        {
-            anim.SetTrigger("Dead");
-        }
+        anim.SetTrigger("Dead");
+        
 
     }
+
+ 
 
     IEnumerator HitDelay(float damage,float delay)
     {
@@ -127,11 +135,39 @@ public class EnemyFSM : MonoBehaviour
         yield return new WaitForSeconds(delay);
         
         HP -= damage;
-        if(HP <= 0)
-            anim.SetTrigger("Dead");
+        if(HP > 0)
+        {
+           
+            StartCoroutine(KnockBack());
+        }  
         else
-            anim.SetTrigger("Hit");
+        {
+            state = State.Die;
+        }
+           
     }
+
+    IEnumerator KnockBack()
+    {
+        yield return wait;
+
+        Vector3 dir = (transform.position - player.position).normalized;
+        Vector2 velocity = rigid.linearVelocity;
+        rigid.linearVelocity = Vector2.zero;
+        rigid.AddForce(dir * 2f, ForceMode2D.Impulse);
+
+        state = State.Idle;
+        anim.SetTrigger("Hit");
+        yield return new WaitForSeconds(1f); // 스턴 기간 
+        anim.SetTrigger("Exit");
+        state = State.Run;
+        rigid.linearVelocity = velocity;
+
+
+
+    }
+        
+            
 
 
 }

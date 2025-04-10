@@ -77,7 +77,8 @@ public class Player : MonoBehaviour
         
         if(GameManager.Instance.IsMove)
         {
-            state = State.Run;
+            if(state != State.Die)
+                state = State.Run;
         }
         
         switch(state)
@@ -108,6 +109,12 @@ public class Player : MonoBehaviour
             state = State.Attack;
         }
         
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if(state != State.Die)
+            state = State.Idle;
     }
 
     public void SetAnim(string animName,bool loop = true)
@@ -151,7 +158,8 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
-        SetAnim(deathAnimationName);
+        SetAnim(deathAnimationName,false);
+       
     }
 
 
