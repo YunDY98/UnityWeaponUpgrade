@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class EnemyFSM : MonoBehaviour
+public class EnemyFSM : MonoBehaviour,IPoolable
 {
 
     public event Action<GameObject> ReturnEvent;

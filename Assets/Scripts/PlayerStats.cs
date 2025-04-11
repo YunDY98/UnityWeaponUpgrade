@@ -51,7 +51,7 @@ public class PlayerStats : MonoBehaviour
     public ReactiveProperty<int> HP = new ();
     public ReactiveProperty<float> AttackRange = new (10);
     public ReactiveProperty<int> AttackCnt = new (10);
-    public ReactiveProperty<float> Damage = new (10);
+    public ReactiveProperty<float> Damage = new (1000);
     public ReactiveProperty<float> AttackDelay = new (3f);
     public ReactiveProperty<int> Level = new (0);
 
