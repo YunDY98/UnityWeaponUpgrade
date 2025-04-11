@@ -15,6 +15,6 @@ MonoBehaviour:
   enemyName: zombie1
   animCon: {fileID: 22100000, guid: 050556270436d4f4288557291a1a99c0, type: 2}
   maxHP: 2000
-  attackPower: 300
+  attackPower: 30
   moveSpeed: 2
-  attackDelay: 10
+  attackDelay: 1

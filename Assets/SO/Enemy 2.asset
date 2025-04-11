@@ -17,4 +17,4 @@ MonoBehaviour:
   maxHP: 300
   attackPower: 1
   moveSpeed: 1
-  attackDelay: 5
+  attackDelay: 1

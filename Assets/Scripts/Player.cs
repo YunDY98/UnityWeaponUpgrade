@@ -48,8 +48,6 @@ public class Player : MonoBehaviour
     
     float attackDelay = 0f; // 공격 시간 
 
-    
-    bool isLive;
 
     // Spine.AnimationState and Spine.Skeleton are not Unity-serialized objects. You will not see them as fields in the inspector.
     public Spine.AnimationState spineAnimationState;
@@ -75,14 +73,14 @@ public class Player : MonoBehaviour
 
     void Init()
     {
-        isLive = true;
+        GameManager.Instance.isLive = true;
         state = State.Run;
         
     }
 
     void Update()
     {
-        if(!isLive) return;
+        if(!GameManager.Instance.isLive) return;
             
         
         if(GameManager.Instance.IsMove)
@@ -154,7 +152,7 @@ public class Player : MonoBehaviour
     {
         
         attackDelay += Time.deltaTime;
-        if(attackDelay > PlayerStats.Instance.AttackDelay)
+        if(attackDelay > PlayerStats.Instance.AttackDelay.Value)
         {
             attackDelay = 0f;
             spineAnimationState.SetAnimation(0, atkAnimationName_1, false);
@@ -169,7 +167,7 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
-        isLive = false;
+        GameManager.Instance.isLive = false;
         SetAnim(deathAnimationName,false);
        
     }

@@ -1,11 +1,17 @@
 using System;
+using NUnit.Framework.Constraints;
+using R3;
+using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
+
 
 public class PlayerStats : MonoBehaviour
 {
     public Player player;
 
-    int maxHP = 1000;
+
+    
 
     public event Action<float> HPEvent;
     private static PlayerStats _instance;
@@ -28,80 +34,24 @@ public class PlayerStats : MonoBehaviour
             DontDestroyOnLoad(this);
         }
         player = GetComponent<Player>();
-    }
 
-    void Start()
-    {
-        HP = maxHP;
-        AttackRange = 10;
-        AttackCnt = 10;
-        Damage = 10;
-        AttackDelay = 3f;
+       
+        HP.Value = MaxHP.Value;
+      
     }
-
     void Update()
     {
         print(HP);
     }
 
    
-
-    int _hp;
-    public int HP
-    {
-        get { return _hp; }
-        set
-        { 
-            _hp = value; 
-            HPEvent?.Invoke((float)_hp/maxHP);
-            if (_hp <= 0 && player.state != State.Die)
-            {
-                player.state = State.Die;
-            }
-
-            
-        }
-    }
-
-    float _atkRange;
-    public float AttackRange
-    {
-        get { return _atkRange;}
-        set 
-        {
-            _atkRange = value;
-           
-        }
-    }
-
-    int _attackCnt;
-    public int AttackCnt
-    {
-        get { return _attackCnt; }
-        set { _attackCnt = value; }
-
-    }
-    float _damage;
-    public float Damage
-    {
-        get { return _damage; }
-        set { _damage = value; }
-    }
-
-    float _attackDelay;
-    public float AttackDelay
-    {
-        get { return _attackDelay; }
-        set { _attackDelay = value; }
-
-    }
-
-    int _level;
-    public int LowLevel
-    {
-        get { return _level; }
-        set { _level = value; }
-    }
+    public ReactiveProperty<int> MaxHP = new(1000);
+    public ReactiveProperty<int> HP = new ();
+    public ReactiveProperty<float> AttackRange = new (10);
+    public ReactiveProperty<int> AttackCnt = new (10);
+    public ReactiveProperty<float> Damage = new (10);
+    public ReactiveProperty<float> AttackDelay = new (3f);
+    public ReactiveProperty<int> Level = new (0);
 
 
 

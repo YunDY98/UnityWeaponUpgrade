@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public bool isLive;
     float time;
     float spawnTime = 2f;
     int _enemyCnt;
@@ -23,7 +24,7 @@ public class GameManager : MonoBehaviour
 
 
     }
-    private bool _isMove;
+    private bool _isMove = true;
 
     public bool IsMove
     {
@@ -55,7 +56,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        IsMove = true;
+       
 
         
        

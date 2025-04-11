@@ -1,19 +1,41 @@
 using UnityEngine;
 using UnityEngine.UI;
+using R3;
+using NUnit.Framework.Constraints;
+using UnityEditor.Rendering.Universal;
 
 public class HUD : MonoBehaviour
 {
     [SerializeField]
     Slider hpSlider;
 
-    void Start()
+    private PlayerVM viewModel;
+    private PlayerStats model;
+
+    void Awake()
     {
-        PlayerStats.Instance.HPEvent += UpdateHp;   
+        viewModel = new(this);
     }
 
-    void UpdateHp(float percent)
-    {
-        hpSlider.value = percent;
+    void Start()
+    { 
+        
+       model = PlayerStats.Instance;
+
+       model.HP.Subscribe(newHP => 
+       {
+            hpSlider.value = (float)newHP / model.MaxHP.Value;
+
+       });
+
+
+       
     }
+
+
+   
+
+
+    
    
 }

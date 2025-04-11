@@ -36,6 +36,7 @@ public class EnemyFSM : MonoBehaviour
     void Start()
     {
         player = PlayerStats.Instance.player;
+       
         
         
     }
@@ -139,7 +140,7 @@ public class EnemyFSM : MonoBehaviour
         if(attackTime >= enemySO.attackDelay)
         {
             attackTime = 0;
-            PlayerStats.Instance.HP -= enemySO.attackPower;
+            PlayerStats.Instance.HP.Value -= enemySO.attackPower;
             
         }
     
