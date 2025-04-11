@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    [HideInInspector]
     public Player player;
 
 
@@ -39,6 +40,7 @@ public class PlayerStats : MonoBehaviour
         HP.Value = MaxHP.Value;
       
     }
+
     void Update()
     {
         print(HP);

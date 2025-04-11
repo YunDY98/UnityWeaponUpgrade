@@ -25,6 +25,10 @@ public class HUD : MonoBehaviour
        model.HP.Subscribe(newHP => 
        {
             hpSlider.value = (float)newHP / model.MaxHP.Value;
+            if(newHP <= 0)
+            {
+                model.player.state = State.Die;
+            }
 
        });
 

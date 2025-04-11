@@ -1,12 +1,11 @@
 using UnityEngine;
-using System.Collections;
-using Spine;
-using Spine.Unity;
-using Unity.VisualScripting;
-using UnityEngine.InputSystem.LowLevel;
 
+using Spine.Unity;
+
+using System.Collections.Generic;
 public class Player : MonoBehaviour
 {
+    
     #region Inspector
     // [SpineAnimation] attribute allows an Inspector dropdown of Spine animation names coming form SkeletonAnimation.
     [SpineAnimation]
@@ -43,10 +42,17 @@ public class Player : MonoBehaviour
     public State state;
     SkeletonAnimation skeletonAnimation;
 
-    Attack attack;
-    
-    
+    #region Attack
+    List<GameObject> enemies = new(); // 적 배열
+    int cnt; // 공격 가능 적 수 
     float attackDelay = 0f; // 공격 시간 
+    Vector2 center;
+    #endregion
+
+    
+    
+    
+    
 
 
     // Spine.AnimationState and Spine.Skeleton are not Unity-serialized objects. You will not see them as fields in the inspector.
@@ -54,12 +60,7 @@ public class Player : MonoBehaviour
     public Spine.Skeleton skeleton;
     // Start is called before the first frame update
 
-    void Awake()
-    {
-        attack = GetComponentInChildren<Attack>();
-       
-        
-    }
+
     void Start()
     {
         
@@ -69,12 +70,15 @@ public class Player : MonoBehaviour
         skeleton = skeletonAnimation.Skeleton;
        
         Init();
+
     }
 
     void Init()
     {
         GameManager.Instance.isLive = true;
         state = State.Run;
+
+        
         
     }
 
@@ -158,7 +162,7 @@ public class Player : MonoBehaviour
             spineAnimationState.SetAnimation(0, atkAnimationName_1, false);
 
         
-            attack.Atk();
+            Atk();
            
 
         }
@@ -170,6 +174,46 @@ public class Player : MonoBehaviour
         GameManager.Instance.isLive = false;
         SetAnim(deathAnimationName,false);
        
+    }
+
+
+
+    public void Atk()
+    {
+        float delay = 0.6f; // 스파인 애니메이션에 맞춰서 딜레이
+        cnt = PlayerStats.Instance.AttackCnt.Value;
+        // 박스 중심과 크기 설정
+      
+        Vector2 size = new Vector2(PlayerStats.Instance.AttackRange.Value, 3f);
+        float angle = 0f;
+
+        // 적 레이어 마스크
+        int enemyLayer = LayerMask.GetMask("Enemy");
+
+        // 공격 범위 내의 모든 적 감지
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(center, size, angle, enemyLayer);
+
+        // 감지된 적마다 데미지 처리
+        foreach (Collider2D col in colliders)
+        {
+            if(0 < cnt)
+            {
+                EnemyFSM enemy = col.GetComponent<EnemyFSM>();
+                if (enemy != null)
+                {
+                    enemy.HitEnemy(PlayerStats.Instance.Damage.Value,delay);
+                    cnt--;
+                }
+
+            }
+            else
+            {
+                break;
+            }
+            
+        }
+
+        
     }
 
 
