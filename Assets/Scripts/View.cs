@@ -3,6 +3,9 @@ using UnityEngine.UI;
 using R3;
 using TMPro;
 using System.Numerics;
+using UnityEngine.EventSystems;
+using System.Collections;
+using Unity.VisualScripting;
 
 public class View : MonoBehaviour
 {
@@ -17,12 +20,12 @@ public class View : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI aktUpText;
 
-    
 
     PlayerVM viewModel;
     [SerializeField]
     StatsSO model;
 
+   
     void Awake()
     {
         viewModel = new(this,model);
@@ -33,10 +36,12 @@ public class View : MonoBehaviour
         });
 
         atkUpButton.onClick.AddListener(() => viewModel.UpgradeATK()); // 공격력 업그레이드 
+        atkUpButton.AddComponent<LongClick>();
 
         viewModel.Gold.Subscribe(newGold => goldText.text = ToKoreanFormat(viewModel.Gold.Value)); // 골드 표기
     }
 
+   
    
 
     public string ToKoreanFormat(BigInteger value)

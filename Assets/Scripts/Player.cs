@@ -3,6 +3,7 @@ using UnityEngine;
 using Spine.Unity;
 
 using System.Collections.Generic;
+using Unity.VisualScripting;
 public class Player : MonoBehaviour
 {
     
@@ -88,6 +89,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        print(statsSO.AttackDamage.Value);
         if(!GameManager.Instance.isLive) return;
 
         if(statsSO.HP.Value <= 0)

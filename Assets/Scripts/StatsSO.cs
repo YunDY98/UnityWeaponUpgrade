@@ -22,8 +22,6 @@ public class StatsSO : ScriptableObject
     public ReactiveProperty<int> CriticalDamage = new(2);
 
 
-
-
     public void IncreaseATK()
     {
         AttackDamage.Value += 10;
