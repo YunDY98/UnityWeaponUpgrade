@@ -1,21 +1,29 @@
+using System.Numerics;
 using R3;
+using UnityEditor;
 using UnityEngine;
 
 // playerStats - PlayerViewModel(this) - HUD mvvm
 public class PlayerVM
 {
     
-    private HUD hud;
+    View view;
 
     StatsSO model;
 
-    public ReactiveProperty<float>  HP {get; private set;} = new();
+    public ReactiveProperty<BigInteger>  Gold  => model.Gold;
 
-    public PlayerVM(HUD hud,StatsSO model)
+    public PlayerVM(View view,StatsSO model)
     {
-        this.hud = hud;
+        this.view = view;
         this.model = model;
 
+    }
+
+
+    public void UseGold(int useGold)
+    {
+        model.Gold.Value -= useGold;
     }
 
 

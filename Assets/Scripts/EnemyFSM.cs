@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using BigInteger = System.Numerics.BigInteger;
 using UnityEngine;
-using UnityEngine.UIElements;
+
+using Vector3 = UnityEngine.Vector3;
 
 public class EnemyFSM : MonoBehaviour,IPoolable
 {
@@ -15,7 +17,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
     State state;
     
     [SerializeField]
-    float HP;
+    BigInteger HP;
 
     float attackTime = 0;
 
@@ -142,7 +144,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
     
     }
 
-    public void HitEnemy(float damage,float delay)
+    public void HitEnemy(BigInteger damage,float delay)
     {
         
         StartCoroutine(HitDelay(damage,delay));
@@ -164,7 +166,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
  
 
-    IEnumerator HitDelay(float damage,float delay)
+    IEnumerator HitDelay(BigInteger damage,float delay)
     {
         // 스파인 애니메이션에 맞춰 딜레이 ( 스파인 에디터 사용 불가 이슈)
         yield return new WaitForSeconds(delay);
