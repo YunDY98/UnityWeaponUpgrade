@@ -1,43 +1,53 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro;
-using Unity.VisualScripting;
+
 using UnityEngine;
 
-public abstract class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour, IPoolable
+public abstract class ObjectPool : MonoBehaviour
 {
     public GameObject[] objects;
-
+    
+    [HideInInspector]
     public Transform spawnPos;
 
-    protected Queue<GameObject> pool = new();
+    protected Queue<GameObject>[] pool;
    
-    protected virtual void Create()
+    protected abstract void Create(int type = 0);
+    
+
+    public virtual void Return(GameObject obj,int type)
     {
-        foreach(var obj in objects)
-        {
-            var tmp = Instantiate(obj,transform);
-            tmp.GetComponent<T>().ReturnEvent += Return;
-            tmp.SetActive(false);
-            pool.Enqueue(tmp);
-
-        }
-
-    }
-
-    public virtual void Return(GameObject obj)
-    {
-        pool.Enqueue(obj);
+        pool[type].Enqueue(obj);
         obj.SetActive(false);
 
     }
 
-    
+    protected virtual void Awake()
+    {
+        Init();
+    }
 
+    protected void Init()
+    {
+        pool = new Queue<GameObject>[objects.Length];
+        for(int i=0; i<objects.Length; ++i)
+        {
+            pool[i] = new Queue<GameObject>();
+
+
+    
+        }
    
+        
+    }
+
+
+
+
 }
 public interface IPoolable
 {
-    event System.Action<GameObject> ReturnEvent;
+    event Action<GameObject,int> ReturnEvent;
+    
 }
+

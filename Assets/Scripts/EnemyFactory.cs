@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-public class EnemyFactory: ObjectPool<EnemyFSM>
+public class EnemyFactory: ObjectPool
 {
     [SerializeField]
     Transform player;
@@ -14,22 +14,28 @@ public class EnemyFactory: ObjectPool<EnemyFSM>
     [SerializeField]
     StatsSO StatsSO;
 
-    WaitForSeconds spawnDelay = new WaitForSeconds(1f);
+    [SerializeField]
+    ItemPool itemPool;
 
-    public void Spawn(int cnt)
+
+
+    WaitForSeconds spawnDelay = new (1f);
+
+
+    public void Spawn(int cnt,int type)
     {  
-       StartCoroutine(SpawnDelay(cnt));
+       StartCoroutine(SpawnDelay(cnt,type));
        
     }
 
-    IEnumerator SpawnDelay(int cnt)
+    IEnumerator SpawnDelay(int cnt,int type)
     {
         for(int i=0; i <cnt; ++i)
         {
-            if(pool.Count > 0)
+            if(pool[type].Count > 0)
             {
-                var enemy =  pool.Dequeue();
-                enemy.gameObject.SetActive(true);
+                var enemy =  pool[type].Dequeue();
+                enemy.SetActive(true);
                 enemy.transform.position = spawnPos.position;
                 yield return spawnDelay;
             }
@@ -45,7 +51,7 @@ public class EnemyFactory: ObjectPool<EnemyFSM>
        
     }
 
-    protected override void Create()
+    protected override void Create(int type = 0)
     {
         foreach(var obj in objects)
         {
@@ -54,12 +60,14 @@ public class EnemyFactory: ObjectPool<EnemyFSM>
             var enemy = tmp.GetComponent<EnemyFSM>();
             
             enemy.ReturnEvent += Return;
+            enemy.DropItemEvent += itemPool.DropItem;
             enemy.statsSO = StatsSO;
             enemy.player = player;
             tmp.SetActive(false);
-            pool.Enqueue(tmp);
+            pool[(int)enemy.enemySO.type].Enqueue(tmp);
 
         }
 
     }
+
 }

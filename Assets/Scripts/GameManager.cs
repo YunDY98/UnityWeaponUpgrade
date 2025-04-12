@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -7,6 +8,8 @@ public class GameManager : MonoBehaviour
     float time;
     float spawnTime = 2f;
     int _enemyCnt;
+
+    int enemySort;
     public int EnemyCnt
     {
         get { return _enemyCnt; }
@@ -49,6 +52,7 @@ public class GameManager : MonoBehaviour
         }
 
         Application.targetFrameRate = 60;
+        enemySort = System.Enum.GetValues(typeof(EnemyType)).Length;
 
        
         
@@ -56,11 +60,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-       
-
         
-       
-         
     }
 
     void Update()
@@ -70,7 +70,9 @@ public class GameManager : MonoBehaviour
 
         if(EnemyCnt <= 0 && spawnTime < time)
         {
-            StartCoroutine(Spawn(spawnCnt));
+            for(int i=0; i<enemySort; ++i)
+                StartCoroutine(Spawn(1,i));
+               
             EnemyCnt = spawnCnt;
 
         }
@@ -108,12 +110,12 @@ public class GameManager : MonoBehaviour
 
     WaitForSeconds wait = new WaitForSeconds(2f);
 
-    IEnumerator Spawn(int cnt)
+    IEnumerator Spawn(int cnt,int type)
     {
 
         yield return wait;
 
-        EnemyFactory.Spawn(cnt);
+        EnemyFactory.Spawn(cnt,type);
 
 
     }

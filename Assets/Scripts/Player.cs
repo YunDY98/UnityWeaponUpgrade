@@ -79,6 +79,7 @@ public class Player : MonoBehaviour
     void Init()
     {
         GameManager.Instance.isLive = true;
+        GameManager.Instance.IsMove = true;
         state = State.Run;
 
         
@@ -88,6 +89,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         if(!GameManager.Instance.isLive) return;
+
+        if(statsSO.HP.Value <= 0)
+            state = State.Die;
+            
             
         
         if(GameManager.Instance.IsMove)
@@ -175,6 +180,7 @@ public class Player : MonoBehaviour
     public void Die()
     {
         GameManager.Instance.isLive = false;
+        GameManager.Instance.IsMove = false;
         SetAnim(deathAnimationName,false);
        
     }
@@ -204,7 +210,7 @@ public class Player : MonoBehaviour
                 EnemyFSM enemy = col.GetComponent<EnemyFSM>();
                 if (enemy != null)
                 {
-                    enemy.HitEnemy(statsSO.Damage.Value,delay);
+                    enemy.HitEnemy(statsSO.Damage(),delay);
                     cnt--;
                 }
 

@@ -4,12 +4,15 @@ using BigInteger = System.Numerics.BigInteger;
 using UnityEngine;
 
 using Vector3 = UnityEngine.Vector3;
+using Unity.VisualScripting;
 
 public class EnemyFSM : MonoBehaviour,IPoolable
 {
 
-    public event Action<GameObject> ReturnEvent;
+    public event Action<GameObject,int> ReturnEvent;
+    public event Action<int,Vector3> DropItemEvent;
 
+    float delay;
    
     public StatsSO statsSO;
     
@@ -21,8 +24,8 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     float attackTime = 0;
 
-    [SerializeField]
-    EnemySO enemySO;
+
+    public EnemySO enemySO;
     Animator anim; 
     WaitForFixedUpdate wait = new ();
 
@@ -159,8 +162,9 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         
         anim.SetTrigger("Dead");
         
-
-        ReturnEvent?.Invoke(this.gameObject);
+        DropItemEvent?.Invoke((int)ItemType.Gold,transform.position);
+        ReturnEvent?.Invoke(this.gameObject,(int)enemySO.type);
+        
 
     }
 
@@ -203,8 +207,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
 
     }
-        
-            
+   
 
 
 }

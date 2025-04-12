@@ -21,9 +21,29 @@ public class PlayerVM
     }
 
 
-    public void UseGold(int useGold)
+    public bool UseGold(BigInteger useGold)
     {
+        
+
+        if(model.Gold.Value - useGold < 0)
+        {
+            return false;
+        }
         model.Gold.Value -= useGold;
+        
+
+        return true;
+        
+        
+    }
+
+    public void UpgradeATK()
+    {
+
+        if(UseGold(10000000000000))
+            model.IncreaseATK();
+
+
     }
 
 
