@@ -49,7 +49,8 @@ public class Player : MonoBehaviour
     Vector2 center;
     #endregion
 
-    
+    [SerializeField]
+    StatsSO statsSO;
     
     
     
@@ -71,6 +72,8 @@ public class Player : MonoBehaviour
        
         Init();
 
+        statsSO.HP.Value = statsSO.MaxHP.Value;
+        
     }
 
     void Init()
@@ -156,7 +159,7 @@ public class Player : MonoBehaviour
     {
         
         attackDelay += Time.deltaTime;
-        if(attackDelay > PlayerStats.Instance.AttackDelay.Value)
+        if(attackDelay > statsSO.AttackDelay.Value)
         {
             attackDelay = 0f;
             spineAnimationState.SetAnimation(0, atkAnimationName_1, false);
@@ -181,10 +184,10 @@ public class Player : MonoBehaviour
     public void Atk()
     {
         float delay = 0.6f; // 스파인 애니메이션에 맞춰서 딜레이
-        cnt = PlayerStats.Instance.AttackCnt.Value;
+        cnt = statsSO.AttackCnt.Value;
         // 박스 중심과 크기 설정
       
-        Vector2 size = new Vector2(PlayerStats.Instance.AttackRange.Value, 3f);
+        Vector2 size = new Vector2(statsSO.AttackRange.Value, 3f);
         float angle = 0f;
 
         // 적 레이어 마스크
@@ -201,7 +204,7 @@ public class Player : MonoBehaviour
                 EnemyFSM enemy = col.GetComponent<EnemyFSM>();
                 if (enemy != null)
                 {
-                    enemy.HitEnemy(PlayerStats.Instance.Damage.Value,delay);
+                    enemy.HitEnemy(statsSO.Damage.Value,delay);
                     cnt--;
                 }
 

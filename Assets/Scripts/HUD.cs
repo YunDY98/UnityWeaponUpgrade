@@ -10,25 +10,20 @@ public class HUD : MonoBehaviour
     Slider hpSlider;
 
     private PlayerVM viewModel;
-    private PlayerStats model;
+    [SerializeField]
+    StatsSO model;
 
     void Awake()
     {
-        viewModel = new(this);
+        viewModel = new(this,model);
     }
 
     void Start()
     { 
-        
-       model = PlayerStats.Instance;
 
        model.HP.Subscribe(newHP => 
        {
             hpSlider.value = (float)newHP / model.MaxHP.Value;
-            if(newHP <= 0)
-            {
-                model.player.state = State.Die;
-            }
 
        });
 

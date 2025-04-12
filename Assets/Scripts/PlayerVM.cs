@@ -7,14 +7,14 @@ public class PlayerVM
     
     private HUD hud;
 
-    private PlayerStats model;
+    StatsSO model;
 
     public ReactiveProperty<float>  HP {get; private set;} = new();
 
-    public PlayerVM(HUD hud)
+    public PlayerVM(HUD hud,StatsSO model)
     {
         this.hud = hud;
-        model = PlayerStats.Instance;
+        this.model = model;
 
     }
 

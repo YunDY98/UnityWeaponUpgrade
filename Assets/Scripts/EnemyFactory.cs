@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class EnemyFactory: ObjectPool<EnemyFSM>
 {
+    [SerializeField]
+    Transform player;
+
+    [SerializeField]
+    StatsSO StatsSO;
 
     WaitForSeconds spawnDelay = new WaitForSeconds(1f);
 
@@ -37,5 +43,23 @@ public class EnemyFactory: ObjectPool<EnemyFSM>
         }
       
        
+    }
+
+    protected override void Create()
+    {
+        foreach(var obj in objects)
+        {
+            var tmp = Instantiate(obj,transform);
+
+            var enemy = tmp.GetComponent<EnemyFSM>();
+            
+            enemy.ReturnEvent += Return;
+            enemy.statsSO = StatsSO;
+            enemy.player = player;
+            tmp.SetActive(false);
+            pool.Enqueue(tmp);
+
+        }
+
     }
 }

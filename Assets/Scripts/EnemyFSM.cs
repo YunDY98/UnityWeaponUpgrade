@@ -7,8 +7,11 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 {
 
     public event Action<GameObject> ReturnEvent;
+
+   
+    public StatsSO statsSO;
     
-    Player player;
+    public Transform player;
     State state;
     
     [SerializeField]
@@ -33,13 +36,6 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         
     }
 
-    void Start()
-    {
-        player = PlayerStats.Instance.player;
-       
-        
-        
-    }
 
     void OnEnable()
     {
@@ -83,7 +79,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
     {
        
 
-        float distance = Vector3.Distance(transform.position, player.transform.position);
+        float distance = Vector3.Distance(transform.position, player.position);
 
         float stopDistance = 2.2f;
 
@@ -96,7 +92,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
             return;
         }
 
-        Vector3 dir = (player.transform.position - transform.position).normalized;
+        Vector3 dir = (player.position - transform.position).normalized;
 
         // y축 이동 제거 → x축 방향만 사용
         dir = new Vector3(dir.x, 0, 0);
@@ -124,7 +120,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
     void Attack()
     {
        
-        float distance = Vector3.Distance(transform.position, player.transform.position);
+        float distance = Vector3.Distance(transform.position, player.position);
 
         float runDistance = 3f;
 
@@ -140,7 +136,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         if(attackTime >= enemySO.attackDelay)
         {
             attackTime = 0;
-            PlayerStats.Instance.HP.Value -= enemySO.attackPower;
+            statsSO.HP.Value -= enemySO.attackPower;
             
         }
     
@@ -190,7 +186,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
     {
         yield return wait;
 
-        Vector3 dir = (transform.position - player.transform.position).normalized;
+        Vector3 dir = (transform.position - player.position).normalized;
         Vector2 velocity = rigid.linearVelocity;
         rigid.linearVelocity = Vector2.zero;
         rigid.AddForce(dir * 2f, ForceMode2D.Impulse);
