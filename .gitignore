@@ -9,6 +9,7 @@
 /Assets/Ignore
 /Assets/Resources
 /Assets/Scenes/MainScene
+/Ignore
 ### macOS ###
 # General
 .DS_Store

@@ -12,7 +12,7 @@ public abstract class ObjectPool : MonoBehaviour
 
     protected Queue<GameObject>[] pool;
    
-    protected abstract void Create(int type = 0);
+    protected abstract void Create(int type);
     
 
     public virtual void Return(GameObject obj,int type)
@@ -27,7 +27,7 @@ public abstract class ObjectPool : MonoBehaviour
         Init();
     }
 
-    protected void Init()
+    protected virtual void Init()
     {
         pool = new Queue<GameObject>[objects.Length];
         for(int i=0; i<objects.Length; ++i)

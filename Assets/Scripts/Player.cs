@@ -3,7 +3,6 @@ using UnityEngine;
 using Spine.Unity;
 
 using System.Collections.Generic;
-using Unity.VisualScripting;
 public class Player : MonoBehaviour
 {
     
@@ -84,12 +83,14 @@ public class Player : MonoBehaviour
         state = State.Run;
 
         
+
+        
         
     }
 
     void Update()
     {
-        print(statsSO.AttackDamage.Value);
+       
         if(!GameManager.Instance.isLive) return;
 
         if(statsSO.HP.Value <= 0)
@@ -193,6 +194,7 @@ public class Player : MonoBehaviour
     {
         float delay = 0.6f; // 스파인 애니메이션에 맞춰서 딜레이
         cnt = statsSO.AttackCnt.Value;
+        center = transform.position;
         // 박스 중심과 크기 설정
       
         Vector2 size = new Vector2(statsSO.AttackRange.Value, 3f);
@@ -200,18 +202,20 @@ public class Player : MonoBehaviour
 
         // 적 레이어 마스크
         int enemyLayer = LayerMask.GetMask("Enemy");
-
+       
         // 공격 범위 내의 모든 적 감지
         Collider2D[] colliders = Physics2D.OverlapBoxAll(center, size, angle, enemyLayer);
-
+      
         // 감지된 적마다 데미지 처리
         foreach (Collider2D col in colliders)
-        {
+        { 
             if(0 < cnt)
             {
+               
                 EnemyFSM enemy = col.GetComponent<EnemyFSM>();
                 if (enemy != null)
                 {
+                    
                     enemy.HitEnemy(statsSO.Damage(),delay);
                     cnt--;
                 }

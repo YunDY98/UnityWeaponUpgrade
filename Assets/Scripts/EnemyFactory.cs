@@ -1,9 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using TMPro;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
+
 using UnityEngine;
 
 public class EnemyFactory: ObjectPool
@@ -58,7 +54,7 @@ public class EnemyFactory: ObjectPool
             var tmp = Instantiate(obj,transform);
 
             var enemy = tmp.GetComponent<EnemyFSM>();
-            
+            enemy.DamageEvent += EnemyUIManager.Instance.View;
             enemy.ReturnEvent += Return;
             enemy.DropItemEvent += itemPool.DropItem;
             enemy.statsSO = StatsSO;

@@ -1,5 +1,6 @@
-using System;
-using UnityEditor;
+
+using System.Collections.Generic;
+
 using UnityEngine;
 
 public class ItemPool : ObjectPool
@@ -7,7 +8,12 @@ public class ItemPool : ObjectPool
 
     [SerializeField]
     RectTransform goldIcon;
-    
+
+    void Start()
+    {
+        
+    }
+
     protected override void Create(int type)
     {
 

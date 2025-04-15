@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -53,6 +52,7 @@ public class GameManager : MonoBehaviour
 
         Application.targetFrameRate = 60;
         enemySort = System.Enum.GetValues(typeof(EnemyType)).Length;
+        
 
        
         

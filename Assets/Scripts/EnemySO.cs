@@ -1,6 +1,4 @@
 
-using Unity.VisualScripting;
-using UnityEditor.Animations;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemySO", menuName = "ScriptableObjects/Enemy", order = 1)]

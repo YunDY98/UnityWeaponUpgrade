@@ -4,13 +4,15 @@ using BigInteger = System.Numerics.BigInteger;
 using UnityEngine;
 
 using Vector3 = UnityEngine.Vector3;
-using Unity.VisualScripting;
+
 
 public class EnemyFSM : MonoBehaviour,IPoolable
 {
 
     public event Action<GameObject,int> ReturnEvent;
     public event Action<int,Vector3> DropItemEvent;
+
+    public event Action<Vector3,FinalDamage,int> DamageEvent;
 
     float delay;
    
@@ -24,6 +26,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     float attackTime = 0;
 
+    FinalDamage fDamage;
 
     public EnemySO enemySO;
     Animator anim; 
@@ -77,6 +80,12 @@ public class EnemyFSM : MonoBehaviour,IPoolable
                 break;
 
         }
+        
+    }
+
+    void OnDisable()
+    {
+        DamageEvent?.Invoke(transform.position,fDamage,0);
         
     }
 
@@ -147,39 +156,42 @@ public class EnemyFSM : MonoBehaviour,IPoolable
     
     }
 
-    public void HitEnemy(BigInteger damage,float delay)
+    public void HitEnemy(FinalDamage fDamage,float delay)
     {
-        
-        StartCoroutine(HitDelay(damage,delay));
+       
+        StartCoroutine(HitDelay(fDamage,delay));
+
        
         
     }
 
     void Die()
     {
-
+        
         GameManager.Instance.EnemyCnt -= 1;
         
         anim.SetTrigger("Dead");
         
         DropItemEvent?.Invoke((int)ItemType.Gold,transform.position);
-        ReturnEvent?.Invoke(this.gameObject,(int)enemySO.type);
+        ReturnEvent?.Invoke(gameObject,(int)enemySO.type);
         
 
     }
 
  
 
-    IEnumerator HitDelay(BigInteger damage,float delay)
+    IEnumerator HitDelay(FinalDamage fDamage,float delay)
     {
         // 스파인 애니메이션에 맞춰 딜레이 ( 스파인 에디터 사용 불가 이슈)
         yield return new WaitForSeconds(delay);
         
-        HP -= damage;
+        this.fDamage = fDamage;
+        HP -= fDamage.damage;
         if(HP > 0)
         {
            
             StartCoroutine(KnockBack());
+            DamageEvent?.Invoke(transform.position,fDamage,0);
         }  
         else
         {
