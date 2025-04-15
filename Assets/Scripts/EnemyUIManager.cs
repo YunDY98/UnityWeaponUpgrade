@@ -40,6 +40,7 @@ public class EnemyUIManager : ObjectPool
 
         Init();
     }
+
     protected override void Create(int type = 0)
     {
 
@@ -70,6 +71,10 @@ public class EnemyUIManager : ObjectPool
         {
             tmp.color = Color.red;
         }
+        else
+        {
+            tmp.color = Color.yellow;
+        }
 
         tmp.text = Utility.FormatNumberKoreanUnit(fDamage.damage);
         tmp.alpha = 1;
@@ -92,6 +97,11 @@ public class EnemyUIManager : ObjectPool
         
     }
 
+    void OnDestroy()
+    {
+        DOTween.KillAll(); // 모든 트윈 애니메이션 종료
+        
+    }
 
 
 

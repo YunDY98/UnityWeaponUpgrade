@@ -8,12 +8,6 @@ public class ItemPool : ObjectPool
 
     [SerializeField]
     RectTransform goldIcon;
-
-    void Start()
-    {
-        
-    }
-
     protected override void Create(int type)
     {
 
@@ -41,8 +35,6 @@ public class ItemPool : ObjectPool
         {
             
             Create(type);
-            DropItem(type,pos);
-            return;
 
         }
 

@@ -54,12 +54,17 @@ public class EnemyFactory: ObjectPool
             var tmp = Instantiate(obj,transform);
 
             var enemy = tmp.GetComponent<EnemyFSM>();
+            enemy.statsSO = StatsSO;
+            enemy.player = player;
             enemy.DamageEvent += EnemyUIManager.Instance.View;
             enemy.ReturnEvent += Return;
             enemy.DropItemEvent += itemPool.DropItem;
-            enemy.statsSO = StatsSO;
-            enemy.player = player;
+            
+            
             tmp.SetActive(false);
+            
+            
+           
             pool[(int)enemy.enemySO.type].Enqueue(tmp);
 
         }

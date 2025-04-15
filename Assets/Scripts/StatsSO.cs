@@ -18,11 +18,11 @@ public class StatsSO : ScriptableObject
     public ReactiveProperty<BigInteger> AddGoldAmount = new (BigInteger.Parse("1000000000000000")); // 골드 획등량 
     public ReactiveProperty<float> StunTime = new();
     public ReactiveProperty<float> StunRate = new();
-    public ReactiveProperty<float> CriticalRate = new(0.1f);
+    public ReactiveProperty<float> CriticalRate = new(0.2f);
     public ReactiveProperty<int> CriticalDamage = new(2);
 
+   
     FinalDamage fDamage= new();
-
     public void IncreaseATK()
     {
         AttackDamage.Value += 10;
@@ -32,7 +32,7 @@ public class StatsSO : ScriptableObject
     {
         
         BigInteger damage = AttackDamage.Value;
-
+         
         float rand = Random.value;
 
         if(rand < CriticalRate.Value)
@@ -55,8 +55,13 @@ public class StatsSO : ScriptableObject
     
 }
 
-public class FinalDamage
+public struct FinalDamage
 {
     public BigInteger damage;
-    public bool isCritical = false;
+    public bool isCritical;
+    public FinalDamage(BigInteger damage, bool isCritical)
+    {
+        this.damage = damage;
+        this.isCritical = isCritical;
+    }
 }

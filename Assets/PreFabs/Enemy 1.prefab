@@ -9,11 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5716167459561052506}
-  - component: {fileID: 5965560168785876408}
   - component: {fileID: 752194744869789567}
   m_Layer: 6
   m_Name: AtkRange
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33,18 +32,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8273455769601536337}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5965560168785876408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 238913520273944748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 392476c94070348a1b32670caca3fc85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &752194744869789567
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -217,7 +204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b64773dc975884f768a116b2634f3c4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 0
+  statsSO: {fileID: 0}
+  player: {fileID: 0}
   enemySO: {fileID: 11400000, guid: 052b46d16159a435c9a6fc98eca4bb70, type: 2}
 --- !u!61 &5203752284533310831
 BoxCollider2D:

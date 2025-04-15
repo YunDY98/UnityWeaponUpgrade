@@ -15,6 +15,8 @@ public class EnemyFSM : MonoBehaviour,IPoolable
     public event Action<Vector3,FinalDamage,int> DamageEvent;
 
     float delay;
+
+    bool isLive;
    
     public StatsSO statsSO;
     
@@ -26,7 +28,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     float attackTime = 0;
 
-    FinalDamage fDamage;
+    FinalDamage fDamage = new(0,false);
 
     public EnemySO enemySO;
     Animator anim; 
@@ -47,7 +49,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     void OnEnable()
     {
-
+        isLive = true;
         state = State.Run;
         
 
@@ -63,7 +65,8 @@ public class EnemyFSM : MonoBehaviour,IPoolable
                 Attack();
                 break;
             case State.Die:
-                Die();
+                if(isLive)
+                    Die();
                 break;
 
         }
@@ -80,12 +83,6 @@ public class EnemyFSM : MonoBehaviour,IPoolable
                 break;
 
         }
-        
-    }
-
-    void OnDisable()
-    {
-        DamageEvent?.Invoke(transform.position,fDamage,0);
         
     }
 
@@ -158,8 +155,9 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     public void HitEnemy(FinalDamage fDamage,float delay)
     {
+        this.fDamage = fDamage;
        
-        StartCoroutine(HitDelay(fDamage,delay));
+        StartCoroutine(HitDelay(delay));
 
        
         
@@ -167,25 +165,37 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     void Die()
     {
-        
+        isLive = false;
         GameManager.Instance.EnemyCnt -= 1;
         
         anim.SetTrigger("Dead");
         
         DropItemEvent?.Invoke((int)ItemType.Gold,transform.position);
-        ReturnEvent?.Invoke(gameObject,(int)enemySO.type);
-        
+
+       
+      
+      
 
     }
 
- 
+    void Return()
+    {
+        ReturnEvent?.Invoke(gameObject,(int)enemySO.type);
+    }
 
-    IEnumerator HitDelay(FinalDamage fDamage,float delay)
+    void Damage()
+    {
+        DamageEvent?.Invoke(transform.position,fDamage,0);
+    }
+
+
+
+    IEnumerator HitDelay(float delay)
     {
         // 스파인 애니메이션에 맞춰 딜레이 ( 스파인 에디터 사용 불가 이슈)
         yield return new WaitForSeconds(delay);
         
-        this.fDamage = fDamage;
+       
         HP -= fDamage.damage;
         if(HP > 0)
         {
