@@ -56,7 +56,7 @@ public class EnemyFactory: ObjectPool
             var enemy = tmp.GetComponent<EnemyFSM>();
             enemy.statsSO = StatsSO;
             enemy.player = player;
-            enemy.DamageEvent += EnemyUIManager.Instance.View;
+            enemy.DamageEvent += EnemyUIManager.Instance.Damage;
             enemy.ReturnEvent += Return;
             enemy.DropItemEvent += itemPool.DropItem;
             

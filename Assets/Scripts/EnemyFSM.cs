@@ -168,27 +168,15 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         isLive = false;
         GameManager.Instance.EnemyCnt -= 1;
         
-        anim.SetTrigger("Dead");
+        anim.SetTrigger("Die");
         
         DropItemEvent?.Invoke((int)ItemType.Gold,transform.position);
 
-       
-      
-      
-
-    }
-
-    void Return()
-    {
         ReturnEvent?.Invoke(gameObject,(int)enemySO.type);
+      
+      
+
     }
-
-    void Damage()
-    {
-        DamageEvent?.Invoke(transform.position,fDamage,0);
-    }
-
-
 
     IEnumerator HitDelay(float delay)
     {
@@ -201,12 +189,14 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         {
            
             StartCoroutine(KnockBack());
-            DamageEvent?.Invoke(transform.position,fDamage,0);
+           
         }  
         else
         {
+
             state = State.Die;
         }
+        DamageEvent?.Invoke(transform.position,fDamage,0);
            
     }
 

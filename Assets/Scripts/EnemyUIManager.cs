@@ -52,7 +52,7 @@ public class EnemyUIManager : ObjectPool
     }
 
 
-    public void View(Vector3 pos,FinalDamage fDamage,int type = 0)
+    public void Damage(Vector3 pos,FinalDamage fDamage,int type = 0)
     {
         if(pool[type].Count == 0)
         {

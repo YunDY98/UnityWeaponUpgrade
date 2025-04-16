@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
 
         if(EnemyCnt <= 0 && spawnTime < time)
         {
+            
             for(int i=0; i<enemySort; ++i)
                 StartCoroutine(Spawn(1,i));
                
@@ -77,15 +78,7 @@ public class GameManager : MonoBehaviour
 
         }
 
-        if(IsEnemy())
-        {
-            IsMove = false;
-            
-        }
-        else
-        {
-            IsMove = true;
-        }
+        IsMove = !IsEnemy();
     }
 
     bool IsEnemy()
@@ -108,7 +101,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    WaitForSeconds wait = new WaitForSeconds(2f);
+    WaitForSeconds wait = new WaitForSeconds(1f);
 
     IEnumerator Spawn(int cnt,int type)
     {
