@@ -7,7 +7,7 @@ public abstract class ObjectPool : MonoBehaviour
 {
     public GameObject[] objects;
     
-    [HideInInspector]
+    
     public Transform spawnPos;
 
     protected Queue<GameObject>[] pool;

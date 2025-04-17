@@ -72,7 +72,7 @@ public class Player : MonoBehaviour
        
         Init();
 
-        statsSO.HP.Value = statsSO.MaxHP.Value;
+        statsSO.CurHP.Value = statsSO.MaxHP.value.Value;
         
     }
 
@@ -93,7 +93,7 @@ public class Player : MonoBehaviour
        
         if(!GameManager.Instance.isLive) return;
 
-        if(statsSO.HP.Value <= 0)
+        if(statsSO.CurHP.Value <= 0)
             state = State.Die;
             
             
@@ -167,7 +167,7 @@ public class Player : MonoBehaviour
     {
         
         attackDelay += Time.deltaTime;
-        if(attackDelay > statsSO.AttackDelay.Value)
+        if(attackDelay > statsSO.AttackSpeed.value.Value)
         {
             attackDelay = 0f;
             spineAnimationState.SetAnimation(0, atkAnimationName_1, false);
@@ -193,11 +193,11 @@ public class Player : MonoBehaviour
     public void Atk()
     {
         float delay = 0.6f; // 스파인 애니메이션에 맞춰서 딜레이
-        cnt = statsSO.AttackCnt.Value;
+        cnt = statsSO.AttackCnt.value.Value;
         center = transform.position;
         // 박스 중심과 크기 설정
       
-        Vector2 size = new Vector2(statsSO.AttackRange.Value, 3f);
+        Vector2 size = new Vector2(statsSO.AttackRange.value.Value, 3f);
         float angle = 0f;
 
         // 적 레이어 마스크

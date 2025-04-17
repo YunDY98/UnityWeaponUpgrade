@@ -12,4 +12,104 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e313569a4951742529418c4e554d9baf, type: 3}
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  MaxHP:
+    name: MaxHP
+    textName: "\uCD5C\uB300 \uCCB4\uB825"
+    costRate: 1
+    upgradeRate: 1
+  AttackRange:
+    name: AttackRange
+    textName: "\uACF5\uACA9 \uBC94\uC704"
+    costRate: 1
+    upgradeRate: 1
+  AttackCnt:
+    name: AttackCnt
+    textName: "\uD0C0\uAC9F \uC218"
+    costRate: 1
+    upgradeRate: 1
+  AttackDamage:
+    name: "\uACF5\uACA9\uB825"
+    textName: AttackDamage
+    costRate: 1
+    upgradeRate: 1
+  AttackSpeed:
+    name: AttackSpeed
+    textName: "\uACF5\uACA9 \uC18D\uB3C4"
+    costRate: 1
+    upgradeRate: 1
+  AddGoldAmount:
+    name: AddGoldAmount
+    textName: "\uACE8\uB4DC \uD68D\uB4DD\uB7C9"
+    costRate: 1
+    upgradeRate: 1
+  StunTime:
+    name: StunTime
+    textName: "\uC2A4\uD134 \uC9C0\uC18D \uC2DC\uAC04"
+    costRate: 1
+    upgradeRate: 1
+  StunRate:
+    name: StunRate
+    textName: "\uC2A4\uD134 \uD655\uB960"
+    costRate: 1
+    upgradeRate: 1
+  CriticalRate:
+    name: CriticalRate
+    textName: "\uD06C\uB9AC\uD2F0\uCEEC \uD655\uB960"
+    costRate: 1
+    upgradeRate: 1
+  CriticalDamage:
+    name: CriticalDamage
+    textName: "\uD06C\uB9AC\uD2F0\uCEEC \uB370\uBBF8\uC9C0"
+    costRate: 1
+    upgradeRate: 1
+  playerStats:
+    MaxHP:
+      name: 
+      textName: 
+      costRate: 0
+      upgradeRate: 0
+    AttackRange:
+      name: 
+      textName: 
+      costRate: 0
+      upgradeRate: 0
+    AttackCnt:
+      name: 
+      textName: 
+      costRate: 0
+      upgradeRate: 0
+    AttackDamage:
+      name: 
+      textName: 
+      costRate: 0
+      upgradeRate: 0
+    AttackSpeed:
+      name: 
+      textName: 
+      costRate: 0
+      upgradeRate: 0
+    AddGoldAmount:
+      name: 
+      textName: 
+      costRate: 0
+      upgradeRate: 0
+    StunTime:
+      name: 
+      textName: 
+      costRate: 0
+      upgradeRate: 0
+    StunRate:
+      name: 
+      textName: 
+      costRate: 0
+      upgradeRate: 0
+    CriticalRate:
+      name: 
+      textName: 
+      costRate: 0
+      upgradeRate: 0
+    CriticalDamage:
+      name: 
+      textName: 
+      costRate: 0
+      upgradeRate: 0

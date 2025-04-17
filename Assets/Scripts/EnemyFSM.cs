@@ -4,6 +4,7 @@ using BigInteger = System.Numerics.BigInteger;
 using UnityEngine;
 
 using Vector3 = UnityEngine.Vector3;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 
 public class EnemyFSM : MonoBehaviour,IPoolable
@@ -42,7 +43,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         rigid = GetComponent<Rigidbody2D>();
         HP = enemySO.maxHP;
       
-
+       
         
     }
 
@@ -57,6 +58,8 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     void Update()
     {
+
+        
         switch(state)
         {
             case State.Idle:
@@ -147,7 +150,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         if(attackTime >= enemySO.attackDelay)
         {
             attackTime = 0;
-            statsSO.HP.Value -= enemySO.attackPower;
+            statsSO.CurHP.Value -= enemySO.attackPower;
             
         }
     
