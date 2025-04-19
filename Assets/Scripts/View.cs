@@ -18,11 +18,6 @@ public class View : MonoBehaviour
     TextMeshProUGUI goldText;
 
     [SerializeField]
-    Button atkUpButton;
-    [SerializeField]
-    TextMeshProUGUI aktUpText;
-
-    [SerializeField]
     GameObject uObject;
 
     [SerializeField]
@@ -36,37 +31,48 @@ public class View : MonoBehaviour
     void Awake()
     {
         viewModel = new(this,model);
-        model.CurHP.Subscribe(newHP => 
-        {
-            hpSlider.value = (float)((double)newHP / (double)model.MaxHP.value.Value);
-
-        });
+       
 
         //atkUpButton.onClick.AddListener(() => viewModel.UpgradeStat()); // 공격력 업그레이드 
        // atkUpButton.AddComponent<LongClick>();
 
-        viewModel.Gold.Subscribe(newGold => goldText.text = Utility.FormatNumberKoreanUnit(newGold)); // 골드 표기
-        foreach(var dic in viewModel.BigIntStatDic)
+        
+    }
+
+    void Start()
+    {
+        model.CurHP.Subscribe(newHP => 
         {
-            CreateUpgradeUI(dic);
+            hpSlider.value = (float)((double)newHP / (double)viewModel.GetStat((int)StatType.MaxHP).value.Value);
+
+           
+            
+
+        });
+
+        viewModel.Gold.Subscribe(newGold => goldText.text = Utility.FormatNumberKoreanUnit(newGold)); // 골드 표기
+        foreach(var stat in viewModel.GetStats())
+        {
+            CreateUpgradeUI(stat);
         }
     }
 
 
-    void CreateUpgradeUI(KeyValuePair<string,Stat<BigInteger>> dic)
+
+    void CreateUpgradeUI(Stat stat)
     {
         var obj = Instantiate(uObject,uContent);
         var ui = obj.GetComponent<UpgradeUI>();
-        var value = dic.Value;
-        string name = value.textName;
+       
+        string name = stat.textName;
         ui.statName.text = name;
         //ui.image.sprite = null;
-        var btn = ui.button;
+        var btn = ui.btn;
      
-        value.level.Subscribe(level => 
+        stat.level.Subscribe(level => 
         {
-            BigInteger curValue = value.value.Value;
-            BigInteger nextValue = curValue + (int)(value.upgradeRate * value.level.Value);
+            BigInteger curValue = stat.value.Value;
+            BigInteger nextValue = curValue + (int)(stat.upgradeRate * stat.level.Value);
             
            
             ui.description.text = $"{Utility.FormatNumberKoreanUnit(curValue)} → {Utility.FormatNumberKoreanUnit(nextValue)}";
@@ -75,12 +81,12 @@ public class View : MonoBehaviour
             
         });
 
-        value.cost.Subscribe(cost =>{ui.cost.text = Utility.FormatNumberKoreanUnit(cost);});
+        stat.cost.Subscribe(cost =>{ui.cost.text = Utility.FormatNumberKoreanUnit(cost);});
 
 
         //value.value.Subscribe(newVlaue => ui.cost = Utility.FormatNumberKoreanUnit(newValue));
         
-        btn.onClick.AddListener(() => viewModel.BigIntStatUpgrade(dic));
+        btn.onClick.AddListener(() => viewModel.BigIntStatUpgrade(stat));
          
     }
 

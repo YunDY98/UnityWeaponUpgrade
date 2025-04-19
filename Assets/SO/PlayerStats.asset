@@ -28,8 +28,8 @@ MonoBehaviour:
     costRate: 1
     upgradeRate: 1
   AttackDamage:
-    name: "\uACF5\uACA9\uB825"
-    textName: AttackDamage
+    name: AttackDamage
+    textName: "\uACF5\uACA9\uB825"
     costRate: 1
     upgradeRate: 1
   AttackSpeed:

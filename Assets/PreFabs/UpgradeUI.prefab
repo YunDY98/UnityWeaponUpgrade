@@ -671,7 +671,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statName: {fileID: 0}
   cost: {fileID: 0}
-  button: {fileID: 0}
+  btn: {fileID: 0}
   description: {fileID: 0}
   level: {fileID: 0}
   image: {fileID: 0}
@@ -843,7 +843,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statName: {fileID: 8510788771510718352}
   cost: {fileID: 4018991979687851746}
-  button: {fileID: 3886349985551791886}
+  btn: {fileID: 3886349985551791886}
   description: {fileID: 1940603673947480972}
   level: {fileID: 3232338492996894791}
   image: {fileID: 0}

@@ -4,7 +4,7 @@ using BigInteger = System.Numerics.BigInteger;
 using UnityEngine;
 
 using Vector3 = UnityEngine.Vector3;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
+
 
 
 public class EnemyFSM : MonoBehaviour,IPoolable
@@ -14,8 +14,6 @@ public class EnemyFSM : MonoBehaviour,IPoolable
     public event Action<int,Vector3> DropItemEvent;
 
     public event Action<Vector3,FinalDamage,int> DamageEvent;
-
-    float delay;
 
     bool isLive;
    

@@ -36,6 +36,8 @@ public class LongClick : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         if(repeatCor != null)
             StopCoroutine(repeatCor);
 
+        DataManager.Instance.SaveData();
+
     }
     IEnumerator StartRepeat(Button btn)
     {

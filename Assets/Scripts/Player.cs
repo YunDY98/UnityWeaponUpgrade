@@ -61,10 +61,10 @@ public class Player : MonoBehaviour
     public Spine.Skeleton skeleton;
     // Start is called before the first frame update
 
-
+    
     void Start()
     {
-        
+       
 
         skeletonAnimation = GetComponent<SkeletonAnimation>();
         spineAnimationState = skeletonAnimation.AnimationState;
@@ -72,7 +72,6 @@ public class Player : MonoBehaviour
        
         Init();
 
-        statsSO.CurHP.Value = statsSO.MaxHP.value.Value;
         
     }
 
@@ -167,7 +166,8 @@ public class Player : MonoBehaviour
     {
         
         attackDelay += Time.deltaTime;
-        if(attackDelay > statsSO.AttackSpeed.value.Value)
+       
+        if(attackDelay > statsSO.GetStat(StatType.AttackSpeed).GetFValue())
         {
             attackDelay = 0f;
             spineAnimationState.SetAnimation(0, atkAnimationName_1, false);
@@ -193,11 +193,11 @@ public class Player : MonoBehaviour
     public void Atk()
     {
         float delay = 0.6f; // 스파인 애니메이션에 맞춰서 딜레이
-        cnt = statsSO.AttackCnt.value.Value;
+        cnt = (int)statsSO.GetStat(StatType.AttackCnt).value.Value;
         center = transform.position;
         // 박스 중심과 크기 설정
       
-        Vector2 size = new Vector2(statsSO.AttackRange.value.Value, 3f);
+        Vector2 size = new Vector2(statsSO.GetStat(StatType.AttackRange).GetFValue(), 3f);
         float angle = 0f;
 
         // 적 레이어 마스크
@@ -206,11 +206,13 @@ public class Player : MonoBehaviour
         // 공격 범위 내의 모든 적 감지
         Collider2D[] colliders = Physics2D.OverlapBoxAll(center, size, angle, enemyLayer);
       
+        
         // 감지된 적마다 데미지 처리
         foreach (Collider2D col in colliders)
-        { 
+        {   Debug.Log($"[Atk] 감지된 오브젝트: {col.name}");
             if(0 < cnt)
             {
+                
                
                 EnemyFSM enemy = col.GetComponent<EnemyFSM>();
                 if (enemy != null)
@@ -219,6 +221,8 @@ public class Player : MonoBehaviour
                     enemy.HitEnemy(statsSO.Damage(),delay);
                     cnt--;
                 }
+
+               
 
             }
             else
