@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Enemy
   m_EditorClassIdentifier: 
   enemyName: zombie0
+  type: 0
   animCon: {fileID: 9100000, guid: f2855d618fc8d9c499189d3f39b9cbbc, type: 2}
-  maxHP: 20
+  maxHP: 30000
   attackPower: 1
   moveSpeed: 1.5
   attackDelay: 0.5

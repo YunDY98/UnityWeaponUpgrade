@@ -18,6 +18,13 @@ public class GameManager : MonoBehaviour
     int spawnCnt = 5;
     public EnemyFactory EnemyFactory;
 
+    public StatsSO statsSO;
+
+    [HideInInspector]
+    public PlayerVM playerVM;
+
+
+
 
     private static GameManager _instance;
     public static GameManager Instance
@@ -52,14 +59,13 @@ public class GameManager : MonoBehaviour
 
         Application.targetFrameRate = 60;
         enemySort = System.Enum.GetValues(typeof(EnemyType)).Length;
+
+        playerVM = new(statsSO);
+
+
         
 
        
-        
-    }
-
-    void Start()
-    {
         
     }
 

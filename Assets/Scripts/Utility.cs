@@ -7,6 +7,18 @@ namespace Assets.Scripts
 {
     public static class Utility 
     {
+        public static BigInteger BigIntMult(BigInteger big,BigInteger mult,int scale = 1000)
+        {    
+        
+
+            BigInteger cost = BigInteger.Parse("1000");
+           
+            BigInteger result = cost * mult / scale;
+
+
+
+            return result;
+        }
 
 
     //    public static BigInteger BigIntMult(BigInteger big,float mult,int scale)

@@ -4,11 +4,9 @@ using System.Numerics;
 using R3;
 
 
-// playerStats - PlayerViewModel(this) - HUD mvvm
 public class PlayerVM
 {
-    
-    View view;
+
 
     StatsSO model;
 
@@ -17,30 +15,14 @@ public class PlayerVM
     public ReactiveProperty<BigInteger>  Gold  => model.Gold;
     
     public ReactiveProperty<BigInteger> CurHP => model.CurHP;
-    // public Stat AttackRange => model.AttackRange;
-    // public Stat AttackCnt => model.AttackCnt;
-    // public Stat AttackDamage => model.AttackDamage;
-    // public Stat AttackSpeed => model.AttackSpeed;
-   
-    // public Stat AddGoldAmount => model.AddGoldAmount;
-    // public Stat StunTime => model.StunTime;
-    // public Stat StunRate => model.StunRate;
-    // public Stat CriticalRate => model.CriticalRate;
-    // public Stat CriticalDamage => model.CriticalDamage;
-    // public Stat MaxHP => model.MaxHP;
+
+    public ReactiveProperty<int> Level => model.Level;
 
 
-    public PlayerVM(View view,StatsSO model)
+    public PlayerVM(StatsSO model)
     {
-        this.view = view;
+       
         this.model = model;
-
-
-       
-    
-        
-
-       
     }
 
     public Stat[] GetStats()

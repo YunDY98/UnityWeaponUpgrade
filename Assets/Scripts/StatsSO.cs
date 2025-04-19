@@ -4,6 +4,7 @@ using System.Numerics;
 using R3;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "StatsSO", menuName = "ScriptableObjects/Player", order = 1)]
@@ -25,16 +26,125 @@ public class StatsSO : ScriptableObject
         if(uData == null)
         {
             
-            stats[(int)StatType.MaxHP] = new(1000, StatType.MaxHP, "최대 체력", 10, 1, 1, 1);
-            stats[(int)StatType.AttackRange] = new(3000, StatType.AttackRange, "공격 범위", 10, 1, 1, 1, 1000);
-            stats[(int)StatType.AttackCnt] = new(10, StatType.AttackCnt, "공격 가능 수", 10000000000, 1, 1, 1);
-            stats[(int)StatType.AttackDamage] = new(1000, StatType.AttackDamage, "공격력", 100, 1, 1, 1);
-            stats[(int)StatType.AttackSpeed] = new(1000, StatType.AttackSpeed, "공격 속도", 10, 1, 1, 1, 1000);
-            stats[(int)StatType.AddGoldAmount] = new(1000, StatType.AddGoldAmount, "골드 획득량", 100000, 1, 1, 1, 1000);
-            stats[(int)StatType.StunTime] = new(1000, StatType.StunTime, "스턴 지속시간", 10, 1, 1, 1, 1000);
-            stats[(int)StatType.StunRate] = new(1000, StatType.StunRate, "스턴 확률", 10, 1, 1, 1, 1000);
-            stats[(int)StatType.CriticalRate] = new(1000, StatType.CriticalRate, "크리티컬 확률", 10, 1, 1, 1, 1000);
-            stats[(int)StatType.CriticalDamage] = new(1000, StatType.CriticalDamage, "크리티컬 데미지", 10, 1, 1, 1, 1000);
+            stats[(int)StatType.MaxHP] = new()
+            {
+                value = new(BigInteger.Parse("1000")),
+                key = StatType.MaxHP,
+                textName = "최대 체력",
+                cost = new(BigInteger.Parse("100")),
+                costRate = 1,
+                upgradeRate = 1,
+                level = new(1),
+                floatScale = 0
+            };
+
+            stats[(int)StatType.AttackRange] = new()
+            {
+                value = new(BigInteger.Parse("3000")),
+                key = StatType.AttackRange,
+                textName = "공격 범위",
+                cost = new(BigInteger.Parse("10")),
+                costRate = 1,
+                upgradeRate = 1,
+                level = new(1),
+                floatScale = 1000
+            };
+
+            stats[(int)StatType.AttackCnt] = new()
+            {
+                value = new(BigInteger.Parse("10")),
+                key = StatType.AttackCnt,
+                textName = "공격 마리 수",
+                cost = new(BigInteger.Parse("10000000000")),
+                costRate = 1,
+                upgradeRate = 1,
+                level = new(1),
+                floatScale = 0
+            };
+
+            stats[(int)StatType.AttackDamage] = new()
+            {
+                value = new(BigInteger.Parse("1000")),
+                key = StatType.AttackDamage,
+                textName = "공격력",
+                cost = new(BigInteger.Parse("100")),
+                costRate = 1,
+                upgradeRate = 1,
+                level = new(1),
+                floatScale = 0
+            };
+
+            stats[(int)StatType.AttackSpeed] = new()
+            {
+                value = new(BigInteger.Parse("1000")),
+                key = StatType.AttackSpeed,
+                textName = "공격 속도",
+                cost = new(BigInteger.Parse("10")),
+                costRate = 1,
+                upgradeRate = -1,
+                level = new(1),
+                floatScale = 1000
+            };
+
+            stats[(int)StatType.AddGoldAmount] = new()
+            {
+                value = new(BigInteger.Parse("10000")),
+                key = StatType.AddGoldAmount,
+                textName = "골드 획득량",
+                cost = new(BigInteger.Parse("10")),
+                costRate = 0.001f,
+                upgradeRate = 10000,
+                level = new(1),
+                floatScale = 1000
+            };
+
+            stats[(int)StatType.StunTime] = new()
+            {
+                value = new(BigInteger.Parse("100")),
+                key = StatType.StunTime,
+                textName = "스턴 지속시간",
+                cost = new(BigInteger.Parse("10")),
+                costRate = 1,
+                upgradeRate = 1,
+                level = new(1),
+                floatScale = 1000
+            };
+
+            stats[(int)StatType.StunRate] = new()
+            {
+                value = new(BigInteger.Parse("1000")),
+                key = StatType.StunRate,
+                textName = "스턴 확률",
+                cost = new(BigInteger.Parse("10")),
+                costRate = 1,
+                upgradeRate = 1,
+                level = new(1),
+                floatScale = 1000
+            };
+
+            stats[(int)StatType.CriticalRate] = new()
+            {
+                value = new(BigInteger.Parse("1000")),
+                key = StatType.CriticalRate,
+                textName = "크리티컬 확률",
+                cost = new(BigInteger.Parse("10")),
+                costRate = 1f,
+                upgradeRate = 1,
+                level = new(1),
+                floatScale = 1000
+            };
+
+            stats[(int)StatType.CriticalDamage] = new()
+            {
+                value = new(BigInteger.Parse("1000")),
+                key = StatType.CriticalDamage,
+                textName = "크리티컬 데미지",
+                cost = new(BigInteger.Parse("10")),
+                costRate = 1,
+                upgradeRate = 1,
+                level = new(1),
+                floatScale = 1000
+            };
 
             CurHP = new(stats[(int)StatType.MaxHP].value.Value);
            
@@ -92,8 +202,8 @@ public class StatsSO : ScriptableObject
         int level = stat.level.Value;
 
         BigInteger increase;
-        increase += (BigInteger)(level * stat.upgradeRate);
-        stat.value.Value = increase;
+        increase = (BigInteger)(level * stat.upgradeRate);
+        stat.value.Value += increase;
 
         stat.level.Value += 1;
         stat.cost.Value = IncreaseCost(stat.cost.Value,level,stat.costRate);
@@ -113,13 +223,14 @@ public class StatsSO : ScriptableObject
     {
         
         BigInteger damage = stats[(int)StatType.AttackDamage].value.Value;
+        Stat cDamage = stats[(int)StatType.CriticalDamage];
          
         float rand = Random.value;
 
         if(rand < stats[(int)StatType.CriticalRate].GetFValue())
         {
             
-            BigInteger criticalDamage = damage * stats[(int)StatType.CriticalDamage].value.Value;
+            BigInteger criticalDamage = damage * cDamage.value.Value / cDamage.floatScale;
             fDamage.damage = criticalDamage;
             fDamage.isCritical = true;
 
@@ -154,7 +265,7 @@ public class Stat
     public ReactiveProperty<BigInteger> value;
     public ReactiveProperty<int> level;
 
-    public float floatScale;
+    public int floatScale;
 
     public ReactiveProperty<BigInteger> cost;
     public float costRate;
@@ -162,7 +273,7 @@ public class Stat
 
     public Stat() {}
 
-    public Stat(BigInteger value,StatType key,string textName,BigInteger cost ,float costRate = 1,float upgradeRate = 1,int level = 1,float floatScale = 0)
+    public Stat(BigInteger value,StatType key,string textName,BigInteger cost ,float costRate = 1,float upgradeRate = 1,int level = 1,int floatScale = 0)
     {
         this.value = new (value);
         this.key = key;

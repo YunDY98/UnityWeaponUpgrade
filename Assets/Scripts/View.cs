@@ -4,8 +4,7 @@ using R3;
 using TMPro;
 using Assets.Scripts;
 using System.Numerics;
-using System.Collections.Generic;
-using System;
+
 
 
 
@@ -24,24 +23,15 @@ public class View : MonoBehaviour
     RectTransform uContent;
 
     PlayerVM viewModel;
-    [SerializeField]
-    StatsSO model;
+    
 
-   
-    void Awake()
-    {
-        viewModel = new(this,model);
-       
 
-        //atkUpButton.onClick.AddListener(() => viewModel.UpgradeStat()); // 공격력 업그레이드 
-       // atkUpButton.AddComponent<LongClick>();
-
-        
-    }
 
     void Start()
     {
-        model.CurHP.Subscribe(newHP => 
+        viewModel = GameManager.Instance.playerVM;
+        viewModel.Gold.Subscribe(newGold => goldText.text = Utility.FormatNumberKoreanUnit(newGold)); // 골드 표기
+        viewModel.CurHP.Subscribe(newHP => 
         {
             hpSlider.value = (float)((double)newHP / (double)viewModel.GetStat((int)StatType.MaxHP).value.Value);
 
@@ -50,7 +40,7 @@ public class View : MonoBehaviour
 
         });
 
-        viewModel.Gold.Subscribe(newGold => goldText.text = Utility.FormatNumberKoreanUnit(newGold)); // 골드 표기
+       
         foreach(var stat in viewModel.GetStats())
         {
             CreateUpgradeUI(stat);
@@ -71,12 +61,30 @@ public class View : MonoBehaviour
      
         stat.level.Subscribe(level => 
         {
+            
             BigInteger curValue = stat.value.Value;
             BigInteger nextValue = curValue + (int)(stat.upgradeRate * stat.level.Value);
-            
-           
-            ui.description.text = $"{Utility.FormatNumberKoreanUnit(curValue)} → {Utility.FormatNumberKoreanUnit(nextValue)}";
+
+            float scale = 1;
+
+            if(stat.floatScale > 0)
+            {
+                scale = stat.floatScale;
+
+                ui.description.text = $"{(double)curValue / scale} → {(double)nextValue / scale}";
+
+                
+            }
+            else
+            {
+                ui.description.text = $"{Utility.FormatNumberKoreanUnit(curValue)} → {Utility.FormatNumberKoreanUnit(nextValue)}";
+                
+
+            }
+
             ui.level.text = $"Lv.{Utility.FormatNumberKoreanUnit(level)}";
+           
+           
             
             
         });

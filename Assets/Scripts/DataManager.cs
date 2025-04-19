@@ -9,15 +9,14 @@ public class DataManager : MonoBehaviour
 {
     private string dataFilePath;
     private readonly string keyWord = "Weapon";
-
-    [SerializeField]
-    StatsSO statsSO;
+    public StatsSO statsSO;
+   
 
     private static DataManager _instance;
     public static DataManager Instance
     {
         get{ return _instance;}
-
+    
 
     }
 
@@ -91,14 +90,14 @@ public class DataManager : MonoBehaviour
 
             if (string.IsNullOrWhiteSpace(jsonData))
             {
-                Debug.LogWarning("파일은 존재하지만 내용이 없습니다.");
-                return null; // ✅ 내용이 없을 때 null 반환
+                Debug.LogWarning("데이터 파일은 존재하지만 내용이 없습니다.");
+                return null;
             }
 
-            // JSON 데이터를 역직렬화하여 객체로 변환
 
             //return JsonUtility.FromJson<UserData>(EncryptAndDecrypt(jsonData));
             return JsonUtility.FromJson<UserData>((jsonData));
+
            
         }
         else
@@ -147,7 +146,7 @@ public class StatData
 
     public StatType key;
     public string textName;
-    public float floatScale;
+    public int floatScale;
 
     public string value;
 

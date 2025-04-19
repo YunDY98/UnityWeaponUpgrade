@@ -70,27 +70,27 @@ public class Player : MonoBehaviour
         spineAnimationState = skeletonAnimation.AnimationState;
         skeleton = skeletonAnimation.Skeleton;
        
+    
         Init();
-
         
     }
 
-    void Init()
+    public void Init()
     {
         GameManager.Instance.isLive = true;
         GameManager.Instance.IsMove = true;
         state = State.Run;
 
         
-
-        
-        
     }
+
+    
 
     void Update()
     {
        
         if(!GameManager.Instance.isLive) return;
+        
 
         if(statsSO.CurHP.Value <= 0)
             state = State.Die;
@@ -185,7 +185,7 @@ public class Player : MonoBehaviour
         GameManager.Instance.isLive = false;
         GameManager.Instance.IsMove = false;
         SetAnim(deathAnimationName,false);
-       
+
     }
 
 
@@ -209,7 +209,7 @@ public class Player : MonoBehaviour
         
         // 감지된 적마다 데미지 처리
         foreach (Collider2D col in colliders)
-        {   Debug.Log($"[Atk] 감지된 오브젝트: {col.name}");
+        {  
             if(0 < cnt)
             {
                 
