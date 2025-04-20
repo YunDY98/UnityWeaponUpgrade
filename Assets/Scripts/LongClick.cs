@@ -1,5 +1,5 @@
 using System.Collections;
-
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -15,7 +15,7 @@ public class LongClick : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
     
     
     readonly WaitForSeconds longClick = new(0.5f);
-    readonly WaitForSeconds repeatTime = new(0.01f);
+    readonly WaitForNextFrameUnit repeatTime = new();
 
 
     public void OnPointerDown(PointerEventData eventData)

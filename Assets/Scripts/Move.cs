@@ -1,5 +1,7 @@
 
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class Move : MonoBehaviour
@@ -14,13 +16,11 @@ public class Move : MonoBehaviour
     private float moveSpeed; // 이동 스피드
     [SerializeField] 
     private Vector3 moveDirection; // 이동 방향
-    
-    
-
 
     void Update()
     {
 
+       
         if(GameManager.Instance.IsMove)
         {
             MoveBackGround();

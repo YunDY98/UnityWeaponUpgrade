@@ -82,7 +82,7 @@ public class View : MonoBehaviour
 
             }
 
-            ui.level.text = $"Lv.{Utility.FormatNumberKoreanUnit(level)}";
+            ui.level.text = $"Lv.{level}";
            
            
             

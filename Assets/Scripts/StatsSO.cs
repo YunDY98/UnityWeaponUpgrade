@@ -92,7 +92,7 @@ public class StatsSO : ScriptableObject
                 key = StatType.AddGoldAmount,
                 textName = "골드 획득량",
                 cost = new(BigInteger.Parse("10")),
-                costRate = 0.001f,
+                costRate = 0.1f,
                 upgradeRate = 10000,
                 level = new(1),
                 floatScale = 1000

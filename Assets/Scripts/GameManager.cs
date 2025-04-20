@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 120;
         enemySort = System.Enum.GetValues(typeof(EnemyType)).Length;
 
         playerVM = new(statsSO);
@@ -68,6 +68,8 @@ public class GameManager : MonoBehaviour
        
         
     }
+
+    
 
     void Update()
     {
