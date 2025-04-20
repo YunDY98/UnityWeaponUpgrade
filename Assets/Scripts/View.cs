@@ -40,11 +40,13 @@ public class View : MonoBehaviour
 
         });
 
+        RectTransform uObj = uObject.GetComponent<RectTransform>();
        
         foreach(var stat in viewModel.GetStats())
         {
             CreateUpgradeUI(stat);
         }
+        uContent.sizeDelta = new UnityEngine.Vector2(uContent.sizeDelta.x,viewModel.GetStats().Length * uObj.sizeDelta.y * 1.6f);
     }
 
 
