@@ -199,8 +199,10 @@ public class StatsSO : ScriptableObject
                     costRate = data.costRate,
                     upgradeRate = data.upgradeRate,
                     floatScale = data.floatScale,
-                    
-                    value = new ReactiveProperty<BigInteger>(),
+
+                    cost = new (),
+                    value = new (),
+                
                     
                 };
                 Stat stat = stats[(int)data.key];
@@ -241,7 +243,7 @@ public class StatsSO : ScriptableObject
     {   
        
 
-        return  Utility.GeoProgression(stat.cost.Value,stat.costRate,stat.level.Value);
+        return  Utility.GeoProgression(stat.baseCost,stat.costRate,stat.level.Value);
 
     }
     FinalDamage fDamage= new();
