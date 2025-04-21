@@ -126,6 +126,7 @@ public class Player : MonoBehaviour
     void OnTriggerStay2D(Collider2D other)
     {
         
+        
         if(other.CompareTag("Enemy"))
         {
             state = State.Attack;

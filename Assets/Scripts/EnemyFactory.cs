@@ -68,5 +68,17 @@ public class EnemyFactory: ObjectPool
         }
 
     }
+    public override void Return(GameObject obj,int type)
+    {
+        pool[type].Enqueue(obj);
+        obj.SetActive(false);
+        GameManager.Instance.EnemyCnt -= 1;
+
+
+    }
+     
+    
+
+
 
 }

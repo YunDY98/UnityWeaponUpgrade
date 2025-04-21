@@ -78,7 +78,7 @@ public class StatsSO : ScriptableObject
                 baseCost = 1000,
                 cost = new(1000),
                 costRate = 1.01f,
-                upgradeRate = 1.01f,
+                upgradeRate = 1.05f,
                 level = new(1),
                 floatScale = 0
             };
@@ -92,7 +92,7 @@ public class StatsSO : ScriptableObject
                 baseCost = 2000000000,
                 cost = new(BigInteger.Parse("20000000000")),
                 costRate = 1,
-                upgradeRate = -1,
+                upgradeRate = 0.99f,
                 level = new(1),
                 floatScale = 1000
             };

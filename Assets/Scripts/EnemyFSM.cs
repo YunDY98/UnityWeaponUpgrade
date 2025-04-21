@@ -56,6 +56,8 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     void Update()
     {
+        if(!GameManager.Instance.isLive)
+            ReturnEvent?.Invoke(gameObject,(int)enemySO.type);
 
         
         switch(state)
@@ -93,7 +95,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
         float distance = Vector3.Distance(transform.position, player.position);
 
-        float stopDistance = 2.2f;
+        float stopDistance = 3f;
 
         float moveSpeed = enemySO.moveSpeed;
 
@@ -167,7 +169,6 @@ public class EnemyFSM : MonoBehaviour,IPoolable
     void Die()
     {
         isLive = false;
-        GameManager.Instance.EnemyCnt -= 1;
         
         anim.SetTrigger("Die");
         
