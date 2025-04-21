@@ -76,8 +76,8 @@ public class DataManager : MonoBehaviour
                 key = data.key,
                 textName = data.textName,
                 floatScale  = data.floatScale,
-                value = data.value.Value.ToString(),
-                cost = data.cost.Value.ToString(),
+                baseValue = data.baseValue,
+                baseCost = data.baseCost,
                 costRate = data.costRate,
                 upgradeRate = data.upgradeRate,
                 level = data.level.Value,
@@ -170,11 +170,11 @@ public class StatData
     public string textName;
     public int floatScale;
 
-    public string value;
+    public int baseValue;
 
     public int level;
 
-    public string cost;
+    public int baseCost;
     public float costRate;
     public float upgradeRate;
 

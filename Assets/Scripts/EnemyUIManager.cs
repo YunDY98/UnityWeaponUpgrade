@@ -14,11 +14,6 @@ public class EnemyUIManager : ObjectPool
 
     }
 
-    [SerializeField]
-    Transform canvasTransform;
-
-    
-    
 
     float duration = 2f;
 
@@ -54,7 +49,7 @@ public class EnemyUIManager : ObjectPool
         
         GameObject obj = Instantiate(objects[type]);
         obj.SetActive(false);
-        obj.transform.SetParent(canvasTransform,false);
+        obj.transform.SetParent(spawnPos,false);
 
         pool[type].Enqueue(obj);
 

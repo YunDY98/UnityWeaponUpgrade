@@ -41,7 +41,7 @@ public class View : MonoBehaviour
         });
 
         RectTransform uObj = uObject.GetComponent<RectTransform>();
-       
+
         foreach(var stat in viewModel.GetStats())
         {
             CreateUpgradeUI(stat);
@@ -64,8 +64,9 @@ public class View : MonoBehaviour
         stat.level.Subscribe(level => 
         {
             
-            BigInteger curValue = stat.value.Value;
-            BigInteger nextValue = curValue + (int)(stat.upgradeRate * stat.level.Value);
+            BigInteger curValue = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,level);
+            
+            BigInteger nextValue = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,level+1);
 
             float scale = 1;
 

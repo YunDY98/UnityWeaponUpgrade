@@ -3426,7 +3426,7 @@ MonoBehaviour:
   objects:
   - {fileID: 4797644329769202012, guid: b46341a35c25c4781968fd80584a1d1b, type: 3}
   spawnPos: {fileID: 0}
-  canvas: {fileID: 1953745868}
+  canvasTransform: {fileID: 0}
 --- !u!1 &1692939001
 GameObject:
   m_ObjectHideFlags: 0
