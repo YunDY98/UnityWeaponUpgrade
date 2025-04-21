@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if(!isLive) return;
         
         time += Time.deltaTime;
 

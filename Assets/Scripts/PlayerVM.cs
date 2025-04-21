@@ -65,6 +65,12 @@ public class PlayerVM
     }
 
 
+    public void TestGold()
+    {
+        Gold.Value += 10000000000000000000;
+    }
+
+
     
 
 

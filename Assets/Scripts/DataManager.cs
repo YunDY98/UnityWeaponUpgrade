@@ -38,6 +38,28 @@ public class DataManager : MonoBehaviour
         statsSO.Init(LoadUserData());
 
     }
+    public void DeleteData()
+    {
+        // 데이터 파일 존재 여부 확인
+        if (File.Exists(dataFilePath))
+        {
+            try
+            {
+                // 파일 삭제
+                File.Delete(dataFilePath);
+                Debug.Log("데이터 파일 삭제 성공: " + dataFilePath);
+
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError("데이터 파일 삭제 실패: " + e.Message);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("삭제할 데이터 파일이 존재하지 않습니다.");
+        }
+    }
 
     public void SaveData()
     {

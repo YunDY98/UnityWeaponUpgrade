@@ -33,9 +33,6 @@ public abstract class ObjectPool : MonoBehaviour
         for(int i=0; i<objects.Length; ++i)
         {
             pool[i] = new Queue<GameObject>();
-
-
-    
         }
    
         

@@ -15,7 +15,7 @@ public class EnemyUIManager : ObjectPool
     }
 
     [SerializeField]
-    Transform canvas;
+    Transform canvasTransform;
 
     
     
@@ -41,12 +41,21 @@ public class EnemyUIManager : ObjectPool
         Init();
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha3))
+            Create();
+
+        
+    }
+
     protected override void Create(int type = 0)
     {
-
-        GameObject obj = Instantiate(objects[type],canvas);
-
+        
+        GameObject obj = Instantiate(objects[type]);
         obj.SetActive(false);
+        obj.transform.SetParent(canvasTransform,false);
+
         pool[type].Enqueue(obj);
 
     }

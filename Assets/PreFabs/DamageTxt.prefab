@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &53306502900165390
+--- !u!1 &4797644329769202012
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1266026025925021135}
-  - component: {fileID: 1508716287729438131}
-  - component: {fileID: 4856265477822103918}
+  - component: {fileID: 6032600375351269277}
+  - component: {fileID: 6258244926743500769}
+  - component: {fileID: 93768940535028540}
   m_Layer: 5
-  m_Name: Text (Damage)
+  m_Name: DamageTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1266026025925021135
+  m_IsActive: 0
+--- !u!224 &6032600375351269277
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 53306502900165390}
+  m_GameObject: {fileID: 4797644329769202012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -37,21 +37,21 @@ RectTransform:
   m_AnchoredPosition: {x: -440, y: 935}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &1508716287729438131
+--- !u!222 &6258244926743500769
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 53306502900165390}
+  m_GameObject: {fileID: 4797644329769202012}
   m_CullTransparentMesh: 1
---- !u!114 &4856265477822103918
+--- !u!114 &93768940535028540
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 53306502900165390}
+  m_GameObject: {fileID: 4797644329769202012}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}

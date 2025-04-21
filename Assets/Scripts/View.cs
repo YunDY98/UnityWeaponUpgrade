@@ -100,6 +100,10 @@ public class View : MonoBehaviour
          
     }
 
+    public void TestGold()
+    {
+        viewModel.TestGold();
+    }
    
 
 
