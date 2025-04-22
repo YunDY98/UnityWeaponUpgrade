@@ -16,14 +16,25 @@ public class PlayerVM
     
     public ReactiveProperty<BigInteger> CurHP => model.CurHP;
 
+    public ReactiveProperty<int> Exp => model.Exp;
+
     public ReactiveProperty<int> Level => model.Level;
+
+    public ReactiveProperty<bool> IsDead = new();
 
 
     public PlayerVM(StatsSO model)
     {
        
         this.model = model;
+        CurHP.Subscribe(newHP => 
+        {
+            IsDead.Value = newHP <= 0;
+        });
+
+       
     }
+
 
     public Stat[] GetStats()
     {
@@ -33,6 +44,7 @@ public class PlayerVM
 
     
     }
+
 
 
     public bool UseGold(BigInteger useGold)
@@ -67,7 +79,7 @@ public class PlayerVM
 
     public void TestGold()
     {
-        Gold.Value += 10000000000000000000;
+        Gold.Value += 2000000000000000000;
     }
 
 

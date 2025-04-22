@@ -12,12 +12,14 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     public event Action<GameObject,int> ReturnEvent;
     public event Action<int,Vector3> DropItemEvent;
-
+   
+    public event Action<int> AttackEvent;
     public event Action<Vector3,FinalDamage,int> DamageEvent;
+
+    public event Action<int> AddExpEvent;
 
     bool isLive;
    
-    public StatsSO statsSO;
     
     public Transform player;
     State state;
@@ -150,7 +152,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         if(attackTime >= enemySO.attackDelay)
         {
             attackTime = 0;
-            statsSO.CurHP.Value -= enemySO.attackPower;
+            AttackEvent?.Invoke(enemySO.attackPower);
             
         }
     
@@ -175,6 +177,9 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         DropItemEvent?.Invoke((int)ItemType.Gold,transform.position);
 
         ReturnEvent?.Invoke(gameObject,(int)enemySO.type);
+
+        AddExpEvent?.Invoke(1);
+
       
       
 

@@ -52,11 +52,13 @@ public class EnemyFactory: ObjectPool
             var tmp = Instantiate(obj,transform);
 
             var enemy = tmp.GetComponent<EnemyFSM>();
-            enemy.statsSO = StatsSO;
+           // enemy.statsSO = StatsSO;
             enemy.player = player;
             enemy.DamageEvent += EnemyUIManager.Instance.Damage;
             enemy.ReturnEvent += Return;
             enemy.DropItemEvent += itemPool.DropItem;
+            enemy.AttackEvent += Attack;
+            enemy.AddExpEvent += AddExp;
             
             
             tmp.SetActive(false);
@@ -75,6 +77,19 @@ public class EnemyFactory: ObjectPool
         GameManager.Instance.EnemyCnt -= 1;
 
 
+    }
+
+    public void Attack(int atk)
+    {
+
+        StatsSO.CurHP.Value -= atk;
+
+
+    }
+
+    public void AddExp(int exp)
+    {
+        StatsSO.AddExp(exp);
     }
      
     

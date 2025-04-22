@@ -272,6 +272,32 @@ public class StatsSO : ScriptableObject
     }
 
 
+    public void LevelUp()
+    {
+       
+        while(Exp.Value >= Level.Value)
+        {
+            Exp.Value -= Level.Value;
+            Level.Value++;
+
+
+        }
+
+
+        
+
+
+    }
+
+    public void AddExp(int exp)
+    {
+       
+        Exp.Value += exp;
+        if(Exp.Value >= Level.Value)
+            LevelUp();
+    }
+
+
 
     
 }

@@ -23,16 +23,7 @@ public class UIManager : MonoBehaviour
         penalty.onClick.AddListener(() => Penalty());
 
 
-        viewModel.CurHP.Subscribe(newHP => 
-        {
-           
-            if(newHP <= 0)
-            {
-                deathUI.SetActive(true);
-
-            }
-
-        });
+        viewModel.IsDead.Subscribe(dead => deathUI.SetActive(dead));
        
         
     }
@@ -40,7 +31,7 @@ public class UIManager : MonoBehaviour
     void Penalty()
     {
         deathUI.SetActive(false);
-        viewModel.Level.Value -= 1;
+        viewModel.Exp.Value = 0;
         player.Init();
         viewModel.CurHP.Value = viewModel.GetStat(StatType.MaxHP).value.Value;
 

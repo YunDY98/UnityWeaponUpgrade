@@ -4,6 +4,9 @@ using R3;
 using TMPro;
 using Assets.Scripts;
 using System.Numerics;
+using System.Collections;
+using UnityEditor;
+using UnityEditor.Rendering;
 
 
 
@@ -11,10 +14,17 @@ using System.Numerics;
 public class View : MonoBehaviour
 {
     [SerializeField]
+    GameObject levelUP;
+    [SerializeField]
     Slider hpSlider;
 
     [SerializeField]
+    Slider expSlider;
+
+    [SerializeField]
     TextMeshProUGUI goldText;
+    [SerializeField]
+    TextMeshProUGUI levelText;
 
     [SerializeField]
     GameObject uObject;
@@ -23,31 +33,23 @@ public class View : MonoBehaviour
     RectTransform uContent;
 
     PlayerVM viewModel;
-    
 
-
+    WaitForSeconds wait =  new(1f);
 
     void Start()
     {
         viewModel = GameManager.Instance.playerVM;
-        viewModel.Gold.Subscribe(newGold => goldText.text = Utility.FormatNumberKoreanUnit(newGold)); // 골드 표기
-        viewModel.CurHP.Subscribe(newHP => 
-        {
-            hpSlider.value = (float)((double)newHP / (double)viewModel.GetStat((int)StatType.MaxHP).value.Value);
+       
 
-           
-            
-
-        });
-
-        RectTransform uObj = uObject.GetComponent<RectTransform>();
-
-        foreach(var stat in viewModel.GetStats())
-        {
-            CreateUpgradeUI(stat);
-        }
-        uContent.sizeDelta = new UnityEngine.Vector2(uContent.sizeDelta.x,viewModel.GetStats().Length * uObj.sizeDelta.y * 1.6f);
+       StartCoroutine(FrameDelay());
+       
     }
+
+    void Update()
+    {
+        print(viewModel.Exp.Value);
+    }
+
 
 
 
@@ -60,6 +62,8 @@ public class View : MonoBehaviour
         ui.statName.text = name;
         //ui.image.sprite = null;
         var btn = ui.btn;
+
+        
      
         stat.level.Subscribe(level => 
         {
@@ -105,9 +109,58 @@ public class View : MonoBehaviour
     {
         viewModel.TestGold();
     }
-   
+
+    IEnumerator FrameDelay()
+    {
+        yield return null;
+        DrawUI();
+        
+    }
+    IEnumerator LevelUp()
+    {
+        levelUP.SetActive(true);
+        yield return wait;
+        levelUP.SetActive(false);
+    }
+    public void DrawUI()
+    {
+        viewModel.Gold.Subscribe(Gold => goldText.text = Utility.FormatNumberKoreanUnit(Gold)); // 골드 표기
+        viewModel.CurHP.Subscribe(HP => 
+        {
+            hpSlider.value = (float)((double)HP / (double)viewModel.GetStat(StatType.MaxHP).value.Value);
+
+           
+            
+
+        });
+        viewModel.Exp.Subscribe(exp => 
+        {
+            expSlider.value = (float)exp / (float)viewModel.Level.Value;
 
 
+        });
+
+        viewModel.Level.Subscribe(level =>
+        {
+            levelText.text = $"Lv.{level}";
+            StartCoroutine(LevelUp());
+
+        });
+       
+       
+
+        RectTransform uObj = uObject.GetComponent<RectTransform>();
+       
+        foreach(var stat in viewModel.GetStats())
+        {
+            CreateUpgradeUI(stat);
+        }
+        uContent.sizeDelta = new UnityEngine.Vector2(uContent.sizeDelta.x,viewModel.GetStats().Length * uObj.sizeDelta.y * 1.6f);
+    }
+        
     
-   
+
+
+
+
 }
