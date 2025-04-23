@@ -28,6 +28,12 @@ public class View : MonoBehaviour
 
     [SerializeField]
     GameObject uObject;
+    [SerializeField]
+    Button x1;
+    [SerializeField]
+    Button x10;
+    [SerializeField]
+    Button x100;
 
     [SerializeField]
     RectTransform uContent;
@@ -36,20 +42,27 @@ public class View : MonoBehaviour
 
     WaitForSeconds wait =  new(1f);
 
+   
+
     void Start()
     {
         viewModel = GameManager.Instance.playerVM;
        
 
        StartCoroutine(FrameDelay());
+       x1.onClick.AddListener(() =>StatLevelUpMult(1));
+       x10.onClick.AddListener(() =>StatLevelUpMult(10));
+       x100.onClick.AddListener(() =>StatLevelUpMult(100));
        
     }
 
-    void Update()
-    {
-        print(viewModel.Exp.Value);
-    }
 
+
+    void StatLevelUpMult(int x)
+    {
+        viewModel.statLevelUpMult.Value = x;
+
+    }
 
 
 
@@ -65,13 +78,17 @@ public class View : MonoBehaviour
 
         
      
-        stat.level.Subscribe(level => 
+        Observable.CombineLatest(stat.level, viewModel.statLevelUpMult,
+        (level, levelUpMult) => new { level, levelUpMult })
+        .Subscribe(data =>
         {
             
-            BigInteger curValue = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,level);
+            BigInteger curValue = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,data.level);
             
-            BigInteger nextValue = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,level+1);
+            BigInteger nextValue = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,data.level + data.levelUpMult);
 
+            stat.cost.Value = Utility.GeometricSumInRange(stat.baseCost,stat.costRate,data.level,data.level+data.levelUpMult);
+        
             float scale = 1;
 
             if(stat.floatScale > 0)
@@ -89,19 +106,18 @@ public class View : MonoBehaviour
 
             }
 
-            ui.level.text = $"Lv.{level}";
+            ui.level.text = $"Lv.{data.level}";
            
            
             
             
         });
 
+
         stat.cost.Subscribe(cost =>{ui.cost.text = Utility.FormatNumberKoreanUnit(cost);});
 
-
-        //value.value.Subscribe(newVlaue => ui.cost = Utility.FormatNumberKoreanUnit(newValue));
         
-        btn.onClick.AddListener(() => viewModel.BigIntStatUpgrade(stat));
+        btn.onClick.AddListener(() => viewModel.StatUpgrade(stat,viewModel.statLevelUpMult.Value));
          
     }
 

@@ -37,6 +37,7 @@ public class LongClick : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
             StopCoroutine(repeatCor);
 
         DataManager.Instance.SaveData();
+        print("wjwkd");
 
     }
     IEnumerator StartRepeat(Button btn)

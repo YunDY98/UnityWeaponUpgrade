@@ -38,6 +38,13 @@ public class DataManager : MonoBehaviour
         statsSO.Init(LoadUserData());
 
     }
+
+    void OnApplicationQuit()
+    {
+       //SaveData();
+       
+        
+    }
     public void DeleteData()
     {
         // 데이터 파일 존재 여부 확인

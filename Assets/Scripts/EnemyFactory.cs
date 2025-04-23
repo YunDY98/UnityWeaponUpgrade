@@ -82,7 +82,7 @@ public class EnemyFactory: ObjectPool
     public void Attack(int atk)
     {
 
-        StatsSO.CurHP.Value -= atk;
+        StatsSO.CurHP.Value -= atk * StatsSO.Level.Value;
 
 
     }

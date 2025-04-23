@@ -62,15 +62,18 @@ public class GameManager : MonoBehaviour
 
         playerVM = new(statsSO);
 
-
-        
-
        
         
     }
-    
 
-    
+    void Start()
+    {
+        
+        
+    }
+
+
+
 
     void Update()
     {

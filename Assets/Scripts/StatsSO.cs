@@ -33,9 +33,9 @@ public class StatsSO : ScriptableObject
                 baseValue = 1000,
                 key = StatType.MaxHP,
                 textName = "최대 체력",
-                baseCost = 1000,
-                cost = new(BigInteger.Parse("1000")),
-                costRate = 1,
+                baseCost = 10000,
+                cost = new(BigInteger.Parse("10000")),
+                costRate = 1.002f,
                 upgradeRate = 1,
                 level = new(1),
                 floatScale = 0
@@ -235,18 +235,11 @@ public class StatsSO : ScriptableObject
         stat.value.Value = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,stat.level.Value);
 
         
-        stat.cost.Value = IncreaseCost(stat);
+       
         
     }
 
-    public BigInteger IncreaseCost(Stat stat)
-    {   
-       
-
-        return  Utility.GeoProgression(stat.baseCost,stat.costRate,stat.level.Value);
-
-    }
-    FinalDamage fDamage= new();
+       FinalDamage fDamage= new();
 
     public FinalDamage Damage()
     {
@@ -283,6 +276,7 @@ public class StatsSO : ScriptableObject
 
         }
 
+        
 
         
 
@@ -295,6 +289,8 @@ public class StatsSO : ScriptableObject
         Exp.Value += exp;
         if(Exp.Value >= Level.Value)
             LevelUp();
+
+        DataManager.Instance.SaveData();
     }
 
 

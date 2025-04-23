@@ -22,6 +22,8 @@ public class PlayerVM
 
     public ReactiveProperty<bool> IsDead = new();
 
+     public ReactiveProperty<int> statLevelUpMult = new(1);
+
 
     public PlayerVM(StatsSO model)
     {
@@ -63,13 +65,13 @@ public class PlayerVM
         
     }
 
-    public void BigIntStatUpgrade(Stat stat)
+    public void StatUpgrade(Stat stat,int increase = 1)
     {
         
 
         if(UseGold(stat.cost.Value))
         {
-            model.IncreaseStat(stat);
+            model.IncreaseStat(stat,increase);
         }
            
 
@@ -79,7 +81,7 @@ public class PlayerVM
 
     public void TestGold()
     {
-        Gold.Value += 2000000000000000000;
+        Gold.Value += BigInteger.Parse("9999999999999999999999999999999");
     }
 
 
