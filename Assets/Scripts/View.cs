@@ -53,6 +53,7 @@ public class View : MonoBehaviour
        x1.onClick.AddListener(() =>StatLevelUpMult(1));
        x10.onClick.AddListener(() =>StatLevelUpMult(10));
        x100.onClick.AddListener(() =>StatLevelUpMult(100));
+
        
     }
 
@@ -106,7 +107,7 @@ public class View : MonoBehaviour
 
             }
 
-            ui.level.text = $"Lv.{data.level}";
+            ui.level.text = $"Lv.{data.level + 1}";
            
            
             
@@ -159,8 +160,13 @@ public class View : MonoBehaviour
         viewModel.Level.Subscribe(level =>
         {
             levelText.text = $"Lv.{level}";
-            StartCoroutine(LevelUp());
+           
 
+        });
+        viewModel.Level.Skip(1).Subscribe(level =>
+        {
+            StartCoroutine(LevelUp());
+        
         });
        
        
@@ -170,6 +176,7 @@ public class View : MonoBehaviour
         foreach(var stat in viewModel.GetStats())
         {
             CreateUpgradeUI(stat);
+            
         }
         uContent.sizeDelta = new UnityEngine.Vector2(uContent.sizeDelta.x,viewModel.GetStats().Length * uObj.sizeDelta.y * 1.6f);
     }

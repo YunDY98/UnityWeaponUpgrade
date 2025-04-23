@@ -1,7 +1,7 @@
 using System;
 using System.Numerics;
 using UnityEngine;
-using UnityEngine.InputSystem.Interactions;
+
 
 
 
@@ -10,22 +10,28 @@ namespace Assets.Scripts
 {
     public static class Utility 
     {
-        public static BigInteger GeometricSumInRange(BigInteger a, double r, int start, int end)
+        //float double로 인한 실제 값이랑 오차가 있음 decimal 사용
+        // 등비 수열 구간 합 
+        public static BigInteger GeometricSumInRange(BigInteger a, double r, int start, int end) 
         {
-            // 1부터 end까지의 합
+          
+           
+          
             var oToE = GeometricSum(a, r, end);
           
 
-            // 1부터 start-1까지의 합
+            
             var oToS = GeometricSum(a, r, start);
+
             
 
-            // start부터 end까지의 합 = 1부터 end까지의 합 - 1부터 start-1까지의 합
             return oToE - oToS;
         }
-        public static BigInteger GeometricSum(BigInteger a,double r, int n)
+        // 등비 수열 합 
+        public static BigInteger GeometricSum(BigInteger a,double r, int n) 
         {
-            if(n == 0)
+
+            if(n <= 0)
                 return 0;
             if (r == 1)
             {
@@ -34,17 +40,19 @@ namespace Assets.Scripts
             else
             {
                
-                
-                return BigIntDiv(BigIntMult(a,1 - Math.Pow(r, n)),1 - r);  // 공비가 1이 아닐 때 등비 수열 합
+              
+                 
+                return BigIntDiv(BigIntMult(a,1 - Math.Pow(r, n)),1 - r);  
             }
         }
-
-        public static BigInteger GeoProgression(BigInteger a, float r, int level)
+        // 등비 수열 항 값 
+        public static BigInteger GeoProgression(BigInteger a, float r, int n) 
         {
             if(r == 1)
-                return a * level;
-           
-            return BigIntMult(a,Mathf.Pow(r, level - 1));
+                return a * n;
+
+                
+            return BigIntMult(a,Mathf.Pow(r, n - 1));
         }
 
 
@@ -59,15 +67,13 @@ namespace Assets.Scripts
             return result;
         }
 
-        public static BigInteger BigIntMult(BigInteger a,double r,int scale = 1000000000)
+        public static BigInteger BigIntMult(BigInteger a,double r,int scale =  1000000000)
         {    
         
 
             BigInteger  mult = (BigInteger)(r * scale);
            
-            BigInteger result = a * mult / scale;
-
-
+            BigInteger result = a * mult / scale;    
             
             return result;
         }

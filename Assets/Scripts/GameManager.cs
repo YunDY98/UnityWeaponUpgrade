@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 
 public class GameManager : MonoBehaviour
 {
@@ -58,7 +60,7 @@ public class GameManager : MonoBehaviour
         }
 
         Application.targetFrameRate = 120;
-        enemySort = System.Enum.GetValues(typeof(EnemyType)).Length;
+        enemySort = Enum.GetValues(typeof(EnemyType)).Length;
 
         playerVM = new(statsSO);
 
@@ -66,17 +68,11 @@ public class GameManager : MonoBehaviour
         
     }
 
-    void Start()
-    {
-        
-        
-    }
-
-
 
 
     void Update()
     {
+
         if(!isLive) return;
         
         time += Time.deltaTime;
