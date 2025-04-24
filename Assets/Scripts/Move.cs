@@ -19,7 +19,8 @@ public class Move : MonoBehaviour
 
     void Update()
     {
-
+        if(GameManager.Instance.Stop)
+            return;
        
         if(GameManager.Instance.IsMove)
         {

@@ -13,6 +13,9 @@ public class EnemyFactory: ObjectPool
     [SerializeField]
     ItemPool itemPool;
 
+    [SerializeField]
+    EffectManager effect;
+
     WaitForSeconds spawnDelay = new (1f);
 
 
@@ -54,7 +57,7 @@ public class EnemyFactory: ObjectPool
             var enemy = tmp.GetComponent<EnemyFSM>();
            // enemy.statsSO = StatsSO;
             enemy.player = player;
-            enemy.DamageEvent += EnemyUIManager.Instance.Damage;
+            enemy.DamageEvent += effect.Damage;
             enemy.ReturnEvent += Return;
             enemy.DropItemEvent += itemPool.DropItem;
             enemy.AttackEvent += Attack;

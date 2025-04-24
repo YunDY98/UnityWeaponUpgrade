@@ -24,6 +24,16 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public PlayerVM playerVM;
 
+    bool _stop = false;
+
+    public bool Stop
+    {
+        get => _stop;
+        set
+        {
+            _stop = value;
+        }
+    }
 
 
 

@@ -14,7 +14,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
     public event Action<int,Vector3> DropItemEvent;
    
     public event Action<int> AttackEvent;
-    public event Action<Vector3,FinalDamage,int> DamageEvent;
+    public event Action<Vector3,FinalDamage> DamageEvent;
 
     public event Action<int> AddExpEvent;
 
@@ -58,6 +58,10 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     void Update()
     {
+        if(GameManager.Instance.Stop)
+            return;
+
+       
         if(!GameManager.Instance.isLive)
             ReturnEvent?.Invoke(gameObject,(int)enemySO.type);
 
@@ -80,6 +84,8 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     void FixedUpdate()
     {
+        if(GameManager.Instance.Stop)
+            return;
         switch(state)
         {
             
@@ -203,7 +209,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
             state = State.Die;
         }
-        DamageEvent?.Invoke(transform.position,fDamage,0);
+        DamageEvent?.Invoke(transform.position,fDamage);
            
     }
 

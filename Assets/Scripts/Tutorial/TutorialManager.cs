@@ -16,7 +16,7 @@ public class TutorialManager : MonoBehaviour
         if(statsSO.Level.Value == 1)
         {
             startUI.SetActive(true);
-            Time.timeScale = 0;
+            GameManager.Instance.Stop = true;
         
             
 
@@ -43,7 +43,7 @@ public class TutorialManager : MonoBehaviour
 
     public void Skip()
     {
-        Time.timeScale = 1;
+        GameManager.Instance.Stop = false;
         Destroy(startTutorial.gameObject);
         Destroy(startUI);
         Destroy(gameObject);
