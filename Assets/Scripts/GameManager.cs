@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem.Controls;
 
 public class GameManager : MonoBehaviour
 {
@@ -122,6 +121,7 @@ public class GameManager : MonoBehaviour
 
     }
 
+    
 
 
 

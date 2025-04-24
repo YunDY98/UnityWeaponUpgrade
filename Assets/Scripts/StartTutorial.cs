@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class StartTutorial : MonoBehaviour, ICanvasRaycastFilter
 
     public TextMeshProUGUI tutorialDec;
 
-    WaitForEndOfFrame wait = new();
+    public event Action EndEvent;
 
     public int step = 0;
 
@@ -23,11 +24,6 @@ public class StartTutorial : MonoBehaviour, ICanvasRaycastFilter
        
         if(RectTransformUtility.RectangleContainsScreenPoint(holeRect, sp, eventCamera))
         {
-            // holeRect가 클릭되었으면 오브젝트 비활성화
-    
-            tutorialDec.text = "";
-            StartCoroutine(Exit());
-            step += 1;
             return false; 
         }
         
@@ -41,6 +37,7 @@ public class StartTutorial : MonoBehaviour, ICanvasRaycastFilter
 
         if(attackButton == null)
             attackButton = content.GetComponentInChildren<Button>().GetComponent<RectTransform>();
+            //attackButton = content.GetComponentsInChildren<Button>()[(int)StatType.AttackDamage].GetComponent<RectTransform>();
 
         UpgradeTutorial(attackButton);
     }
@@ -54,6 +51,13 @@ public class StartTutorial : MonoBehaviour, ICanvasRaycastFilter
     public void UpgradeTutorial(RectTransform target)
     {
         gameObject.SetActive(true);
+
+        target.GetComponent<Button>().onClick.AddListener(() => 
+        {
+            
+            StartTutorialStep(++step);
+
+        });
        
         
         holeRect.position = target.position;
@@ -67,15 +71,35 @@ public class StartTutorial : MonoBehaviour, ICanvasRaycastFilter
     }
 
 
-    IEnumerator Exit()
+    void StartTutorialStep(int step)
     {
-        yield return wait;
-        gameObject.SetActive(false);
+        
+       
+       
+        switch(step)
+        {
+            case 1:
+                MultUpTutorial();
+                break;
+            case 2:
+                AttakUpTutorial();
+                break;
+            case 3:
+                EndEvent?.Invoke();
+                break;
+            case 4:
+               
+                break;
 
+        }
 
     }
+   
+
+
 
     
 
 
 }
+

@@ -4190,8 +4190,6 @@ MonoBehaviour:
   startTutorial: {fileID: 2085645065}
   statsSO: {fileID: 11400000, guid: b17bee0fc41134e21b2d488e42731a0c, type: 2}
   startUI: {fileID: 1331910603}
-  step: 0
-  endTutorial: 4
 --- !u!1 &1421754942
 GameObject:
   m_ObjectHideFlags: 0
@@ -6100,7 +6098,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.52156866}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

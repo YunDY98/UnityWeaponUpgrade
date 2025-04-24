@@ -1,4 +1,4 @@
-using UnityEditor.Rendering;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
@@ -9,17 +9,15 @@ public class TutorialManager : MonoBehaviour
 
     public GameObject startUI;
 
-
-    public int step = 0;
-
-    public int endTutorial = 3;
-
     void Start()
     {
+        startTutorial.EndEvent += StartTutorialEnd;
+
         if(statsSO.Level.Value == 1)
         {
             startUI.SetActive(true);
             Time.timeScale = 0;
+        
             
 
         }
@@ -46,39 +44,24 @@ public class TutorialManager : MonoBehaviour
     public void Skip()
     {
         Time.timeScale = 1;
-        Destroy(startTutorial);
+        Destroy(startTutorial.gameObject);
         Destroy(startUI);
-        Destroy(this);
+        Destroy(gameObject);
 
     }
 
-    void Update()
+    public void StartTutorialEnd()
     {
-        
-        print(startTutorial.step);
-       
-        switch(startTutorial.step)
-        {
-            case 1:
-                startTutorial.MultUpTutorial();
-                break;
-            case 2:
-                startTutorial.AttakUpTutorial();
-                break;
-            case 3:
-                Time.timeScale = 1;
-                statsSO.AddExp(1);
-                startTutorial.step++;
-                break;
-            case 4:
-                Skip();
-                break;
-
-        }
+        statsSO.AddExp(1);
+        Skip();
 
     }
+
+
 
 
 
 
 }
+
+

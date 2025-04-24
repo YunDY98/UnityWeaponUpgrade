@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Numerics;
 using Assets.Scripts;
 using R3;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using UnityEngine.InputSystem.Interactions;
 using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "StatsSO", menuName = "ScriptableObjects/Player", order = 1)]

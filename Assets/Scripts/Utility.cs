@@ -14,7 +14,8 @@ namespace Assets.Scripts
         // 등비 수열 구간 합 
         public static BigInteger GeometricSumInRange(BigInteger a, double r, int start, int end) 
         {
-          
+            
+            
            
           
             var oToE = GeometricSum(a, r, end);
