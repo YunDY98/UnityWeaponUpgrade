@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +19,8 @@ public class StartTutorial : MonoBehaviour, ICanvasRaycastFilter
     public event Action EndEvent;
 
     public int step = 0;
+
+    
 
     public bool IsRaycastLocationValid(Vector2 sp, Camera eventCamera)
     {
@@ -52,12 +55,17 @@ public class StartTutorial : MonoBehaviour, ICanvasRaycastFilter
     {
         gameObject.SetActive(true);
 
-        target.GetComponent<Button>().onClick.AddListener(() => 
-        {
-            
-            StartTutorialStep(++step);
+        Button btn = target.GetComponent<Button>();
+        
+        UnityEngine.Events.UnityAction oneTimeListener = null;
 
-        });
+        oneTimeListener = () =>
+        {
+            StartTutorialStep(++step);
+            btn.onClick.RemoveListener(oneTimeListener);
+           
+        };
+        btn.onClick.AddListener(oneTimeListener);
        
         
         holeRect.position = target.position;
@@ -94,11 +102,16 @@ public class StartTutorial : MonoBehaviour, ICanvasRaycastFilter
         }
 
     }
-   
+
+
+    void OnDestroy()
+    {
+        print(step);
+    }
 
 
 
-    
+
 
 
 }
