@@ -5,6 +5,7 @@ using TMPro;
 using Assets.Scripts;
 using System.Numerics;
 using System.Collections;
+using UnityEditor.UI;
 
 
 
@@ -26,12 +27,14 @@ public class View : MonoBehaviour
 
     [SerializeField]
     GameObject uObject;
+
+    #region multUpgrade
     [SerializeField]
-    Button x1;
-    [SerializeField]
-    Button x10;
-    [SerializeField]
-    Button x100;
+    Button[] multBtn;
+
+    #endregion
+
+
 
     [SerializeField]
     RectTransform uContent;
@@ -48,18 +51,36 @@ public class View : MonoBehaviour
        
 
        StartCoroutine(FrameDelay());
-       x1.onClick.AddListener(() =>StatLevelUpMult(1));
-       x10.onClick.AddListener(() =>StatLevelUpMult(10));
-       x100.onClick.AddListener(() =>StatLevelUpMult(100));
+       multBtn[0].onClick.AddListener(() =>StatLevelUpMult(1,multBtn[0]));
+       StatLevelUpMult(1,multBtn[0]);
+       multBtn[1].onClick.AddListener(() =>StatLevelUpMult(10,multBtn[1]));
+       multBtn[2].onClick.AddListener(() =>StatLevelUpMult(100,multBtn[2]));
 
        
     }
 
 
 
-    void StatLevelUpMult(int x)
+    void StatLevelUpMult(int x,Button btn)
     {
         viewModel.statLevelUpMult.Value = x;
+        foreach(var select in multBtn)
+        {
+            ColorBlock cb = select.colors;
+            if(select == btn)
+            {
+               
+                cb.normalColor = Color.black;
+                cb.selectedColor = Color.black;
+              
+            }
+            else
+            {
+                cb.normalColor = Color.white;
+               
+            }
+            select.colors = cb;
+        }
 
     }
 
