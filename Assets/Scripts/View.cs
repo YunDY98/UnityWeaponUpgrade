@@ -161,14 +161,19 @@ public class View : MonoBehaviour
     public void DrawUI()
     {
         viewModel.Gold.Subscribe(Gold => goldText.text = Utility.FormatNumberKoreanUnit(Gold)); // 골드 표기
-        viewModel.CurHP.Subscribe(HP => 
+
+
+        Observable.CombineLatest(viewModel.CurHP, viewModel.GetStat(StatType.MaxHP).value,
+        (curHP, maxHP) => new { curHP, maxHP })
+        .Subscribe(data => 
         {
-            hpSlider.value = (float)((double)HP / (double)viewModel.GetStat(StatType.MaxHP).value.Value);
+            hpSlider.value = (float)((double)data.curHP / (double)data.maxHP);
 
            
             
 
         });
+        
         viewModel.Exp.Subscribe(exp => 
         {
             expSlider.value = (float)exp / (float)viewModel.Level.Value;

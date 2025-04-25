@@ -44,15 +44,17 @@ public class TutorialManager : MonoBehaviour
     public void Skip()
     {
         GameManager.Instance.Stop = false;
+        statsSO.AddExp(1);
         Destroy(startTutorial.gameObject);
         Destroy(startUI);
         Destroy(gameObject);
+       
 
     }
 
     public void StartTutorialEnd()
     {
-        statsSO.AddExp(1);
+       
         Skip();
 
     }
