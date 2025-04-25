@@ -10,7 +10,7 @@ namespace Assets.Scripts
 {
     public static class Utility 
     {
-        //float double로 인한 실제 값이랑 오차가 있음 decimal 사용
+        
         // 등비 수열 구간 합 
         public static BigInteger GeometricSumInRange(BigInteger a, double r, int start, int end) 
         {

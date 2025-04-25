@@ -126,7 +126,7 @@ public class View : MonoBehaviour
 
             }
 
-            ui.level.text = $"Lv.{data.level + 1}";
+            ui.level.text = $"Lv.{data.level}";
            
            
             

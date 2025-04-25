@@ -58,6 +58,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     void Update()
     {
+        
         if(GameManager.Instance.Stop)
             return;
 

@@ -204,7 +204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b64773dc975884f768a116b2634f3c4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statsSO: {fileID: 0}
   player: {fileID: 0}
   enemySO: {fileID: 11400000, guid: c8b5ef70eb4f44807afc8d8b6146020b, type: 2}
 --- !u!61 &5203752284533310831

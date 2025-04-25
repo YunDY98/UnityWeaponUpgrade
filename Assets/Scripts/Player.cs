@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     StatsSO statsSO;
     
+    int stayEnemy = 0;
     
     
 
@@ -88,6 +89,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        print(state);
         if(GameManager.Instance.Stop)
             return;
        
@@ -125,12 +127,13 @@ public class Player : MonoBehaviour
 
     }
 
-    void OnTriggerStay2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         
-        
+       
         if(other.CompareTag("Enemy"))
         {
+            stayEnemy++;
             state = State.Attack;
         }
         
@@ -140,7 +143,15 @@ public class Player : MonoBehaviour
     void OnTriggerExit2D(Collider2D collision)
     {
         
-        state = State.Idle;
+        if(collision.CompareTag("Enemy"))
+        {
+            stayEnemy--;
+        }
+           
+        if(stayEnemy <= 0)
+        {
+            state = State.Idle;
+        }
     }
 
     public void SetAnim(string animName,bool loop = true)

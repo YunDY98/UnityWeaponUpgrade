@@ -34,7 +34,7 @@ public class StatsSO : ScriptableObject
                 cost = new(1000),
                 costRate = 1.01f,
                 upgradeRate = 1.05f,
-                level = new(0),
+                level = new(1),
                 floatScale = 0
             };
             
@@ -48,7 +48,7 @@ public class StatsSO : ScriptableObject
                 cost = new(BigInteger.Parse("10000")),
                 costRate = 1.01f,
                 upgradeRate = 1,
-                level = new(0),
+                level = new(1),
                 floatScale = 0
             };
 
@@ -62,7 +62,7 @@ public class StatsSO : ScriptableObject
                 cost = new(BigInteger.Parse("1000")),
                 costRate = 1,
                 upgradeRate = 1,
-                level = new(0),
+                level = new(1),
                 floatScale = 1000
             };
 
@@ -76,7 +76,7 @@ public class StatsSO : ScriptableObject
                 cost = new(BigInteger.Parse("1000000000")),
                 costRate = 100,
                 upgradeRate = 1,
-                level = new(0),
+                level = new(1),
                 floatScale = 0
             };
 
@@ -91,7 +91,7 @@ public class StatsSO : ScriptableObject
                 cost = new(BigInteger.Parse("20000000000")),
                 costRate = 1,
                 upgradeRate = 0.99f,
-                level = new(0),
+                level = new(1),
                 floatScale = 1000
             };
 
@@ -105,7 +105,7 @@ public class StatsSO : ScriptableObject
                 cost = new(BigInteger.Parse("10")),
                 costRate = 1.05f,
                 upgradeRate = 1.01f,
-                level = new(0),
+                level = new(1),
                 floatScale = 1000
             };
 
@@ -119,7 +119,7 @@ public class StatsSO : ScriptableObject
                 cost = new(BigInteger.Parse("1000")),
                 costRate = 1,
                 upgradeRate = 1,
-                level = new(0),
+                level = new(1),
                 floatScale = 1000
             };
 
@@ -133,7 +133,7 @@ public class StatsSO : ScriptableObject
                 cost = new(BigInteger.Parse("1000")),
                 costRate = 1,
                 upgradeRate = 1,
-                level = new(0),
+                level = new(1),
                 floatScale = 1000
             };
 
@@ -147,7 +147,7 @@ public class StatsSO : ScriptableObject
                 cost = new(BigInteger.Parse("1000000")),
                 costRate = 1f,
                 upgradeRate = 1f,
-                level = new(0),
+                level = new(1),
                 floatScale = 1000
             };
 
@@ -161,7 +161,7 @@ public class StatsSO : ScriptableObject
                 cost = new(BigInteger.Parse("1000")),
                 costRate = 1f,
                 upgradeRate = 1.05f,
-                level = new(0),
+                level = new(1),
                 floatScale = 1000
             };
 

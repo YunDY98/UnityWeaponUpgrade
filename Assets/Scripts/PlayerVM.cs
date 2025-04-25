@@ -79,7 +79,7 @@ public class PlayerVM
 
     public void TestGold()
     {
-        Gold.Value += BigInteger.Parse("9999999999999999999999999999999");
+        Gold.Value += BigInteger.Parse("99999999999999999999999");
     }
 
 

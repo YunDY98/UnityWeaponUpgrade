@@ -102,14 +102,6 @@ public class StartTutorial : MonoBehaviour, ICanvasRaycastFilter
     }
 
 
-    void OnDestroy()
-    {
-        print(step);
-    }
-
-
-
-
 
 
 }
