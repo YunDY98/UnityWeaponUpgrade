@@ -2,49 +2,25 @@ using UnityEngine;
 using DG.Tweening;
 using TMPro;
 using Assets.Scripts;
-using Unity.Multiplayer.Center.Common;
-using UnityEngine.EventSystems;
-using Unity.VisualScripting;
-using System.Collections;
 
-public class EffectManager : ObjectPool,ICanvasRaycastFilter
+public class EffectManager : ObjectPool
 {
 
    
     
-    RectTransform rectTransform;
-    bool isTouch = true;
-    public bool IsRaycastLocationValid(Vector2 sp, Camera eventCamera)
-    {
-       
-        if(RectTransformUtility.RectangleContainsScreenPoint(rectTransform, sp, eventCamera))
-        {
-            
-            if(isTouch)
-            {
-                TouchRing(sp);
-                StartCoroutine(Touch());
 
-            }
-            
-            
-         
-            return false; 
-        }
-
-
-        
-        return true;
-    }
-
+   
 
     float duration = 2f;
 
-
+   
+    bool isClick = false;
+   
+    Vector2 clickPos;
 
     protected override void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
+        
         
 
         Init();
@@ -54,11 +30,47 @@ public class EffectManager : ObjectPool,ICanvasRaycastFilter
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha3))
-            Create();
+        #if UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX || UNITY_EDITOR
+        if(Input.GetMouseButtonDown(0))
+        {
+            print(1);
+            clickPos = Input.mousePosition;
+            if(!isClick)
+                TouchRing(clickPos);
+           
+           isClick = true;
+        }
+        if(Input.GetMouseButtonUp(0))
+            isClick = false;
+        #endif
+
+
+        #if UNITY_ANDROID || UNITY_IOS
+        if(Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+             
+          
+            if(touch.phase == TouchPhase.Began)
+            {
+                clickPos = touch.position;
+                TouchRing(clickPos);
+            }
+           
+           
+        }
+        #endif
+       
+
 
         
     }
+    void OnDestroy()
+    {
+        DOTween.KillAll(); // 모든 트윈 애니메이션 종료
+        
+    }
+
 
     protected override void Create(int type = 0)
     {
@@ -150,22 +162,11 @@ public class EffectManager : ObjectPool,ICanvasRaycastFilter
         obj.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack).OnKill(() => Return(obj, (int)Effect.TouchRing));
 
     }
-    void OnDestroy()
-    {
-        DOTween.KillAll(); // 모든 트윈 애니메이션 종료
-        
-    }
+ 
 
-    IEnumerator Touch()
-    {
-        isTouch = false;
-        yield return new WaitForFixedUpdate();
-        isTouch = true;
-    }
+    
 
-
-
-
+  
 
 }
 

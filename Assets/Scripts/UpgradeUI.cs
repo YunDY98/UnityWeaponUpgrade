@@ -1,9 +1,6 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Assets.Scripts;
-using System.Numerics;
 
 public class UpgradeUI : MonoBehaviour
 {

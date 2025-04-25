@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Numerics;
 using System.Text;
 using UnityEngine;
 
@@ -70,42 +68,42 @@ public class DataManager : MonoBehaviour
 
     public void SaveData()
     {
-    //     UserData uData = new()
-    //     {
-    //         statData = new StatData[statsSO.GetStats().Length]
-    //     };
+        UserData uData = new()
+        {
+            statData = new StatData[statsSO.GetStats().Length]
+        };
 
-    //     int i = 0;
-    //     foreach(Stat data in statsSO.GetStats())
-    //     {
-    //        uData.statData[i] = new()
-    //        {
-    //             key = data.key,
-    //             textName = data.textName,
-    //             floatScale  = data.floatScale,
-    //             baseValue = data.baseValue,
-    //             baseCost = data.baseCost,
-    //             costRate = data.costRate,
-    //             upgradeRate = data.upgradeRate,
-    //             level = data.level.Value,
+        int i = 0;
+        foreach(Stat data in statsSO.GetStats())
+        {
+           uData.statData[i] = new()
+           {
+                key = data.key,
+                textName = data.textName,
+                floatScale  = data.floatScale,
+                baseValue = data.baseValue,
+                baseCost = data.baseCost,
+                costRate = data.costRate,
+                upgradeRate = data.upgradeRate,
+                level = data.level.Value,
 
 
 
-    //        };
-    //        ++i;
+           };
+           ++i;
 
-    //     }
+        }
 
-    //     uData.userLevel = statsSO.Level.Value;
-    //     uData.userExp = statsSO.Exp.Value;
-    //     uData.userCurHp = statsSO.CurHP.Value.ToString();
-    //     uData.gold = statsSO.Gold.Value.ToString();
-    //     // 데이터를 JSON으로 직렬화
-    //     string jsonData = JsonUtility.ToJson(uData);
+        uData.userLevel = statsSO.Level.Value;
+        uData.userExp = statsSO.Exp.Value;
+        uData.userCurHp = statsSO.CurHP.Value.ToString();
+        uData.gold = statsSO.Gold.Value.ToString();
+        // 데이터를 JSON으로 직렬화
+        string jsonData = JsonUtility.ToJson(uData);
 
-    //     // JSON 데이터를 파일로 저장
-    //    // File.WriteAllText(dataFilePath, EncryptAndDecrypt(jsonData));
-    //     File.WriteAllText(dataFilePath, (jsonData));
+        // JSON 데이터를 파일로 저장
+       // File.WriteAllText(dataFilePath, EncryptAndDecrypt(jsonData));
+        File.WriteAllText(dataFilePath, (jsonData));
       
     }
 
