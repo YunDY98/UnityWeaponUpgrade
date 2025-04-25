@@ -90,12 +90,10 @@ public class StartTutorial : MonoBehaviour, ICanvasRaycastFilter
             case 2:
                 AttakUpTutorial();
                 break;
-            case 3:
+            default:
                 EndEvent?.Invoke();
                 break;
-            case 4:
-               
-                break;
+            
 
         }
 

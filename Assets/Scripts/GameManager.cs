@@ -77,6 +77,11 @@ public class GameManager : MonoBehaviour
         
     }
 
+    void Start()
+    {
+        AudioManager.Instance.PlayBgm(true);
+    }
+
 
 
     void Update()
