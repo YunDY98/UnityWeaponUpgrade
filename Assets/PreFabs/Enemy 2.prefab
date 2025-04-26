@@ -205,7 +205,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  pStats: {fileID: 11400000, guid: b17bee0fc41134e21b2d488e42731a0c, type: 2}
   enemySO: {fileID: 11400000, guid: f05df923f8f9a4952b2a884a90220935, type: 2}
+  hpRate: 1.01
+  atkRate: 1.01
+  exp: 1
 --- !u!61 &5203752284533310831
 BoxCollider2D:
   m_ObjectHideFlags: 0

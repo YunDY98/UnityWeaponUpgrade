@@ -7,6 +7,8 @@ public class Gold : ItemMove,IPoolable
     public ItemType type;
     public StatsSO statsSO;
 
+    public float goldRate;
+
     public event Action<GameObject,int> ReturnEvent;
 
     void Awake()

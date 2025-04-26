@@ -4,6 +4,7 @@ using BigInteger = System.Numerics.BigInteger;
 using UnityEngine;
 
 using Vector3 = UnityEngine.Vector3;
+using Assets.Scripts;
 
 
 
@@ -13,19 +14,19 @@ public class EnemyFSM : MonoBehaviour,IPoolable
     public event Action<GameObject,int> ReturnEvent;
     public event Action<int,Vector3> DropItemEvent;
    
-    public event Action<int> AttackEvent;
     public event Action<Vector3,FinalDamage> DamageEvent;
 
-    public event Action<int> AddExpEvent;
 
     bool isLive;
    
     
     public Transform player;
     State state;
-    
+
+    BigInteger curHP;
+
     [SerializeField]
-    BigInteger HP;
+    StatsSO pStats;
 
     float attackTime = 0;
 
@@ -36,23 +37,56 @@ public class EnemyFSM : MonoBehaviour,IPoolable
     WaitForFixedUpdate wait = new ();
 
     Rigidbody2D rigid;
+    public float hpRate = 1.01f;
+    public float atkRate = 1.01f;
+
+    public int exp = 1;
+
+    int pLevel = 0;
+    BigInteger maxHP;
+    BigInteger MaxHP => Utility.GeoProgression(enemySO.maxHP,hpRate,pStats.Level.Value);
+    
+    BigInteger attackPower;
+    
+    BigInteger AttackPower => Utility.GeoProgression(enemySO.attackPower,atkRate,pStats.Level.Value);
+
+   
     void Awake()
     {
         anim = GetComponent<Animator>();
         anim.runtimeAnimatorController = enemySO.animCon;
         rigid = GetComponent<Rigidbody2D>();
-        HP = enemySO.maxHP;
-      
+
+        attackPower = AttackPower;
        
         
     }
-
-
     void OnEnable()
     {
         isLive = true;
         state = State.Run;
+        SetEnemy();
         
+        print(curHP);
+    }
+
+    void SetEnemy()
+    {
+        if(pLevel == pStats.Level.Value)
+        {
+            curHP = maxHP;
+
+            
+        }
+        else
+        {
+            pLevel = pStats.Level.Value;
+            maxHP = MaxHP;
+            curHP = maxHP;
+
+            attackPower = AttackPower;
+          
+        }
 
     }
 
@@ -97,6 +131,8 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         }
         
     }
+
+   
 
     void Run()
     {
@@ -159,7 +195,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         if(attackTime >= enemySO.attackDelay)
         {
             attackTime = 0;
-            AttackEvent?.Invoke(enemySO.attackPower);
+            pStats.CurHP.Value -= attackPower;
             
         }
     
@@ -185,7 +221,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
         ReturnEvent?.Invoke(gameObject,(int)enemySO.type);
 
-        AddExpEvent?.Invoke(1);
+        pStats.AddExp(exp);
 
       
       
@@ -198,8 +234,8 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         yield return new WaitForSeconds(delay);
         
        
-        HP -= fDamage.damage;
-        if(HP > 0)
+        curHP -= fDamage.damage;
+        if(curHP > 0)
         {
            
             StartCoroutine(KnockBack());

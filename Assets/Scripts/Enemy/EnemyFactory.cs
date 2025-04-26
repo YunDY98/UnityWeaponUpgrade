@@ -1,5 +1,5 @@
 using System.Collections;
-
+using System.Numerics;
 using UnityEngine;
 
 public class EnemyFactory: ObjectPool
@@ -60,8 +60,8 @@ public class EnemyFactory: ObjectPool
             enemy.DamageEvent += effect.Damage;
             enemy.ReturnEvent += Return;
             enemy.DropItemEvent += itemPool.DropItem;
-            enemy.AttackEvent += Attack;
-            enemy.AddExpEvent += AddExp;
+           
+           
             
             
             tmp.SetActive(false);
@@ -82,19 +82,7 @@ public class EnemyFactory: ObjectPool
 
     }
 
-    public void Attack(int atk)
-    {
-        print(atk * StatsSO.Level.Value);
-        StatsSO.CurHP.Value -= atk * StatsSO.Level.Value;
-
-
-    }
-
-    public void AddExp(int exp)
-    {
-        StatsSO.AddExp(exp);
-    }
-     
+    
     
 
 
