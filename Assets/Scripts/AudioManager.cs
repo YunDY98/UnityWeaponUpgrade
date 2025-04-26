@@ -18,12 +18,7 @@ public class AudioManager : MonoBehaviour
     public int channels;
     AudioSource[] sfxPlayers;
     int channelIndex;
-    public enum Sfx
-    {
-       
-
-
-    }
+    
 
     void Awake()
     {
@@ -35,7 +30,7 @@ public class AudioManager : MonoBehaviour
     void Update()
     {
        
-        
+       
     }
     void Init()
     {
@@ -48,6 +43,19 @@ public class AudioManager : MonoBehaviour
         bgmPlayer.volume = bgmVolume;
         bgmPlayer.clip = bgmClip;
         bgmEffect = Camera.main.GetComponent<AudioHighPassFilter>();
+
+        //효과음 플레이어 초기화
+        GameObject sfxObject = new GameObject("SfxPlayer");
+        sfxObject.transform.parent = transform;
+        sfxPlayers = new AudioSource[channels];
+
+        for (int i=0; i < sfxPlayers.Length; ++i) 
+        {
+            sfxPlayers[i] = sfxObject.AddComponent<AudioSource>();
+            sfxPlayers[i].playOnAwake = false;
+            sfxPlayers[i].bypassListenerEffects = true;
+            sfxPlayers[i].volume = sfxVolume;
+        }
 
 
     }
@@ -67,6 +75,30 @@ public class AudioManager : MonoBehaviour
         bgmEffect.enabled = isPlay;
     }
 
+    public void PlaySfx(Sfx sfx)
+    {
+        for(int i =0; i<sfxPlayers.Length;++i)
+        {
+            int loopIndex = (i + channelIndex) % sfxPlayers.Length;
+            if(sfxPlayers[loopIndex].isPlaying)
+                continue;
+            channelIndex = loopIndex;
+             
+            sfxPlayers[loopIndex].clip = sfxClips[(int)sfx];
+            sfxPlayers[loopIndex].Play();
+            break;
+        }
+            
+    }
+
+
+
+
 
        
+}
+public enum Sfx
+{
+    Attack,
+   
 }

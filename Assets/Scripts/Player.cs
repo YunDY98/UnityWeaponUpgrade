@@ -3,6 +3,8 @@ using UnityEngine;
 using Spine.Unity;
 
 using System.Collections.Generic;
+using System.Net;
+using System.Collections;
 public class Player : MonoBehaviour
 {
     
@@ -53,6 +55,7 @@ public class Player : MonoBehaviour
     StatsSO statsSO;
     
     int stayEnemy = 0;
+
     
     
 
@@ -62,7 +65,7 @@ public class Player : MonoBehaviour
     public Spine.Skeleton skeleton;
     // Start is called before the first frame update
 
-    
+
     void Start()
     {
        
@@ -89,7 +92,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        print(state);
+       
         if(GameManager.Instance.Stop)
             return;
        
@@ -140,16 +143,19 @@ public class Player : MonoBehaviour
     }
 
 
+
     void OnTriggerExit2D(Collider2D collision)
     {
-        
+       
         if(collision.CompareTag("Enemy"))
         {
             stayEnemy--;
         }
+        
            
         if(stayEnemy <= 0)
         {
+            stayEnemy = 0;
             state = State.Idle;
         }
     }
@@ -231,7 +237,7 @@ public class Player : MonoBehaviour
                 EnemyFSM enemy = col.GetComponent<EnemyFSM>();
                 if (enemy != null)
                 {
-                    
+                    StartCoroutine(SoundDelay(Sfx.Attack,delay));
                     enemy.HitEnemy(statsSO.Damage(),delay);
                     cnt--;
                 }
@@ -247,6 +253,12 @@ public class Player : MonoBehaviour
         }
 
         
+    }
+
+    IEnumerator SoundDelay(Sfx sfx,float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        AudioManager.Instance.PlaySfx(sfx);
     }
 
 
