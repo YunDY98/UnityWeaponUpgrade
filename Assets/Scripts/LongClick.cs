@@ -12,6 +12,8 @@ public class LongClick : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
     float pressTime = 0f;
     Coroutine repeatCor;
     Coroutine startCor;
+
+    AudioSource longClickSound;
     
     
     readonly WaitForSeconds longClick = new(0.5f);
@@ -31,10 +33,19 @@ public class LongClick : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         isLongPress = false;
         pressTime = 0f; 
         if(startCor != null)
+        {
             StopCoroutine(startCor);
+
+        }
+            
         
         if(repeatCor != null)
+        {
             StopCoroutine(repeatCor);
+            longClickSound.Stop();
+
+        }
+           
 
         DataManager.Instance.SaveData();
       
@@ -42,13 +53,17 @@ public class LongClick : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
     }
     IEnumerator StartRepeat(Button btn)
     {
+
+        AudioManager.Instance.PlaySfx(Sfx.OneClick);
         yield return longClick;
         repeatCor = StartCoroutine(RepeatButton(btn));
+       
 
     }
 
     IEnumerator RepeatButton(Button btn)
     {
+        longClickSound = AudioManager.Instance.PlaySfx(Sfx.LongClick);
         while(true)
         {
             btn.onClick.Invoke();

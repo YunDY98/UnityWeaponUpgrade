@@ -75,7 +75,7 @@ public class AudioManager : MonoBehaviour
         bgmEffect.enabled = isPlay;
     }
 
-    public void PlaySfx(Sfx sfx)
+    public AudioSource PlaySfx(Sfx sfx)
     {
         for(int i =0; i<sfxPlayers.Length;++i)
         {
@@ -83,12 +83,18 @@ public class AudioManager : MonoBehaviour
             if(sfxPlayers[loopIndex].isPlaying)
                 continue;
             channelIndex = loopIndex;
-             
+            if(Sfx.LongClick == sfx)
+                sfxPlayers[loopIndex].loop = true;
+            else
+                sfxPlayers[loopIndex].loop = false;
+
+            
             sfxPlayers[loopIndex].clip = sfxClips[(int)sfx];
             sfxPlayers[loopIndex].Play();
-            break;
+            return sfxPlayers[loopIndex];
         }
             
+        return null;
     }
 
 
@@ -100,5 +106,8 @@ public class AudioManager : MonoBehaviour
 public enum Sfx
 {
     Attack,
+    OneClick,
+    LongClick,
+
    
 }
