@@ -5,6 +5,7 @@ using TMPro;
 using Assets.Scripts;
 using BigInteger = System.Numerics.BigInteger;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 
 
@@ -96,7 +97,8 @@ public class View : MonoBehaviour
        
         string name = stat.textName;
         ui.statName.text = name;
-        //ui.image.sprite = null;
+        print($"StatIcon/{stat.key}");
+        viewModel.LoadSprite($"StatIcon/{stat.key}",ui.image);
         var btn = ui.btn;
         int nextLevel = 0;
         int curLevel = 0;

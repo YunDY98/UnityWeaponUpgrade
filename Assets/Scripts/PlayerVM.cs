@@ -1,6 +1,9 @@
 using System.Numerics;
 using R3;
 using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
+using UnityEngine.UI;
 
 
 public class PlayerVM
@@ -82,6 +85,19 @@ public class PlayerVM
            
 
 
+    }
+
+    public async void LoadSprite(string address,Image target)
+    {
+        Sprite sprite = await model.LoadImageAsync(address);
+        if (sprite != null)
+        {
+            target.sprite = sprite;
+        }
+        else
+        {
+            Debug.LogWarning("이미지 없음");
+        }
     }
 
     

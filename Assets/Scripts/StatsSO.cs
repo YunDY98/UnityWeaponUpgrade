@@ -1,10 +1,13 @@
 using System;
 using System.Numerics;
+using System.Threading.Tasks;
 using Assets.Scripts;
 using R3;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem.Interactions;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "StatsSO", menuName = "ScriptableObjects/Player", order = 1)]
@@ -309,6 +312,18 @@ public class StatsSO : ScriptableObject
             LevelUp();
 
         DataManager.Instance.SaveData();
+    }
+
+    public async Task<Sprite> LoadImageAsync(string address)
+    {
+        AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(address);
+        await handle.Task;
+
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            return handle.Result;
+        }
+        return null;
     }
 
 
