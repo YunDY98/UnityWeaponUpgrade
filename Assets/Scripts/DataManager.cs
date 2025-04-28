@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class DataManager : MonoBehaviour
 {
@@ -86,6 +87,8 @@ public class DataManager : MonoBehaviour
                 costRate = data.costRate,
                 upgradeRate = data.upgradeRate,
                 level = data.level.Value,
+                maxLevel = data.maxLevel,
+                
 
 
 
@@ -164,6 +167,8 @@ public class UserData
 
 
 
+
+
 }
 
 [Serializable]
@@ -178,7 +183,7 @@ public class StatData
     public int baseValue;
 
     public int level;
-
+    public int maxLevel;
     public int baseCost;
     public float costRate;
     public float upgradeRate;

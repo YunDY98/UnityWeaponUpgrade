@@ -8,7 +8,8 @@ public class PlayerVM
 
     StatsSO model;
 
-    public Stat GetStat(StatType type) => model.GetStats()[(int)type];
+    public Stat GetStat(int type) => model.GetStat(type);
+    public Stat GetStat(StatType type)  => model.GetStat(type);
    
     public ReactiveProperty<BigInteger>  Gold  => model.Gold;
     
@@ -76,10 +77,12 @@ public class PlayerVM
 
     }
 
+    
+
 
     public void TestGold()
     {
-        Gold.Value += BigInteger.Parse("99999999999999999999999");
+        Gold.Value += BigInteger.Parse("999999999999999999999999999999");
     }
 
 

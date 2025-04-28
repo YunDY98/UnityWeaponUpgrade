@@ -56,7 +56,8 @@ public class Player : MonoBehaviour
     
     int stayEnemy = 0;
 
-    
+
+    bool isAtk = false;
     
 
 
@@ -122,7 +123,8 @@ public class Player : MonoBehaviour
                 Die();
                 break;
             case State.Attack:
-                Attack();
+                if(!isAtk)
+                    Attack();
                 break;
 
         }
@@ -212,12 +214,13 @@ public class Player : MonoBehaviour
 
     public void Atk()
     {
+       
         float delay = 0.6f; // 스파인 애니메이션에 맞춰서 딜레이
         cnt = (int)statsSO.GetStat(StatType.AttackCnt).value.Value;
         center = transform.position;
         // 박스 중심과 크기 설정
       
-        Vector2 size = new Vector2(statsSO.GetStat(StatType.AttackRange).GetFValue(), 3f);
+        Vector2 size = new Vector2((float)statsSO.GetStat(StatType.AttackRange).GetFValue(), 3f);
         float angle = 0f;
 
         // 적 레이어 마스크
@@ -237,8 +240,8 @@ public class Player : MonoBehaviour
                 EnemyFSM enemy = col.GetComponent<EnemyFSM>();
                 if (enemy != null)
                 {
-                    StartCoroutine(SoundDelay(Sfx.Attack,delay));
-                    enemy.HitEnemy(statsSO.Damage(),delay);
+                    StartCoroutine(HitDelay(Sfx.Attack,enemy,delay));
+                  
                     cnt--;
                 }
 
@@ -255,10 +258,13 @@ public class Player : MonoBehaviour
         
     }
 
-    IEnumerator SoundDelay(Sfx sfx,float delay)
+    IEnumerator HitDelay(Sfx sfx,EnemyFSM enemy,float delay)
     {
+        isAtk = true;
         yield return new WaitForSeconds(delay);
+        enemy.HitEnemy(statsSO.Damage());
         AudioManager.Instance.PlaySfx(sfx);
+        isAtk = false;
     }
 
 

@@ -6,10 +6,6 @@ using UnityEngine.UI;
 
 public class LongClick : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
 {
-
-    bool isPress = false;
-    bool isLongPress = false;
-    float pressTime = 0f;
     Coroutine repeatCor;
     Coroutine startCor;
 
@@ -24,14 +20,15 @@ public class LongClick : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
     {
         Button btn = GetComponent<Button>();
         startCor = StartCoroutine(StartRepeat(btn));
-           
+        
+        AudioManager.Instance.PlaySfx(Sfx.Click);
+        
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        isPress = false;
-        isLongPress = false;
-        pressTime = 0f; 
+        OffSound();
+    
         if(startCor != null)
         {
             StopCoroutine(startCor);
@@ -42,7 +39,10 @@ public class LongClick : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         if(repeatCor != null)
         {
             StopCoroutine(repeatCor);
-            longClickSound.Stop();
+            
+           
+            
+            
 
         }
            
@@ -54,7 +54,7 @@ public class LongClick : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
     IEnumerator StartRepeat(Button btn)
     {
 
-        AudioManager.Instance.PlaySfx(Sfx.OneClick);
+       
         yield return longClick;
         repeatCor = StartCoroutine(RepeatButton(btn));
        
@@ -63,7 +63,11 @@ public class LongClick : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
 
     IEnumerator RepeatButton(Button btn)
     {
-        longClickSound = AudioManager.Instance.PlaySfx(Sfx.LongClick);
+        
+        longClickSound =  AudioManager.Instance.PlaySfx(Sfx.Click);
+        longClickSound.loop = true;
+        longClickSound.pitch = 0.9f;
+    
         while(true)
         {
             btn.onClick.Invoke();
@@ -71,5 +75,28 @@ public class LongClick : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         }
         
     }
+
+    void OnDisable()
+    {
+       OffSound();
+       
+    }
+
+    void OffSound()
+    {
+        
+        if(longClickSound != null)
+        {
+            longClickSound.loop = false;
+            longClickSound.Stop();
+
+        }
+           
+        
+        
+
+    }
+
+
 
 }

@@ -36,6 +36,11 @@ public class EnemyFSM : MonoBehaviour,IPoolable
     Animator anim; 
     WaitForFixedUpdate wait = new ();
 
+    WaitForSeconds stunTime = new(0);
+
+    float stun;
+
+
     Rigidbody2D rigid;
     public float hpRate = 1.01f;
     public float atkRate = 1.01f;
@@ -58,11 +63,12 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         rigid = GetComponent<Rigidbody2D>();
 
         attackPower = AttackPower;
-       
+        stun = (float)pStats.GetStat(StatType.StunTime).GetFValue();
         
     }
     void OnEnable()
     {
+        
         isLive = true;
         state = State.Run;
         SetEnemy();
@@ -201,11 +207,23 @@ public class EnemyFSM : MonoBehaviour,IPoolable
     
     }
 
-    public void HitEnemy(FinalDamage fDamage,float delay)
+    public void HitEnemy(FinalDamage fDamage)
     {
         this.fDamage = fDamage;
        
-        StartCoroutine(HitDelay(delay));
+        curHP -= fDamage.damage;
+        if(curHP > 0)
+        {
+           
+            StartCoroutine(KnockBack());
+           
+        }  
+        else
+        {
+
+            state = State.Die;
+        }
+        DamageEvent?.Invoke(transform.position,fDamage);
 
        
         
@@ -228,27 +246,18 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     }
 
-    IEnumerator HitDelay(float delay)
+    WaitForSeconds WaitTime(float wait)
     {
-        // 스파인 애니메이션에 맞춰 딜레이 ( 스파인 에디터 사용 불가 이슈)
-        yield return new WaitForSeconds(delay);
-        
-       
-        curHP -= fDamage.damage;
-        if(curHP > 0)
-        {
-           
-            StartCoroutine(KnockBack());
-           
-        }  
-        else
-        {
+        if(stun != wait)
+            stunTime = new(wait);
 
-            state = State.Die;
-        }
-        DamageEvent?.Invoke(transform.position,fDamage);
-           
+
+        return stunTime;
+
+       
     }
+
+    
 
     IEnumerator KnockBack()
     {
@@ -261,7 +270,13 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
         state = State.Idle;
         anim.SetTrigger("Hit");
-        yield return new WaitForSeconds(1f); // 스턴 기간 
+        double rand = UnityEngine.Random.value;
+        if(rand < pStats.GetStat(StatType.StunRate).GetFValue())
+        {
+            
+            yield return WaitTime((float)pStats.GetStat(StatType.StunTime).GetFValue()); // 스턴 기간 
+        }
+        
         anim.SetTrigger("Exit");
         state = State.Run;
         rigid.linearVelocity = velocity;

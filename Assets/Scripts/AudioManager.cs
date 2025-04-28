@@ -1,6 +1,4 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class AudioManager : MonoBehaviour
 {
@@ -10,28 +8,35 @@ public class AudioManager : MonoBehaviour
     public AudioClip bgmClip;
     public float bgmVolume;
     AudioSource bgmPlayer;
-    AudioHighPassFilter bgmEffect;
-
+    
     [Header("#SFX")]
     public AudioClip[] sfxClips;
     public float sfxVolume;
     public int channels;
     AudioSource[] sfxPlayers;
     int channelIndex;
-    
-
     void Awake()
     {
         Instance = this;
         Init();
         
     }
-   
-    void Update()
+    
+
+
+    public void PlayBGM(bool isPlay)
     {
-       
-       
+        if(isPlay)
+        {
+            bgmPlayer.Play();
+        }
+        else
+        {
+            bgmPlayer.Stop();
+        }
     }
+
+
     void Init()
     {
         //배경음 플레이어 초기화
@@ -42,7 +47,7 @@ public class AudioManager : MonoBehaviour
         bgmPlayer.loop = true;
         bgmPlayer.volume = bgmVolume;
         bgmPlayer.clip = bgmClip;
-        bgmEffect = Camera.main.GetComponent<AudioHighPassFilter>();
+      
 
         //효과음 플레이어 초기화
         GameObject sfxObject = new GameObject("SfxPlayer");
@@ -59,55 +64,30 @@ public class AudioManager : MonoBehaviour
 
 
     }
-    public void PlayBgm(bool isPlay)
-    {
-        if(isPlay)
-        {
-            bgmPlayer.Play();
-        }
-        else
-        {
-            bgmPlayer.Stop();
-        }
-    }
-    public void EffectBgm(bool isPlay)
-    {
-        bgmEffect.enabled = isPlay;
-    }
-
-    public AudioSource PlaySfx(Sfx sfx)
+    public AudioSource PlaySfx(Sfx sfx,bool isLoop = false)
     {
         for(int i =0; i<sfxPlayers.Length;++i)
         {
             int loopIndex = (i + channelIndex) % sfxPlayers.Length;
             if(sfxPlayers[loopIndex].isPlaying)
                 continue;
-            channelIndex = loopIndex;
-            if(Sfx.LongClick == sfx)
-                sfxPlayers[loopIndex].loop = true;
-            else
-                sfxPlayers[loopIndex].loop = false;
 
-            
+           
+            channelIndex = loopIndex;
+            sfxPlayers[loopIndex].loop = isLoop;
             sfxPlayers[loopIndex].clip = sfxClips[(int)sfx];
+           
             sfxPlayers[loopIndex].Play();
             return sfxPlayers[loopIndex];
         }
-            
         return null;
+        
     }
-
-
-
-
-
-       
 }
+
 public enum Sfx
 {
     Attack,
-    OneClick,
-    LongClick,
+    Click,
 
-   
 }

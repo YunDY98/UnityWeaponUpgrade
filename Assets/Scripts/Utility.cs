@@ -67,6 +67,7 @@ namespace Assets.Scripts
 
             return result;
         }
+    
 
         public static BigInteger BigIntMult(BigInteger a,double r,int scale =  1000000000)
         {    

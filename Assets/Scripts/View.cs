@@ -3,8 +3,12 @@ using UnityEngine.UI;
 using R3;
 using TMPro;
 using Assets.Scripts;
-using System.Numerics;
+using BigInteger = System.Numerics.BigInteger;
 using System.Collections;
+using Unity.VisualScripting;
+using System;
+using System.Data.Common;
+
 
 
 
@@ -44,6 +48,8 @@ public class View : MonoBehaviour
     WaitForSeconds wait =  new(1f);
 
    
+
+
 
     void Start()
     {
@@ -90,24 +96,48 @@ public class View : MonoBehaviour
     {
         var obj = Instantiate(uObject,uContent);
         var ui = obj.GetComponent<UpgradeUI>();
+
+        
        
         string name = stat.textName;
         ui.statName.text = name;
         //ui.image.sprite = null;
         var btn = ui.btn;
+        int nextLevel = 0;
+        int curLevel = 0;
 
+        btn.onClick.AddListener(() =>
+        {
+            viewModel.StatUpgrade(stat,viewModel.statLevelUpMult.Value);
+
+        } );
+
+       
         
-     
         Observable.CombineLatest(stat.level, viewModel.statLevelUpMult,
         (level, levelUpMult) => new { level, levelUpMult })
         .Subscribe(data =>
-        {
-            
-            BigInteger curValue = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,data.level);
-            
-            BigInteger nextValue = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,data.level + data.levelUpMult);
+        {   
+            curLevel = data.level;
+            nextLevel = data.level + data.levelUpMult;
 
-            stat.cost.Value = Utility.GeometricSumInRange(stat.baseCost,stat.costRate,data.level,data.level+data.levelUpMult);
+            
+            
+
+            if(nextLevel > stat.maxLevel)
+            {
+                
+                nextLevel = stat.maxLevel;
+              
+            }
+
+
+            
+            BigInteger curValue = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,curLevel);
+          
+            BigInteger nextValue = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,nextLevel);
+            
+            stat.cost.Value = Utility.GeometricSumInRange(stat.baseCost,stat.costRate,curLevel,nextLevel);
         
             float scale = 1;
 
@@ -115,7 +145,7 @@ public class View : MonoBehaviour
             {
                 scale = stat.floatScale;
 
-                ui.description.text = $"{(double)curValue / scale} → {(double)nextValue / scale}";
+                ui.description.text = $"{(double)curValue / scale * 100} → {(double)nextValue / scale * 100}";
 
                 
             }
@@ -126,18 +156,44 @@ public class View : MonoBehaviour
 
             }
 
-            ui.level.text = $"Lv.{data.level}";
+            ui.level.text = $"Lv.{curLevel}";
+          
+
+            
            
            
             
             
-        });
+        }).AddTo(ui.sub);
 
 
-        stat.cost.Subscribe(cost =>{ui.cost.text = Utility.FormatNumberKoreanUnit(cost);});
+        stat.cost.Subscribe(cost =>
+        {
+            if(curLevel >= stat.maxLevel)
+            {
+                ui.cost.text = "Max";
+                btn.onClick.RemoveAllListeners();
+                ui.longClick.enabled = false;
+                btn.interactable = false; 
+
+                return;
+            }
+           
+            ui.cost.text = Utility.FormatNumberKoreanUnit(cost);
+            
+
+           
+        }).AddTo(ui.sub);
 
         
-        btn.onClick.AddListener(() => viewModel.StatUpgrade(stat,viewModel.statLevelUpMult.Value));
+
+
+    
+
+        
+        
+        
+       
          
     }
 
@@ -202,11 +258,8 @@ public class View : MonoBehaviour
             CreateUpgradeUI(stat);
             
         }
-        uContent.sizeDelta = new UnityEngine.Vector2(uContent.sizeDelta.x,viewModel.GetStats().Length * uObj.sizeDelta.y * 1.6f);
+        uContent.sizeDelta = new Vector2(uContent.sizeDelta.x,viewModel.GetStats().Length * uObj.sizeDelta.y * 1.6f);
     }
-        
-    
-
 
 
 

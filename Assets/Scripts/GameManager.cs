@@ -79,13 +79,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        AudioManager.Instance.PlayBgm(true);
+        AudioManager.Instance.PlayBGM(true);
     }
 
 
 
     void Update()
     {
+    
 
         if(!isLive) return;
         
@@ -96,7 +97,7 @@ public class GameManager : MonoBehaviour
             
             for(int i=0; i<enemySort; ++i)
                 StartCoroutine(Spawn(1,i));
-            statsSO.CurHP.Value = statsSO.GetStat(StatType.MaxHP).value.Value;
+            statsSO.CurHP.Value = statsSO.GetStat((int)StatType.MaxHP).value.Value;
                
             EnemyCnt = spawnCnt;
 

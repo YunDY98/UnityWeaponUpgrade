@@ -2,7 +2,9 @@ using System;
 using System.Numerics;
 using Assets.Scripts;
 using R3;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "StatsSO", menuName = "ScriptableObjects/Player", order = 1)]
@@ -32,9 +34,10 @@ public class StatsSO : ScriptableObject
                 textName = "공격력",
                 baseCost = 1000,
                 cost = new(1000),
-                costRate = 1.01f,
-                upgradeRate = 1.05f,
+                costRate = 1.001f,
+                upgradeRate = 1.001f,
                 level = new(1),
+                maxLevel = 10000,
                 floatScale = 0
             };
             
@@ -45,10 +48,12 @@ public class StatsSO : ScriptableObject
                 key = StatType.MaxHP,
                 textName = "최대 체력",
                 baseCost = 10000,
-                cost = new(BigInteger.Parse("10000")),
-                costRate = 1.01f,
+                cost = new(BigInteger.Parse("1000")),
+                costRate = 1.0001f, //1.0001f, 100씩 업 기준 9999해까지 약 40만렙 
+
                 upgradeRate = 1,
                 level = new(1),
+                maxLevel = 10000,
                 floatScale = 0
             };
 
@@ -59,10 +64,11 @@ public class StatsSO : ScriptableObject
                 key = StatType.AttackRange,
                 textName = "공격 범위",
                 baseCost = 1000,
-                cost = new(BigInteger.Parse("1000")),
-                costRate = 1,
+                cost = new(BigInteger.Parse("1000000000")),
+                costRate = 6,
                 upgradeRate = 1,
                 level = new(1),
+                maxLevel = 100,
                 floatScale = 1000
             };
 
@@ -74,9 +80,10 @@ public class StatsSO : ScriptableObject
                 textName = "공격 마리 수",
                 baseCost = 1000000000,
                 cost = new(BigInteger.Parse("1000000000")),
-                costRate = 100,
+                costRate = 10,
                 upgradeRate = 1,
                 level = new(1),
+                maxLevel = 5,
                 floatScale = 0
             };
 
@@ -88,10 +95,11 @@ public class StatsSO : ScriptableObject
                 key = StatType.AttackSpeed,
                 textName = "공격 속도",
                 baseCost = 2000000000,
-                cost = new(BigInteger.Parse("20000000000")),
-                costRate = 1,
-                upgradeRate = 0.99f,
+                cost = new(BigInteger.Parse("10000000")),
+                costRate = 1.03f,
+                upgradeRate = 0.999f,
                 level = new(1),
+                maxLevel = 1000,
                 floatScale = 1000
             };
 
@@ -106,6 +114,7 @@ public class StatsSO : ScriptableObject
                 costRate = 1.05f,
                 upgradeRate = 1.01f,
                 level = new(1),
+                maxLevel = 100000,
                 floatScale = 1000
             };
 
@@ -116,10 +125,11 @@ public class StatsSO : ScriptableObject
                 key = StatType.StunTime,
                 textName = "스턴 지속시간",
                 baseCost = 1000,
-                cost = new(BigInteger.Parse("1000")),
-                costRate = 1,
+                cost = new(BigInteger.Parse("1000000")),
+                costRate = 1.03f,
                 upgradeRate = 1,
                 level = new(1),
+                maxLevel = 100,
                 floatScale = 1000
             };
 
@@ -130,8 +140,8 @@ public class StatsSO : ScriptableObject
                 key = StatType.StunRate,
                 textName = "스턴 확률",
                 baseCost = 1000,
-                cost = new(BigInteger.Parse("1000")),
-                costRate = 1,
+                cost = new(BigInteger.Parse("100000")),
+                costRate = 1.03f,
                 upgradeRate = 1,
                 level = new(1),
                 floatScale = 1000
@@ -140,12 +150,12 @@ public class StatsSO : ScriptableObject
             stats[(int)StatType.CriticalRate] = new()
             {
                 value = new(10),
-                baseValue = 10,
+                baseValue = 1,
                 key = StatType.CriticalRate,
                 textName = "크리티컬 확률",
                 baseCost = 1000000,
                 cost = new(BigInteger.Parse("1000000")),
-                costRate = 1f,
+                costRate = 1.03f,
                 upgradeRate = 1f,
                 level = new(1),
                 floatScale = 1000
@@ -153,13 +163,13 @@ public class StatsSO : ScriptableObject
 
             stats[(int)StatType.CriticalDamage] = new()
             {
-                value = new(1),
-                baseValue = 1,
+                value = new(101),
+                baseValue = 101,
                 key = StatType.CriticalDamage,
                 textName = "크리티컬 데미지",
                 baseCost = 1000,
-                cost = new(BigInteger.Parse("1000")),
-                costRate = 1f,
+                cost = new(BigInteger.Parse("100000")),
+                costRate = 2f,
                 upgradeRate = 1.05f,
                 level = new(1),
                 floatScale = 1000
@@ -197,6 +207,7 @@ public class StatsSO : ScriptableObject
                     costRate = data.costRate,
                     upgradeRate = data.upgradeRate,
                     floatScale = data.floatScale,
+                    maxLevel = data.maxLevel,
 
                     cost = new (),
                     value = new (),
@@ -213,12 +224,17 @@ public class StatsSO : ScriptableObject
     
     }
 
-    public Stat GetStat(StatType type)
+    public Stat GetStat(int type)
     {
 
 
-        return stats[(int)type];
+        return stats[type];
 
+    }
+
+    public Stat GetStat(StatType type)
+    {
+        return stats[(int)type];
     }
 
     public Stat[] GetStats()
@@ -228,12 +244,12 @@ public class StatsSO : ScriptableObject
 
     public void IncreaseStat(Stat stat,int increase = 1)
     {
-        stat.level.Value += increase;
+       
+
+        stat.LevelUp(increase);
         
         stat.value.Value = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,stat.level.Value);
 
-        
-       
         
     }
 
@@ -245,8 +261,9 @@ public class StatsSO : ScriptableObject
         BigInteger damage = stats[(int)StatType.AttackDamage].value.Value;
         Stat cDamage = stats[(int)StatType.CriticalDamage];
          
-        float rand = Random.value;
+        double rand = Random.value;
 
+        Debug.Log(rand +"  :" +stats[(int)StatType.CriticalRate].GetFValue() );
         if(rand < stats[(int)StatType.CriticalRate].GetFValue())
         {
             
@@ -312,11 +329,29 @@ public class Stat
     public StatType key;
     public string textName;
     public ReactiveProperty<BigInteger> value;
+
+    
     public ReactiveProperty<int> level;
+
+    public void LevelUp(int increase)
+    {
+
+        level.Value += increase;
+        if(level.Value > maxLevel)
+        {
+            level.Value = maxLevel;
+        }
+        
+        
+    }
+   
+    public int maxLevel;
 
     public int floatScale;
 
     public int baseValue;
+
+    
 
     public int baseCost;
     public ReactiveProperty<BigInteger> cost;
@@ -337,14 +372,17 @@ public class Stat
     //     this.upgradeRate = upgradeRate;
     // }
 
-    public float GetFValue()
+    public double GetFValue()
     {
         if(floatScale == 0)
         {
            throw new InvalidOperationException("floatScale이 0이므로 GetFValue()를 호출할 수 없습니다.");
         }
 
-        float fValue = (int)value.Value / floatScale;
+        double fValue = (int)value.Value / (double)floatScale;
+
+        
+       
 
 
         return fValue;
