@@ -5,11 +5,6 @@ using TMPro;
 using Assets.Scripts;
 using BigInteger = System.Numerics.BigInteger;
 using System.Collections;
-using Unity.VisualScripting;
-using System;
-using System.Data.Common;
-
-
 
 
 
@@ -57,10 +52,10 @@ public class View : MonoBehaviour
        
 
        StartCoroutine(FrameDelay());
-       multBtn[0].onClick.AddListener(() =>StatLevelUpMult(1,multBtn[0]));
+       multBtn[0].onClick.AddListener(() => StatLevelUpMult(1,multBtn[0]));
        StatLevelUpMult(1,multBtn[0]);
-       multBtn[1].onClick.AddListener(() =>StatLevelUpMult(10,multBtn[1]));
-       multBtn[2].onClick.AddListener(() =>StatLevelUpMult(100,multBtn[2]));
+       multBtn[1].onClick.AddListener(() => StatLevelUpMult(10,multBtn[1]));
+       multBtn[2].onClick.AddListener(() => StatLevelUpMult(100,multBtn[2]));
 
        
     }
@@ -69,7 +64,7 @@ public class View : MonoBehaviour
 
     void StatLevelUpMult(int x,Button btn)
     {
-        viewModel.statLevelUpMult.Value = x;
+        viewModel.SetStatUpMult(x);
         foreach(var select in multBtn)
         {
             ColorBlock cb = select.colors;
@@ -108,13 +103,13 @@ public class View : MonoBehaviour
 
         btn.onClick.AddListener(() =>
         {
-            viewModel.StatUpgrade(stat,viewModel.statLevelUpMult.Value);
+            viewModel.StatUpgrade(stat,viewModel.statUpMult.Value);
 
         } );
 
        
         
-        Observable.CombineLatest(stat.level, viewModel.statLevelUpMult,
+        Observable.CombineLatest(stat.level, viewModel.statUpMult,
         (level, levelUpMult) => new { level, levelUpMult })
         .Subscribe(data =>
         {   
@@ -158,10 +153,6 @@ public class View : MonoBehaviour
 
             ui.level.text = $"Lv.{curLevel}";
           
-
-            
-           
-           
             
             
         }).AddTo(ui.sub);
@@ -185,15 +176,7 @@ public class View : MonoBehaviour
            
         }).AddTo(ui.sub);
 
-        
-
-
-    
-
-        
-        
-        
-       
+        ui.maxLevelText.text = $"(max: {stat.maxLevel})";
          
     }
 

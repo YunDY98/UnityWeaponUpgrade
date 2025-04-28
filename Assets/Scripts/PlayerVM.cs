@@ -1,5 +1,6 @@
 using System.Numerics;
 using R3;
+using Unity.VisualScripting;
 
 
 public class PlayerVM
@@ -21,7 +22,7 @@ public class PlayerVM
 
     public ReactiveProperty<bool> IsDead = new();
 
-     public ReactiveProperty<int> statLevelUpMult = new(1);
+     public ReactiveProperty<int> statUpMult = new(1);
 
 
     public PlayerVM(StatsSO model)
@@ -34,6 +35,12 @@ public class PlayerVM
         });
 
        
+    }
+
+    public void SetStatUpMult(int mult)
+    {
+        
+        statUpMult.Value = mult;
     }
 
 

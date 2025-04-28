@@ -144,6 +144,7 @@ public class StatsSO : ScriptableObject
                 costRate = 1.03f,
                 upgradeRate = 1,
                 level = new(1),
+                maxLevel = 1000,
                 floatScale = 1000
             };
 
@@ -158,6 +159,7 @@ public class StatsSO : ScriptableObject
                 costRate = 1.03f,
                 upgradeRate = 1f,
                 level = new(1),
+                maxLevel = 1000,
                 floatScale = 1000
             };
 
@@ -172,6 +174,7 @@ public class StatsSO : ScriptableObject
                 costRate = 2f,
                 upgradeRate = 1.05f,
                 level = new(1),
+                maxLevel = 1000,
                 floatScale = 1000
             };
 

@@ -9,19 +9,11 @@ public class UpgradeUI: MonoBehaviour
     public TextMeshProUGUI cost;
     public Button btn;
     public TextMeshProUGUI description;
-
     public TextMeshProUGUI level;
-    
+    public TextMeshProUGUI maxLevelText;
     public LongClick longClick;
     public Image image;
-
     public  CompositeDisposable sub = new();
-
-
-    void Start()
-    {
-       longClick = btn.GetComponent<LongClick>();
-    }
 
 
     void OnDisable()
