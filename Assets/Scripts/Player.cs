@@ -58,6 +58,7 @@ public class Player : MonoBehaviour
 
     bool isAtk = false;
     
+    Coroutine atkCor;
 
 
     // Spine.AnimationState and Spine.Skeleton are not Unity-serialized objects. You will not see them as fields in the inspector.
@@ -207,7 +208,11 @@ public class Player : MonoBehaviour
         GameManager.Instance.IsMove = false;
         SetAnim(deathAnimationName,false);
         
-
+        //공격 코루틴후 죽을시 
+        if(atkCor != null)
+        {
+            StopCoroutine(atkCor);
+        }
     }
 
 
@@ -249,7 +254,7 @@ public class Player : MonoBehaviour
                 EnemyFSM enemy = enemyData.collider.GetComponent<EnemyFSM>();
                 if (enemy != null)
                 {
-                    StartCoroutine(HitDelay(Sfx.Attack, enemy, delay));
+                    atkCor = StartCoroutine(HitDelay(Sfx.Attack, enemy, delay));
                     cnt--;
                 }
             }
