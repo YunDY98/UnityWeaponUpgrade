@@ -214,12 +214,11 @@ public class Player : MonoBehaviour
 
     public void Atk()
     {
-       
+        
         float delay = 0.6f; // 스파인 애니메이션에 맞춰서 딜레이
         cnt = (int)statsSO.GetStat(StatType.AttackCnt).value.Value;
         center = transform.position;
         // 박스 중심과 크기 설정
-      
         Vector2 size = new Vector2((float)statsSO.GetStat(StatType.AttackRange).GetFValue(), 3f);
         float angle = 0f;
 
@@ -228,34 +227,37 @@ public class Player : MonoBehaviour
        
         // 공격 범위 내의 모든 적 감지
         Collider2D[] colliders = Physics2D.OverlapBoxAll(center, size, angle, enemyLayer);
+
       
+        // 적과의 거리를 계산하고 정렬하기 위한 리스트 생성
+        List<(Collider2D collider, float distance)> sortedEnemies = new List<(Collider2D, float)>();
         
-        // 감지된 적마다 데미지 처리
         foreach (Collider2D col in colliders)
+        {
+            float distance = Vector2.Distance(transform.position, col.transform.position);
+            sortedEnemies.Add((col, distance));
+        }
+        
+        // 거리를 기준으로 정렬
+        sortedEnemies.Sort((a, b) => a.distance.CompareTo(b.distance));
+        
+        // 정렬된 순서대로 공격
+        foreach (var enemyData in sortedEnemies)
         {  
             if(0 < cnt)
             {
-                
-               
-                EnemyFSM enemy = col.GetComponent<EnemyFSM>();
+                EnemyFSM enemy = enemyData.collider.GetComponent<EnemyFSM>();
                 if (enemy != null)
                 {
-                    StartCoroutine(HitDelay(Sfx.Attack,enemy,delay));
-                  
+                    StartCoroutine(HitDelay(Sfx.Attack, enemy, delay));
                     cnt--;
                 }
-
-               
-
             }
             else
             {
                 break;
             }
-            
         }
-
-        
     }
 
     IEnumerator HitDelay(Sfx sfx,EnemyFSM enemy,float delay)

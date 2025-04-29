@@ -18,9 +18,21 @@ public class UIManager : MonoBehaviour
         viewModel = GameManager.Instance.playerVM;
 
         Button penalty = deathUI.GetComponentsInChildren<Button>()[0];
+        Button ad = deathUI.GetComponentsInChildren<Button>()[1];
        
 
-        penalty.onClick.AddListener(() => Penalty());
+        penalty.onClick.AddListener(() =>
+        {
+            Penalty();
+            Resurrction();
+
+        } );
+
+        ad.onClick.AddListener(() =>
+        {
+            Resurrction();
+            WatchAD();
+        });
 
 
         viewModel.IsDead.Subscribe(dead => deathUI.SetActive(dead));
@@ -30,11 +42,26 @@ public class UIManager : MonoBehaviour
 
     void Penalty()
     {
-        deathUI.SetActive(false);
+        
         viewModel.Exp.Value = 0;
+        
+
+    }
+
+    void WatchAD()
+    {
+        deathUI.SetActive(false);
+        player.Init();
+        viewModel.AddGold(10000);
+
+    }
+
+    void Resurrction()
+    {
+        deathUI.SetActive(false);
         player.Init();
         viewModel.CurHP.Value = viewModel.GetStat(StatType.MaxHP).value.Value;
-
+        
     }
 
 }

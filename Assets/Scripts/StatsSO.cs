@@ -314,6 +314,21 @@ public class StatsSO : ScriptableObject
         DataManager.Instance.SaveData();
     }
 
+    public void AddGold(BigInteger gold)
+    {
+        Gold.Value += gold;
+    }
+
+    public bool UseGold(BigInteger useGold)
+    {   
+        if(Gold.Value - useGold < 0)
+        {
+            return false;
+        }
+        Gold.Value -= useGold;
+        return true;
+    }
+
     public async Task<Sprite> LoadImageAsync(string address)
     {
         AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(address);

@@ -63,20 +63,15 @@ public class PlayerVM
 
     public bool UseGold(BigInteger useGold)
     {
-        
-
-        if(Gold.Value - useGold < 0)
-        {
-            return false;
-        }
-        Gold.Value -= useGold;
-        
-
-        return true;
-        
-        
+        return _model.UseGold(useGold);  
     }
 
+    public void AddGold(BigInteger gold)
+    {
+        _model.AddGold(gold);
+    }
+
+   
     public void StatUpgrade(Stat stat,int increase = 1)
     {
         
@@ -102,6 +97,8 @@ public class PlayerVM
             Debug.LogWarning("이미지 없음");
         }
     }
+
+
 
     
 
