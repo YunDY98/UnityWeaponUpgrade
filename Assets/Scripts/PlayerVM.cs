@@ -1,8 +1,6 @@
 using System.Numerics;
 using R3;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem.Interactions;
 using UnityEngine.UI;
 
 
@@ -10,34 +8,39 @@ public class PlayerVM
 {
 
 
-    StatsSO model;
+    readonly StatsSO _model;
 
-    public Stat GetStat(int type) => model.GetStat(type);
-    public Stat GetStat(StatType type)  => model.GetStat(type);
-   
-    public ReactiveProperty<BigInteger>  Gold  => model.Gold;
+    public Stat GetStat(int type) => _model.GetStat(type);
+    public Stat GetStat(StatType type)  => _model.GetStat(type);
+
+ 
     
-    public ReactiveProperty<BigInteger> CurHP => model.CurHP;
 
-    public ReactiveProperty<int> Exp => model.Exp;
+    public ReactiveProperty<BigInteger>  Gold  => _model.Gold;
 
-    public ReactiveProperty<int> Level => model.Level;
+    
+    public ReactiveProperty<BigInteger> CurHP => _model.CurHP;
+
+    public ReactiveProperty<int> Exp => _model.Exp;
+
+    public ReactiveProperty<int> Level => _model.Level;
 
     public ReactiveProperty<bool> IsDead = new();
 
-     public ReactiveProperty<int> statUpMult = new(1);
+    public ReactiveProperty<int> statUpMult = new(1);
 
 
     public PlayerVM(StatsSO model)
     {
        
-        this.model = model;
+        _model = model;
         CurHP.Subscribe(newHP => 
         {
             IsDead.Value = newHP <= 0;
+
         });
 
-       
+        
     }
 
     public void SetStatUpMult(int mult)
@@ -51,7 +54,7 @@ public class PlayerVM
     {
         
 
-        return model.GetStats();
+        return _model.GetStats();
 
     
     }
@@ -80,7 +83,7 @@ public class PlayerVM
 
         if(UseGold(stat.cost.Value))
         {
-            model.IncreaseStat(stat,increase);
+            _model.IncreaseStat(stat,increase);
         }
            
 
@@ -89,7 +92,7 @@ public class PlayerVM
 
     public async void LoadSprite(string address,Image target)
     {
-        Sprite sprite = await model.LoadImageAsync(address);
+        Sprite sprite = await _model.LoadImageAsync(address);
         if (sprite != null)
         {
             target.sprite = sprite;

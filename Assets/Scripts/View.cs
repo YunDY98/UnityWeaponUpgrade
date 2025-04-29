@@ -5,7 +5,7 @@ using TMPro;
 using Assets.Scripts;
 using BigInteger = System.Numerics.BigInteger;
 using System.Collections;
-using UnityEngine.InputSystem;
+
 
 
 
@@ -43,8 +43,6 @@ public class View : MonoBehaviour
 
     WaitForSeconds wait =  new(1f);
 
-   
-
 
 
     void Start()
@@ -52,7 +50,8 @@ public class View : MonoBehaviour
         viewModel = GameManager.Instance.playerVM;
        
 
-       StartCoroutine(FrameDelay());
+       //StartCoroutine(FrameDelay());
+       DrawUI();
        multBtn[0].onClick.AddListener(() => StatLevelUpMult(1,multBtn[0]));
        StatLevelUpMult(1,multBtn[0]);
        multBtn[1].onClick.AddListener(() => StatLevelUpMult(10,multBtn[1]));

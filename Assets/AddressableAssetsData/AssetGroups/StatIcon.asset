@@ -12,9 +12,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: StatIcon
   m_EditorClassIdentifier: 
-  m_GroupName: d
+  m_GroupName: StatIcon
   m_GUID: 4031f7ae005774ca4857a1f0d6523581
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 0389074d1deba1c448d45812db40c0df
+    m_Address: StatIcon/StunRate
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 125bb49b217257347be09ede099b888d
+    m_Address: StatIcon/AttackSpeed
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 300abdf8cbdd5c742a05b6506767fd64
+    m_Address: StatIcon/Stun
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 37de44bcb59b8174497def1957cc490b
+    m_Address: StatIcon/CriticalRate
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5ae8a876658848c439892f8b25d79d30
+    m_Address: StatIcon/AttackCnt
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5e210f133eadc41418be6b4390a47547
+    m_Address: StatIcon/AddGoldAmount
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 61dab0b6e506c6a43b12d9fde15b2393
+    m_Address: StatIcon/CriticalDamage
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 92b894aa6df150c4ea4469c774328abc
+    m_Address: StatIcon/AttackRange
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a2563f2b8dbc4044b9a50537d3a29962
+    m_Address: StatIcon/AttackDamage
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b450d0b398880cb458f83d1a01b399ca
+    m_Address: StatIcon/StunTime
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ee40d72ece864764f9d17d015aedb524
+    m_Address: StatIcon/MaxHP
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 4da1ce8a096154553981b6c7c4c93f34, type: 2}
   m_SchemaSet:

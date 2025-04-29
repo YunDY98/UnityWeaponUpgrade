@@ -16,6 +16,6 @@ MonoBehaviour:
   type: 2
   animCon: {fileID: 22100000, guid: 12cfc8b2360c2fc4499d4f6f6607671a, type: 2}
   maxHP: 3000
-  attackPower: 1
+  attackPower: 100
   moveSpeed: 1
   attackDelay: 1

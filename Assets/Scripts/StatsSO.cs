@@ -3,10 +3,10 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Assets.Scripts;
 using R3;
-using UnityEditor.Rendering;
+
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.InputSystem.Interactions;
+
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Random = UnityEngine.Random;
 
@@ -37,7 +37,7 @@ public class StatsSO : ScriptableObject
                 textName = "공격력",
                 baseCost = 1000,
                 cost = new(1000),
-                costRate = 1.001f,
+                costRate = 1.02f,
                 upgradeRate = 1.001f,
                 level = new(1),
                 maxLevel = 10000,
@@ -52,7 +52,7 @@ public class StatsSO : ScriptableObject
                 textName = "최대 체력",
                 baseCost = 10000,
                 cost = new(BigInteger.Parse("1000")),
-                costRate = 1.0001f, //1.0001f, 100씩 업 기준 9999해까지 약 40만렙 
+                costRate = 1.01f,
 
                 upgradeRate = 1,
                 level = new(1),
@@ -68,7 +68,7 @@ public class StatsSO : ScriptableObject
                 textName = "공격 범위",
                 baseCost = 1000,
                 cost = new(BigInteger.Parse("1000000000")),
-                costRate = 6,
+                costRate = 1.5f,
                 upgradeRate = 1,
                 level = new(1),
                 maxLevel = 100,
@@ -82,7 +82,7 @@ public class StatsSO : ScriptableObject
                 key = StatType.AttackCnt,
                 textName = "공격 마리 수",
                 baseCost = 1000000000,
-                cost = new(BigInteger.Parse("1000000000")),
+                cost = new(BigInteger.Parse("10000000000")),
                 costRate = 10,
                 upgradeRate = 1,
                 level = new(1),
@@ -113,7 +113,7 @@ public class StatsSO : ScriptableObject
                 key = StatType.AddGoldAmount,
                 textName = "골드 획득량",
                 baseCost = 10,
-                cost = new(BigInteger.Parse("10")),
+                cost = new(BigInteger.Parse("1000")),
                 costRate = 1.05f,
                 upgradeRate = 1.01f,
                 level = new(1),
@@ -154,7 +154,7 @@ public class StatsSO : ScriptableObject
             stats[(int)StatType.CriticalRate] = new()
             {
                 value = new(10),
-                baseValue = 1,
+                baseValue = 10,
                 key = StatType.CriticalRate,
                 textName = "크리티컬 확률",
                 baseCost = 1000000,
@@ -168,8 +168,8 @@ public class StatsSO : ScriptableObject
 
             stats[(int)StatType.CriticalDamage] = new()
             {
-                value = new(101),
-                baseValue = 101,
+                value = new(1001),
+                baseValue = 1001,
                 key = StatType.CriticalDamage,
                 textName = "크리티컬 데미지",
                 baseCost = 1000,

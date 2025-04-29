@@ -13,6 +13,11 @@ public class LevelInit : MonoBehaviour
     {
 
         map = GetComponentInChildren<Move>().transform;
+       
+    }
+
+    void Start()
+    {
         Init();
     }
     void Update()

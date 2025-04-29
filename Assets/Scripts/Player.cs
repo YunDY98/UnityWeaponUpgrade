@@ -3,7 +3,6 @@ using UnityEngine;
 using Spine.Unity;
 
 using System.Collections.Generic;
-using System.Net;
 using System.Collections;
 public class Player : MonoBehaviour
 {
@@ -207,6 +206,7 @@ public class Player : MonoBehaviour
         GameManager.Instance.isLive = false;
         GameManager.Instance.IsMove = false;
         SetAnim(deathAnimationName,false);
+        
 
     }
 
