@@ -1,6 +1,8 @@
 using System.Numerics;
 using R3;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 using UnityEngine.UI;
 
 
@@ -74,7 +76,6 @@ public class PlayerVM
    
     public void StatUpgrade(Stat stat,int increase = 1)
     {
-        
 
         if(UseGold(stat.cost.Value))
         {
@@ -105,7 +106,7 @@ public class PlayerVM
 
     public void TestGold()
     {
-        Gold.Value += BigInteger.Parse("999999999999999999999999999999");
+        Gold.Value += BigInteger.Parse("100000000");
     }
 
 

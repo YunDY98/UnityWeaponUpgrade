@@ -10,6 +10,14 @@ public class SafeArea : MonoBehaviour
         ApplySafeArea(panel);
         
     }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            ApplySafeArea(panel);
+        }
+    }
     void ApplySafeArea(RectTransform panel)
     {
         Rect safeArea = Screen.safeArea;

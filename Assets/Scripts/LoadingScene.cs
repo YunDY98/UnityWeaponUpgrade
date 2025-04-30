@@ -22,7 +22,6 @@ public class LodingScene : MonoBehaviour
     
     IEnumerator TransitionNextScene(int num)
     {
-        Debug.Log("CoStart");
         ao = SceneManager.LoadSceneAsync(num);
        
         // //로드되는 씬 안보이게 
@@ -43,7 +42,6 @@ public class LodingScene : MonoBehaviour
 
             }
 
-            
             yield return null;
         }
 

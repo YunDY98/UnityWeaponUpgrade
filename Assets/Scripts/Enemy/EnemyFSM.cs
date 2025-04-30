@@ -73,7 +73,6 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         state = State.Run;
         SetEnemy();
         
-        print(curHP);
     }
 
     void SetEnemy()

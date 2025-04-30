@@ -41,14 +41,7 @@ public class LevelInit : MonoBehaviour
         // 맵의 밑변 위치 구함
         float bottomOffset = map.GetComponent<Renderer>().bounds.size.y /2f;
 
-        
-
         // 맵을 기준으로 밑면이 UI 위에 닿도록 위치 이동
         transform.position = new Vector3(0, worldTarget.y +bottomOffset, 0);
-    
-
-       
-       
-        
     }
 }

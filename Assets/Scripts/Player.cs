@@ -93,6 +93,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        print(state);
        
         if(GameManager.Instance.Stop)
             return;
@@ -124,7 +125,10 @@ public class Player : MonoBehaviour
                 break;
             case State.Attack:
                 if(!isAtk)
+                {
                     Attack();
+                }
+                    
                 break;
 
         }
@@ -194,7 +198,7 @@ public class Player : MonoBehaviour
             attackDelay = 0f;
             spineAnimationState.SetAnimation(0, atkAnimationName_1, false);
 
-        
+           
             Atk();
            
 
@@ -212,6 +216,7 @@ public class Player : MonoBehaviour
         if(atkCor != null)
         {
             StopCoroutine(atkCor);
+            isAtk = false;
         }
     }
 
@@ -254,12 +259,14 @@ public class Player : MonoBehaviour
                 EnemyFSM enemy = enemyData.collider.GetComponent<EnemyFSM>();
                 if (enemy != null)
                 {
+                    
                     atkCor = StartCoroutine(HitDelay(Sfx.Attack, enemy, delay));
                     cnt--;
                 }
             }
             else
             {
+               
                 break;
             }
         }

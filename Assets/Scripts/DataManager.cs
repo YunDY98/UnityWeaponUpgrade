@@ -99,7 +99,7 @@ public class DataManager : MonoBehaviour
 
         uData.userLevel = statsSO.Level.Value;
         uData.userExp = statsSO.Exp.Value;
-        uData.userCurHp = statsSO.CurHP.Value.ToString();
+       
         uData.gold = statsSO.Gold.Value.ToString();
         // 데이터를 JSON으로 직렬화
         string jsonData = JsonUtility.ToJson(uData);
@@ -161,7 +161,6 @@ public class UserData
 
     public int userLevel;
     public int userExp;
-    public string userCurHp;
     public string gold;
 
 

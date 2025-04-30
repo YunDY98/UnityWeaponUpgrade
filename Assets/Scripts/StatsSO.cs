@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Assets.Scripts;
@@ -82,8 +83,8 @@ public class StatsSO : ScriptableObject
                 key = StatType.AttackCnt,
                 textName = "공격 마리 수",
                 baseCost = 1000000000,
-                cost = new(BigInteger.Parse("10000000000")),
-                costRate = 10,
+                cost = new(BigInteger.Parse("1000000000")),
+                costRate = 10000,
                 upgradeRate = 1,
                 level = new(1),
                 maxLevel = 5,
@@ -157,12 +158,12 @@ public class StatsSO : ScriptableObject
                 baseValue = 10,
                 key = StatType.CriticalRate,
                 textName = "크리티컬 확률",
-                baseCost = 1000000,
-                cost = new(BigInteger.Parse("1000000")),
+                baseCost = 10000000,
+                cost = new(BigInteger.Parse("10000000")),
                 costRate = 1.03f,
                 upgradeRate = 1f,
                 level = new(1),
-                maxLevel = 1000,
+                maxLevel = 100,
                 floatScale = 1000
             };
 
@@ -196,7 +197,7 @@ public class StatsSO : ScriptableObject
             Level = new ReactiveProperty<int>(uData.userLevel);
             Exp = new ReactiveProperty<int>(uData.userExp);
             Gold = new ReactiveProperty<BigInteger>(BigInteger.Parse(uData.gold));
-            CurHP = new ReactiveProperty<BigInteger>(BigInteger.Parse(uData.userCurHp));
+            
             foreach(var data in uData.statData)
             {
                 
@@ -225,7 +226,7 @@ public class StatsSO : ScriptableObject
                 stat.value.Value = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,stat.level.Value);
                
             }
-        
+            CurHP = new ReactiveProperty<BigInteger>(GetStat(StatType.MaxHP).value.Value);
         }
     
     }
@@ -325,6 +326,7 @@ public class StatsSO : ScriptableObject
         {
             return false;
         }
+        Debug.Log("골드 사용 " + useGold);
         Gold.Value -= useGold;
         return true;
     }

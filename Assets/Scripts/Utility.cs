@@ -14,19 +14,15 @@ namespace Assets.Scripts
         // 등비 수열 구간 합 
         public static BigInteger GeometricSumInRange(BigInteger a, double r, int start, int end) 
         {
+            if (start >= end)
+                return 0;
             
-            
-           
-          
-            var oToE = GeometricSum(a, r, end);
-          
-
-            
-            var oToS = GeometricSum(a, r, start);
-
-            
-
-            return oToE - oToS;
+            BigInteger sum = 0;
+            for (int i = start; i < end; i++)
+            {
+                sum += GeoProgression(a, r, i);
+            }
+            return sum;
         }
         // 등비 수열 합 
         public static BigInteger GeometricSum(BigInteger a,double r, int n) 
@@ -47,13 +43,12 @@ namespace Assets.Scripts
             }
         }
         // 등비 수열 항 값 
-        public static BigInteger GeoProgression(BigInteger a, float r, int n) 
+        public static BigInteger GeoProgression(BigInteger a, double r, int n) 
         {
             if(r == 1)
                 return a * n;
 
-                
-            return BigIntMult(a,Mathf.Pow(r, n - 1));
+            return BigIntMult(a, Math.Pow(r, n - 1));
         }
 
 
