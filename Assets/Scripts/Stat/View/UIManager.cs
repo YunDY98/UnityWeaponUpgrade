@@ -10,12 +10,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     Player player;
 
-    PlayerVM viewModel;
+    StatsVM viewModel;
     
 
     void Start()
     {
-        viewModel = GameManager.Instance.playerVM;
+        viewModel = GameManager.Instance.statsVM;
 
         Button penalty = deathUI.GetComponentsInChildren<Button>()[0];
         Button ad = deathUI.GetComponentsInChildren<Button>()[1];

@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public StatsSO statsSO;
 
     [HideInInspector]
-    public PlayerVM playerVM;
+    public StatsVM statsVM;
 
     bool _stop = false;
 
@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 120;
         enemySort = Enum.GetValues(typeof(EnemyType)).Length;
 
-        playerVM = new(statsSO);
+        statsVM = new(statsSO);
 
        
         

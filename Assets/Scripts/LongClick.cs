@@ -39,11 +39,7 @@ public class LongClick : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         if(repeatCor != null)
         {
             StopCoroutine(repeatCor);
-            
-           
-            
-            
-
+        
         }
            
 

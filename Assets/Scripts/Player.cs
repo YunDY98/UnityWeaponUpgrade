@@ -124,11 +124,7 @@ public class Player : MonoBehaviour
                 Die();
                 break;
             case State.Attack:
-                if(!isAtk)
-                {
-                    Attack();
-                }
-                    
+                Attack();
                 break;
 
         }
@@ -190,6 +186,7 @@ public class Player : MonoBehaviour
 
     public void Attack()
     {
+        if(isAtk) return;
         
         attackDelay += Time.deltaTime;
        

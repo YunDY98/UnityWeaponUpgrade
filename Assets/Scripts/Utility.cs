@@ -1,8 +1,9 @@
 using System;
 using System.Numerics;
 using UnityEngine;
-
-
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UI;
 
 
 
@@ -154,6 +155,20 @@ namespace Assets.Scripts
             return string.IsNullOrEmpty(result) ? "0" : result.Trim();
         }
 
+        public async static void LoadSprite(string address, Image target)
+        {
+            AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(address);
+            await handle.Task;
+
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+            {
+                target.sprite = handle.Result;
+            }
+            else
+            {
+                Debug.LogWarning($"이미지 로딩 실패: {address}");
+            }
+        }
 
 
     }

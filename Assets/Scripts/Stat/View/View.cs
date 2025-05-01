@@ -9,7 +9,6 @@ using System.Collections;
 
 
 
-
 public class View : MonoBehaviour
 {
     [SerializeField]
@@ -39,7 +38,7 @@ public class View : MonoBehaviour
     [SerializeField]
     RectTransform uContent;
 
-    PlayerVM viewModel;
+    StatsVM viewModel;
 
     WaitForSeconds wait =  new(1f);
 
@@ -47,7 +46,7 @@ public class View : MonoBehaviour
 
     void Start()
     {
-        viewModel = GameManager.Instance.playerVM;
+        viewModel = GameManager.Instance.statsVM;
        
 
        //StartCoroutine(FrameDelay());
@@ -97,7 +96,7 @@ public class View : MonoBehaviour
         string name = stat.textName;
         ui.statName.text = name;
         print($"StatIcon/{stat.key}");
-        viewModel.LoadSprite($"StatIcon/{stat.key}",ui.image);
+        Utility.LoadSprite($"StatIcon/{stat.key}",ui.image);
         var btn = ui.btn;
         int nextLevel = 0;
         int curLevel = 0;
@@ -117,17 +116,12 @@ public class View : MonoBehaviour
             curLevel = data.level;
             nextLevel = data.level + data.levelUpMult;
 
-            
-            
-
             if(nextLevel > stat.maxLevel)
             {
                 
                 nextLevel = stat.maxLevel;
               
             }
-
-
             
             BigInteger curValue = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,curLevel);
           
@@ -143,18 +137,15 @@ public class View : MonoBehaviour
 
                 ui.description.text = $"{(double)curValue / scale * 100} → {(double)nextValue / scale * 100}";
 
-                
             }
             else
             {
                 ui.description.text = $"{Utility.FormatNumberKoreanUnit(curValue)} → {Utility.FormatNumberKoreanUnit(nextValue)}";
                 
-
             }
 
             ui.level.text = $"Lv.{curLevel}";
           
-            
             
         }).AddTo(ui.sub);
 
@@ -211,7 +202,6 @@ public class View : MonoBehaviour
 
            
             
-
         });
         
         viewModel.Exp.Subscribe(exp => 

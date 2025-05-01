@@ -6,11 +6,19 @@ public abstract class ItemMove : MonoBehaviour, IUITarget,IItemMove
     public RectTransform Target{get;set;}
     [SerializeField] float duration = 1.5f;
 
+    Vector3 screenPos;
+    Vector3 worldTarget;
+
+    void Start()
+    {
+         // UI의 화면 좌표 → 월드 좌표 변환
+        screenPos = Target.position;
+        worldTarget = Camera.main.ScreenToWorldPoint(screenPos);
+    }
+
     public virtual void Move(Transform transform)
     {
-        // UI의 화면 좌표 → 월드 좌표 변환
-        Vector3 screenPos = Target.position;
-        Vector3 worldTarget = Camera.main.ScreenToWorldPoint(screenPos);
+       
 
         worldTarget.z = 0;
         

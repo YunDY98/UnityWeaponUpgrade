@@ -1,12 +1,13 @@
+using System;
 using System.Numerics;
 using R3;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem.Interactions;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
 
-public class PlayerVM
+public class StatsVM
 {
 
 
@@ -32,7 +33,7 @@ public class PlayerVM
     public ReactiveProperty<int> statUpMult = new(1);
 
 
-    public PlayerVM(StatsSO model)
+    public StatsVM(StatsSO model)
     {
        
         _model = model;
@@ -65,7 +66,15 @@ public class PlayerVM
 
     public bool UseGold(BigInteger useGold)
     {
-        return _model.UseGold(useGold);  
+        if(_model.Gold.Value >= useGold)
+        {
+            _model.UseGold(useGold);  
+            return true;
+
+        }
+
+        return false;
+        
     }
 
     public void AddGold(BigInteger gold)
@@ -86,19 +95,8 @@ public class PlayerVM
 
     }
 
-    public async void LoadSprite(string address,Image target)
-    {
-        Sprite sprite = await _model.LoadImageAsync(address);
-        if (sprite != null)
-        {
-            target.sprite = sprite;
-        }
-        else
-        {
-            Debug.LogWarning("이미지 없음");
-        }
-    }
 
+   
 
 
     

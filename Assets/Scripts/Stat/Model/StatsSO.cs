@@ -1,14 +1,8 @@
 using System;
-using System.Linq;
 using System.Numerics;
-using System.Threading.Tasks;
 using Assets.Scripts;
 using R3;
-
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-
-using UnityEngine.ResourceManagement.AsyncOperations;
 using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "StatsSO", menuName = "ScriptableObjects/Player", order = 1)]
@@ -148,7 +142,7 @@ public class StatsSO : ScriptableObject
                 costRate = 1.03f,
                 upgradeRate = 1,
                 level = new(1),
-                maxLevel = 1000,
+                maxLevel = 100,
                 floatScale = 1000
             };
 
@@ -158,8 +152,8 @@ public class StatsSO : ScriptableObject
                 baseValue = 10,
                 key = StatType.CriticalRate,
                 textName = "크리티컬 확률",
-                baseCost = 10000000,
-                cost = new(BigInteger.Parse("10000000")),
+                baseCost = 1000000,
+                cost = new(BigInteger.Parse("1000000")),
                 costRate = 1.03f,
                 upgradeRate = 1f,
                 level = new(1),
@@ -260,7 +254,7 @@ public class StatsSO : ScriptableObject
         
     }
 
-       FinalDamage fDamage= new();
+    FinalDamage fDamage = new();
 
     public FinalDamage Damage()
     {
@@ -294,14 +288,7 @@ public class StatsSO : ScriptableObject
         {
             Exp.Value -= Level.Value;
             Level.Value++;
-
-
         }
-
-        
-
-        
-
 
     }
 
@@ -320,27 +307,12 @@ public class StatsSO : ScriptableObject
         Gold.Value += gold;
     }
 
-    public bool UseGold(BigInteger useGold)
+    public void UseGold(BigInteger useGold)
     {   
-        if(Gold.Value - useGold < 0)
-        {
-            return false;
-        }
+       
         Debug.Log("골드 사용 " + useGold);
         Gold.Value -= useGold;
-        return true;
-    }
-
-    public async Task<Sprite> LoadImageAsync(string address)
-    {
-        AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(address);
-        await handle.Task;
-
-        if (handle.Status == AsyncOperationStatus.Succeeded)
-        {
-            return handle.Result;
-        }
-        return null;
+        
     }
 
 

@@ -33,7 +33,6 @@ public class EffectManager : ObjectPool
         #if UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX || UNITY_EDITOR
         if(Input.GetMouseButtonDown(0))
         {
-            print(1);
             clickPos = Input.mousePosition;
             if(!isClick)
                 TouchRing(clickPos);
