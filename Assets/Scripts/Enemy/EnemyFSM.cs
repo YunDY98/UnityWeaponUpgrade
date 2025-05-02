@@ -49,11 +49,11 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     int pLevel = 0;
     BigInteger maxHP;
-    BigInteger MaxHP => Utility.GeoProgression(enemySO.maxHP,hpRate,pStats.Level.Value);
+    BigInteger MaxHP => Utility.GeoProgression(enemySO.maxHP,(decimal)hpRate,pStats.Level.Value);
     
     BigInteger attackPower;
     
-    BigInteger AttackPower => Utility.GeoProgression(enemySO.attackPower,atkRate,pStats.Level.Value);
+    BigInteger AttackPower => Utility.GeoProgression(enemySO.attackPower,(decimal)atkRate,pStats.Level.Value);
 
    
     void Awake()

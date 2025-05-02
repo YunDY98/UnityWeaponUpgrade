@@ -123,11 +123,11 @@ public class View : MonoBehaviour
               
             }
             
-            BigInteger curValue = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,curLevel);
+            BigInteger curValue = Utility.GeoProgression(stat.baseValue,(decimal)stat.upgradeRate,curLevel);
           
-            BigInteger nextValue = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,nextLevel);
+            BigInteger nextValue = Utility.GeoProgression(stat.baseValue,(decimal)stat.upgradeRate,nextLevel);
             
-            stat.cost.Value = Utility.GeometricSumInRange(stat.baseCost,stat.costRate,curLevel,nextLevel);
+            stat.cost.Value = Utility.GeometricSumInRange(stat.baseCost,(decimal)stat.costRate,curLevel,nextLevel);
         
             float scale = 1;
 

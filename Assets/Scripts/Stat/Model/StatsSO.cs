@@ -216,8 +216,8 @@ public class StatsSO : ScriptableObject
                     
                 };
                 Stat stat = stats[(int)data.key];
-                stat.cost.Value = Utility.GeoProgression(stat.baseCost,stat.costRate,stat.level.Value);
-                stat.value.Value = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,stat.level.Value);
+                stat.cost.Value = Utility.GeoProgression(stat.baseCost,(decimal)stat.costRate,stat.level.Value);
+                stat.value.Value = Utility.GeoProgression(stat.baseValue,(decimal)stat.upgradeRate,stat.level.Value);
                
             }
             CurHP = new ReactiveProperty<BigInteger>(GetStat(StatType.MaxHP).value.Value);
@@ -249,7 +249,7 @@ public class StatsSO : ScriptableObject
 
         stat.LevelUp(increase);
         
-        stat.value.Value = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,stat.level.Value);
+        stat.value.Value = Utility.GeoProgression(stat.baseValue,(decimal)stat.upgradeRate,stat.level.Value);
 
         
     }
