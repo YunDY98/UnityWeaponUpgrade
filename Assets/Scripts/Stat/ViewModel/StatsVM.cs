@@ -104,7 +104,7 @@ public class StatsVM
 
     public void TestGold()
     {
-        Gold.Value += BigInteger.Parse("100000000");
+        Gold.Value += BigInteger.Parse("10000000000000000000000000000000000000000000000");
     }
 
 

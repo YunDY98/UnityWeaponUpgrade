@@ -65,6 +65,7 @@ public class DataManager : MonoBehaviour
         {
             Debug.LogWarning("삭제할 데이터 파일이 존재하지 않습니다.");
         }
+        statsSO.Gold.Value = 0;
     }
 
     public void SaveData()

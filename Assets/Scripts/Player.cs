@@ -93,7 +93,6 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        print(state);
        
         if(GameManager.Instance.Stop)
             return;

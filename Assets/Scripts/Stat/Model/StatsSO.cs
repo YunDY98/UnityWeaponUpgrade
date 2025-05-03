@@ -30,10 +30,10 @@ public class StatsSO : ScriptableObject
                 baseValue = 1000,
                 key = StatType.AttackDamage,
                 textName = "공격력",
-                baseCost = 1000,
-                cost = new(1000),
-                costRate = 1.02f,
-                upgradeRate = 1.001f,
+                baseCost = 10,
+                cost = new(10),
+                costRate = 1.9f,
+                upgradeRate = 1.005f,
                 level = new(1),
                 maxLevel = 10000,
                 floatScale = 0
@@ -51,7 +51,7 @@ public class StatsSO : ScriptableObject
 
                 upgradeRate = 1,
                 level = new(1),
-                maxLevel = 10000,
+                maxLevel = 1000,
                 floatScale = 0
             };
 
@@ -110,7 +110,7 @@ public class StatsSO : ScriptableObject
                 baseCost = 10,
                 cost = new(BigInteger.Parse("1000")),
                 costRate = 1.05f,
-                upgradeRate = 1.01f,
+                upgradeRate = 1.1f,
                 level = new(1),
                 maxLevel = 100000,
                 floatScale = 1000
@@ -216,8 +216,8 @@ public class StatsSO : ScriptableObject
                     
                 };
                 Stat stat = stats[(int)data.key];
-                stat.cost.Value = Utility.GeoProgression(stat.baseCost,(decimal)stat.costRate,stat.level.Value);
-                stat.value.Value = Utility.GeoProgression(stat.baseValue,(decimal)stat.upgradeRate,stat.level.Value);
+                stat.cost.Value = Utility.GeoProgression(stat.baseCost,stat.costRate,stat.level.Value);
+                stat.value.Value = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,stat.level.Value);
                
             }
             CurHP = new ReactiveProperty<BigInteger>(GetStat(StatType.MaxHP).value.Value);
@@ -249,7 +249,7 @@ public class StatsSO : ScriptableObject
 
         stat.LevelUp(increase);
         
-        stat.value.Value = Utility.GeoProgression(stat.baseValue,(decimal)stat.upgradeRate,stat.level.Value);
+        stat.value.Value = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,stat.level.Value);
 
         
     }
