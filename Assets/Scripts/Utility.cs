@@ -1,9 +1,7 @@
 using System;
 using System.Numerics;
-using UnityEditor.Rendering.Universal;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.InputSystem.Interactions;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
@@ -52,13 +50,9 @@ namespace Assets.Scripts
 
         public static BigInteger BigIntMult(BigInteger a,double r,int scale =  1000000000)
         {     
-            double  mult;
-        
-         
-            mult = r * scale;
            
            
-            BigInteger result = a * (BigInteger)mult / scale;    
+            BigInteger result = a * (BigInteger)(r * scale)/ scale;    
             
             return result;
         }

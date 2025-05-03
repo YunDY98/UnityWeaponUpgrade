@@ -69,11 +69,13 @@ public class GameManager : MonoBehaviour
         }
 
         Application.targetFrameRate = 120;
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
         enemySort = Enum.GetValues(typeof(EnemyType)).Length;
 
         statsVM = new(statsSO);
 
-       
+      
         
     }
 

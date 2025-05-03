@@ -1,10 +1,6 @@
-using System;
+
 using System.Numerics;
 using R3;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.UI;
 
 
 public class StatsVM
@@ -104,7 +100,7 @@ public class StatsVM
 
     public void TestGold()
     {
-        Gold.Value += BigInteger.Parse("10000000000000000000000000000000000000000000000");
+        Gold.Value += BigInteger.Parse("100000000000000000000000000000000000000000000000000000000");
     }
 
 
