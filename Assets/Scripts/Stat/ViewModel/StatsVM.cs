@@ -1,11 +1,12 @@
 
 using System.Numerics;
 using R3;
-
+using System.Collections.Generic;
 
 public class StatsVM
 {
 
+    public List<UpgradeUI> StatUIList = new();
 
     readonly StatsSO _model;
 
@@ -38,6 +39,7 @@ public class StatsVM
             IsDead.Value = newHP <= 0;
 
         });
+
 
         
     }
@@ -90,12 +92,6 @@ public class StatsVM
 
 
     }
-
-
-   
-
-
-    
 
 
     public void TestGold()

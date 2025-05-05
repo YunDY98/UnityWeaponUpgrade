@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using R3;
-public class UIManager : MonoBehaviour
+public class PopUpUI : MonoBehaviour
 {
     
     [SerializeField]
