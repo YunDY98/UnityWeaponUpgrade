@@ -1,10 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using R3;
-using TMPro;
-using Assets.Scripts;
-using BigInteger = System.Numerics.BigInteger;
-using System.Collections;
 
 
 
@@ -13,13 +8,15 @@ public class View : MonoBehaviour
 {
 
     [SerializeField]
-    GameObject uObject;
+    UpgradeUI uObject;
 
-    #region multUpgrade
+
+
+
     [SerializeField]
     Button[] multBtn;
 
-    #endregion
+
 
 
 
@@ -28,159 +25,89 @@ public class View : MonoBehaviour
 
     StatsVM viewModel;
 
-    WaitForSeconds wait =  new(1f);
-
 
 
     void Start()
     {
         viewModel = GameManager.Instance.statsVM;
+
+
+
+        if (multBtn[0] == null) return;
+        multBtn[0].onClick.AddListener(() => StatLevelUpMult(1, multBtn[0]));
+        StatLevelUpMult(1, multBtn[0]);
+        multBtn[1].onClick.AddListener(() => StatLevelUpMult(10, multBtn[1]));
+        multBtn[2].onClick.AddListener(() => StatLevelUpMult(100, multBtn[2]));
+
+        CreateUpgradeUI();
        
 
-       //StartCoroutine(FrameDelay());
-       DrawUI();
-       if(multBtn[0] == null) return;
-       multBtn[0].onClick.AddListener(() => StatLevelUpMult(1,multBtn[0]));
-       StatLevelUpMult(1,multBtn[0]);
-       multBtn[1].onClick.AddListener(() => StatLevelUpMult(10,multBtn[1]));
-       multBtn[2].onClick.AddListener(() => StatLevelUpMult(100,multBtn[2]));
 
-       
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            viewModel.ShowUpgradeUI(1, 1);
 
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            viewModel.ShowUpgradeUI(1, 3);
+            viewModel.ShowUpgradeUI(3, 1);
 
-    void StatLevelUpMult(int x,Button btn)
+        }
+    }
+
+    void StatLevelUpMult(int x, Button btn)
     {
         viewModel.SetStatUpMult(x);
-        foreach(var select in multBtn)
+        foreach (var select in multBtn)
         {
             ColorBlock cb = select.colors;
-            if(select == btn)
+            if (select == btn)
             {
-               
+
                 cb.normalColor = Color.black;
                 cb.selectedColor = Color.black;
-              
+
             }
             else
             {
                 cb.normalColor = Color.white;
-               
+
             }
             select.colors = cb;
         }
 
     }
 
-
-
-    void CreateUpgradeUI(Stat stat)
+    void CreateUpgradeUI()
     {
-        var obj = Instantiate(uObject,uContent);
-        var ui = obj.GetComponent<UpgradeUI>();
-
-        
-       
-        string name = stat.textName;
-        ui.statName.text = name;
-        print($"StatIcon/{stat.key}");
-        Utility.LoadSprite($"StatIcon/{stat.key}",ui.image);
-        var btn = ui.btn;
-        int nextLevel = 0;
-        int curLevel = 0;
-
-        btn.onClick.AddListener(() =>
+        for (int i = 0; i < 6; ++i)
         {
-            viewModel.StatUpgrade(stat,viewModel.statUpMult.Value);
+            var obj = Instantiate(uObject, uContent);
+            var ui = obj.GetComponent<UpgradeUI>();
 
-        } );
-
-       
-        
-        Observable.CombineLatest(stat.level, viewModel.statUpMult,
-        (level, levelUpMult) => new { level, levelUpMult })
-        .Subscribe(data =>
-        {   
-            curLevel = data.level;
-            nextLevel = data.level + data.levelUpMult;
-
-            if(nextLevel > stat.maxLevel)
-            {
-                
-                nextLevel = stat.maxLevel;
-              
-            }
-            
-            BigInteger curValue = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,curLevel);
-          
-            BigInteger nextValue = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,nextLevel);
-            
-            stat.cost.Value = Utility.GeometricSumInRange(stat.baseCost,stat.costRate,curLevel,nextLevel);
-        
-            float scale = 1;
-
-            if(stat.floatScale > 0)
-            {
-                scale = stat.floatScale;
-
-                ui.description.text = $"{(double)curValue / scale * 100} → {(double)nextValue / scale * 100}";
-
-            }
-            else
-            {
-                ui.description.text = $"{Utility.FormatNumberKoreanUnit(curValue)} → {Utility.FormatNumberKoreanUnit(nextValue)}";
-                
-            }
-
-            ui.level.text = $"Lv.{curLevel}";
-          
-            
-        }).AddTo(ui.sub);
+            viewModel.showUIList.Add(ui);
 
 
-        stat.cost.Subscribe(cost =>
-        {
-            if(curLevel >= stat.maxLevel)
-            {
-                ui.cost.text = "Max";
-                btn.onClick.RemoveAllListeners();
-                ui.longClick.enabled = false;
-                btn.interactable = false; 
+        }
 
-                return;
-            }
-           
-            ui.cost.text = Utility.FormatNumberKoreanUnit(cost);
-            
-
-           
-        }).AddTo(ui.sub);
-
-        ui.maxLevelText.text = $"(max: {stat.maxLevel})";
-         
     }
+
+
+
+
+   
 
     public void TestGold()
     {
         viewModel.TestGold();
     }
 
-   
-    public void DrawUI()
-    {
-       
-       if(uObject == null) return;
 
-        RectTransform uObj = uObject.GetComponent<RectTransform>();
-       
-        foreach(var stat in viewModel.GetStats())
-        {
-            CreateUpgradeUI(stat);
-            
-        }
-        uContent.sizeDelta = new Vector2(uContent.sizeDelta.x,viewModel.GetStats().Length * uObj.sizeDelta.y * 1.6f);
-    }
 
 
 

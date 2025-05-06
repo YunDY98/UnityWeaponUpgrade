@@ -1,10 +1,14 @@
+using System;
 using R3;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Timeline;
 using UnityEngine.UI;
 
-public class UpgradeUI: MonoBehaviour
+
+public class UpgradeUI : MonoBehaviour
 {
+    public CompositeDisposable sub = new();
     public TextMeshProUGUI statName;
     public TextMeshProUGUI cost;
     public Button btn;
@@ -13,24 +17,26 @@ public class UpgradeUI: MonoBehaviour
     public TextMeshProUGUI maxLevelText;
     public LongClick longClick;
     public Image image;
-    public  CompositeDisposable sub = new();
 
 
-    void OnDisable()
-    {
-       
-       
-    }
 
-    public void Destroy()
-    {
-        btn.onClick.RemoveAllListeners();
-        
-        
-        
 
-    }
 
+
+
+}
+
+public class StatInfo
+{
+
+    public StatType type;
+    public string statName;
+    public ReactiveProperty<string> cost = new();
+    public ReactiveProperty<string> description = new();
+    public ReactiveProperty<string> level = new();
+    public string maxLevelText;
+    public LongClick longClick;
+    public Sprite sprite;
 
 
 
