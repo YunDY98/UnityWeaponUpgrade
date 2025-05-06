@@ -11,12 +11,14 @@ public class StatsVM
     public List<StatInfo> uList = new();
     public List<UpgradeUI> showUIList = new();
 
+    public int contentSize = 6;
+
     readonly StatsSO _model;
 
     public Stat GetStat(int type) => _model.GetStat(type);
     public Stat GetStat(StatType type)  => _model.GetStat(type);
 
- 
+   
     
 
     public ReactiveProperty<BigInteger>  Gold  => _model.Gold;
@@ -46,6 +48,8 @@ public class StatsVM
 
       
         SetUpgradeUI();
+
+        
 
         
     }

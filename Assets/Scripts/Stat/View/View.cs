@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,10 +41,13 @@ public class View : MonoBehaviour
         multBtn[2].onClick.AddListener(() => StatLevelUpMult(100, multBtn[2]));
 
         CreateUpgradeUI();
+
+        StartCoroutine(Init());
        
 
 
     }
+
 
     void Update()
     {
@@ -58,6 +62,19 @@ public class View : MonoBehaviour
             viewModel.ShowUpgradeUI(3, 1);
 
         }
+    }
+
+    IEnumerator Init()
+    {
+        while(viewModel.uList[0].sprite == null)
+        {
+            yield return null;
+        }
+       
+        for(int i=0; i<viewModel.contentSize;++i)
+            viewModel.ShowUpgradeUI(i,i);
+        
+
     }
 
     void StatLevelUpMult(int x, Button btn)
