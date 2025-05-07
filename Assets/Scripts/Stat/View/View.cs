@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,14 @@ public class View : MonoBehaviour
     [SerializeField]
     UpgradeUI uObject;
 
+
+    [SerializeField]
+    ScrollRect scrollRect;
+
+
+    public int rowCount = 6;
+    public float RowPadding = 10f;
+    protected const int rowsAboveBelow = 1;
 
 
 
@@ -40,42 +49,48 @@ public class View : MonoBehaviour
         multBtn[1].onClick.AddListener(() => StatLevelUpMult(10, multBtn[1]));
         multBtn[2].onClick.AddListener(() => StatLevelUpMult(100, multBtn[2]));
 
-        CreateUpgradeUI();
+        //CreateUpgradeUI();
 
-        StartCoroutine(Init());
-       
+        //StartCoroutine(Init());
+
 
 
     }
+
 
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            viewModel.ShowUpgradeUI(1, 1);
-
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            viewModel.ShowUpgradeUI(1, 3);
-            viewModel.ShowUpgradeUI(3, 1);
-
-        }
-    }
-
-    IEnumerator Init()
-    {
-        while(viewModel.uList[0].sprite == null)
-        {
-            yield return null;
-        }
-       
-        for(int i=0; i<viewModel.contentSize;++i)
-            viewModel.ShowUpgradeUI(i,i);
         
-
     }
+
+    // IEnumerator Init()
+    // {
+    //     bool isSprite = false;
+    //     while (!isSprite)
+    //     {
+    //         foreach (var sprite in viewModel.uList)
+    //         {
+    //             if (sprite.sprite == null)
+    //             {
+    //                 isSprite = false;
+    //                 break;
+
+
+    //             }
+    //             isSprite = true;
+
+
+    //         }
+    //         yield return null;
+
+    //     }
+
+    //     for (int i = 0; i < rowCount; ++i)
+    //         viewModel.ShowUpgradeUI(i, i);
+
+
+    // }
 
     void StatLevelUpMult(int x, Button btn)
     {
@@ -100,24 +115,28 @@ public class View : MonoBehaviour
 
     }
 
-    void CreateUpgradeUI()
-    {
-        for (int i = 0; i < 6; ++i)
-        {
-            var obj = Instantiate(uObject, uContent);
-            var ui = obj.GetComponent<UpgradeUI>();
+    // void CreateUpgradeUI()
+    // {
+    //     for (int i = 0; i < rowCount; ++i)
+    //     {
+    //         var obj = Instantiate(uObject, uContent);
+    //         var ui = obj.GetComponent<UpgradeUI>();
 
-            viewModel.showUIList.Add(ui);
-
-
-        }
-
-    }
+    //         viewModel.showUIList.Add(ui);
 
 
+    //     }
+
+    // }
+
+  
 
 
-   
+
+
+
+
+
 
     public void TestGold()
     {

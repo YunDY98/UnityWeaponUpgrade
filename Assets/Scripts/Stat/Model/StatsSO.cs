@@ -3,6 +3,7 @@ using System.Numerics;
 using Assets.Scripts;
 using R3;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "StatsSO", menuName = "ScriptableObjects/Player", order = 1)]
@@ -23,7 +24,6 @@ public class StatsSO : ScriptableObject
 
         if(uData == null)
         {
-
             stats[(int)StatType.AttackDamage] = new()
             {
                 value = new(1000),

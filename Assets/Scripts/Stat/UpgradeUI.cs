@@ -6,7 +6,7 @@ using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 
-public class UpgradeUI : MonoBehaviour
+public class UpgradeUI : RecyclingListViewItem
 {
     public CompositeDisposable sub = new();
     public TextMeshProUGUI statName;
