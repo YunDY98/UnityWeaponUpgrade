@@ -9,6 +9,13 @@ public class GameManager : MonoBehaviour
     float spawnTime = 2f;
     int _enemyCnt;
 
+    #region Ads
+
+    public bool isReward = false;
+
+
+    #endregion
+
     int enemySort;
     public int EnemyCnt
     {
@@ -82,6 +89,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         AudioManager.Instance.PlayBGM(true);
+       
     }
 
 

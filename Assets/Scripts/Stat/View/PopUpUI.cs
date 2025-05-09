@@ -28,10 +28,12 @@ public class PopUpUI : MonoBehaviour
 
         } );
 
+        AdsManager.Instance.rewardedAds.Reward += WatchedAD;
+        AdsManager.Instance.rewardedAds.Failure += Resurrction;
+        AdsManager.Instance.rewardedAds.Failure += Penalty;
         ad.onClick.AddListener(() =>
         {
-            Resurrction();
-            WatchAD();
+           AdsManager.Instance.rewardedAds.ShowRewardedlAd();
         });
 
 
@@ -44,16 +46,15 @@ public class PopUpUI : MonoBehaviour
     {
         
         viewModel.Exp.Value = 0;
-        
+       
 
     }
 
-    void WatchAD()
+    void WatchedAD()
     {
-        deathUI.SetActive(false);
-        player.Init();
-        viewModel.AddGold(10000);
-
+        Resurrction();
+        viewModel.AddGold(100000000000);
+      
     }
 
     void Resurrction()
@@ -61,6 +62,7 @@ public class PopUpUI : MonoBehaviour
         deathUI.SetActive(false);
         player.Init();
         viewModel.CurHP.Value = viewModel.GetStat(StatType.MaxHP).value.Value;
+        DataManager.Instance.SaveData();
         
     }
 

@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Data;
+
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class View : MonoBehaviour
 {
+
+   
+
 
     [SerializeField]
     UpgradeUI uObject;
@@ -61,8 +64,10 @@ public class View : MonoBehaviour
 
     void Update()
     {
+        print(viewModel.Gold.Value);
         
     }
+    
 
     // IEnumerator Init()
     // {
