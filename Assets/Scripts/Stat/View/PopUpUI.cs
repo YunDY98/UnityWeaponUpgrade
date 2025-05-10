@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using R3;
 public class PopUpUI : MonoBehaviour
 {
-    
+
     [SerializeField]
     GameObject deathUI;
 
@@ -11,7 +11,7 @@ public class PopUpUI : MonoBehaviour
     Player player;
 
     StatsVM viewModel;
-    
+
 
     void Start()
     {
@@ -19,34 +19,45 @@ public class PopUpUI : MonoBehaviour
 
         Button penalty = deathUI.GetComponentsInChildren<Button>()[0];
         Button ad = deathUI.GetComponentsInChildren<Button>()[1];
-       
+
 
         penalty.onClick.AddListener(() =>
         {
             Penalty();
             Resurrction();
 
-        } );
+        });
 
+#if UNITY_IOS
+        AdMobManager.Instance.Reward += WatchedAD;
+        AdMobManager.Instance.Failure += Resurrction;
+        AdMobManager.Instance.Failure += Penalty;
+        ad.onClick.AddListener(() => AdMobManager.Instance.ShowRewardedAd());
+#elif UNITY_ANDROID
         AdsManager.Instance.rewardedAds.Reward += WatchedAD;
         AdsManager.Instance.rewardedAds.Failure += Resurrction;
         AdsManager.Instance.rewardedAds.Failure += Penalty;
         ad.onClick.AddListener(() =>
         {
-           AdsManager.Instance.rewardedAds.ShowRewardedlAd();
+           AdsManager.Instance.rewardedAds.ShowRewardedAd();
         });
+#endif
+
+
+
+
 
 
         viewModel.IsDead.Subscribe(dead => deathUI.SetActive(dead));
-       
-        
+
+
     }
 
     void Penalty()
     {
-        
+
         viewModel.Exp.Value = 0;
-       
+
 
     }
 
@@ -54,7 +65,7 @@ public class PopUpUI : MonoBehaviour
     {
         Resurrction();
         viewModel.AddGold(100000000000);
-      
+
     }
 
     void Resurrction()
@@ -63,7 +74,7 @@ public class PopUpUI : MonoBehaviour
         player.Init();
         viewModel.CurHP.Value = viewModel.GetStat(StatType.MaxHP).value.Value;
         DataManager.Instance.SaveData();
-        
+
     }
 
 }

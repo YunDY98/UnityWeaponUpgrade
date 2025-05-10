@@ -28,7 +28,8 @@ public class InitializeAds : MonoBehaviour,IUnityAdsInitializationListener
         #if UNITY_ANDROID
             gameId = androidGameId;
         #elif UNITY_IOS
-            gameId = iosGameId;
+            Destroy(this);
+            //gameId = iosGameId;
         #endif
         
 

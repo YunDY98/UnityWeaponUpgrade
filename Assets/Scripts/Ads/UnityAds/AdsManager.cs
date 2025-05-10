@@ -12,6 +12,10 @@ public class AdsManager : MonoBehaviour
 
     void Awake()
     {
+        #if UNITY_IOS
+            Destroy(this);
+        #endif
+
         if(Instance != null && Instance != this)
         {
             Destroy(this);

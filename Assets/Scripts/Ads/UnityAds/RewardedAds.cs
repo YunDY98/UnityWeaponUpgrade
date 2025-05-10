@@ -19,7 +19,8 @@ public class RewardedAds : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLi
 #if UNITY_ANDROID
     adUnitId = androidAdUnitId;
 #elif UNITY_IOS
-    adUnitId = iosAdUnitId;      
+    // adUnitId = iosAdUnitId;  
+    Destroy(this);
 #endif
 
       
@@ -43,7 +44,7 @@ public class RewardedAds : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLi
         Debug.Log("Rewardedl Ad Loaded");
     }
 
-    public void ShowRewardedlAd()
+    public void ShowRewardedAd()
     {
        
         Advertisement.Show(adUnitId, this);
