@@ -4,8 +4,7 @@ public class ItemPool : ObjectPool
 {
 
     [SerializeField]
-    RectTransform[] icon; // ItemType Enum과 인스펙터 배치 순서가 맞아야함 
-
+    RectTransform[] icons; // ItemType Enum과 인스펙터 배치 순서가 맞아야함 
     protected override void Create(int type)
     {
 
@@ -14,8 +13,8 @@ public class ItemPool : ObjectPool
         
 
         obj.GetComponent<IPoolable>().ReturnEvent += Return;
-        obj.GetComponent<IUITarget>().Target = icon[type];
-        
+        obj.GetComponent<IUITarget>().Target = icons[type];
+
 
         obj.SetActive(false);
 
@@ -26,6 +25,7 @@ public class ItemPool : ObjectPool
         
        
     }
+
 
     public void DropItem(int type,Vector3 pos)
     {

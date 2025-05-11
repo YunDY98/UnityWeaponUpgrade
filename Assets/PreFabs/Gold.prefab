@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2801155676221022253}
   - component: {fileID: 7518621279481518760}
   m_Layer: 0
-  m_Name: Coin
+  m_Name: Gold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

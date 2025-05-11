@@ -273,7 +273,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         if(rand < pStats.GetStat(StatType.StunRate).GetFValue())
         {
             
-            yield return WaitTime((float)pStats.GetStat(StatType.StunTime).GetFValue()); // 스턴 기간 
+            yield return WaitTime((float)pStats.GetStat(StatType.StunTime).GetFValue()); // 스턴 시간 
         }
         
         anim.SetTrigger("Exit");
