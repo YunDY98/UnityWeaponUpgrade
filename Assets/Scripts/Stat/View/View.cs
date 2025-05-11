@@ -1,9 +1,8 @@
 
 using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
-using Assets.Scripts;
+using System.Linq;
 using R3;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +11,6 @@ using UnityEngine.UI;
 
 public class View : MonoBehaviour
 {
-
 
     public RecyclingListView theList;
 
@@ -120,24 +118,14 @@ public class View : MonoBehaviour
 
     IEnumerator WaitForLoading()
     {
-        bool isSprite = false;
-        
-        while (!isSprite)
+
+        while (!viewModel.datas.All(d => d.sprite != null))
         {
-            foreach (var sprite in viewModel.datas)
-            {
-                if (sprite.sprite == null)
-                {
-                    isSprite = false;
-                    break;
-                }
 
-                isSprite = true;
-
-            }
             yield return null;
-
         }
+
+        Loading.currentLoadCnt += Loading.spriteLoadCnt;
         theList.RowCount = viewModel.datas.Count;
 
     }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+
+
     public bool isLive;
     float time;
     float spawnTime = 2f;

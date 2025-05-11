@@ -10,9 +10,9 @@ using Random = UnityEngine.Random;
 
 public class StatsSO : ScriptableObject
 {
-   
+
     Stat[] stats;
-    
+
     public ReactiveProperty<BigInteger> CurHP;
     public ReactiveProperty<int> Level;
     public ReactiveProperty<int> Exp;
@@ -22,7 +22,7 @@ public class StatsSO : ScriptableObject
     {
         stats = new Stat[Enum.GetValues(typeof(StatType)).Length];
 
-        if(uData == null)
+        if (uData == null)
         {
             stats[(int)StatType.AttackDamage] = new()
             {
@@ -32,13 +32,13 @@ public class StatsSO : ScriptableObject
                 textName = "공격력",
                 baseCost = 1000,
                 cost = new(1000),
-                costRate = 1.001f,        
+                costRate = 1.001f,
                 upgradeRate = 1.005f,
                 level = new(1),
                 maxLevel = 10000,
                 floatScale = 0
             };
-            
+
             stats[(int)StatType.MaxHP] = new()
             {
                 value = new(1000),
@@ -176,10 +176,10 @@ public class StatsSO : ScriptableObject
                 floatScale = 1000
             };
 
-            
+
 
             CurHP = new(stats[(int)StatType.MaxHP].baseValue);
-           
+
             Level = new(1);
             Exp = new(0);
             Gold = new(BigInteger.Parse("1000000"));
@@ -191,16 +191,16 @@ public class StatsSO : ScriptableObject
             Level = new ReactiveProperty<int>(uData.userLevel);
             Exp = new ReactiveProperty<int>(uData.userExp);
             Gold = new ReactiveProperty<BigInteger>(BigInteger.Parse(uData.gold));
-            
-            foreach(var data in uData.statData)
+
+            foreach (var data in uData.statData)
             {
-                
-                
-               
+
+
+
                 stats[(int)data.key] = new()
                 {
                     baseValue = data.baseValue,
-                    
+
                     level = new ReactiveProperty<int>(data.level),
                     key = data.key,
                     textName = data.textName,
@@ -210,19 +210,20 @@ public class StatsSO : ScriptableObject
                     floatScale = data.floatScale,
                     maxLevel = data.maxLevel,
 
-                    cost = new (),
-                    value = new (),
-                
-                    
+                    cost = new(),
+                    value = new(),
+
+
                 };
                 Stat stat = stats[(int)data.key];
-                stat.cost.Value = Utility.GeoProgression(stat.baseCost,stat.costRate,stat.level.Value);
-                stat.value.Value = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,stat.level.Value);
-               
+                stat.cost.Value = Utility.GeoProgression(stat.baseCost, stat.costRate, stat.level.Value);
+                stat.value.Value = Utility.GeoProgression(stat.baseValue, stat.upgradeRate, stat.level.Value);
+
             }
             CurHP = new ReactiveProperty<BigInteger>(GetStat(StatType.MaxHP).value.Value);
         }
-    
+        Loading.totalLoadCnt += stats.Length;
+        Loading.spriteLoadCnt += stats.Length;
     }
 
     public Stat GetStat(int type)
@@ -243,31 +244,31 @@ public class StatsSO : ScriptableObject
         return stats;
     }
 
-    public void IncreaseStat(Stat stat,int increase = 1)
+    public void IncreaseStat(Stat stat, int increase = 1)
     {
-       
+
 
         stat.LevelUp(increase);
-        
-        stat.value.Value = Utility.GeoProgression(stat.baseValue,stat.upgradeRate,stat.level.Value);
 
-        
+        stat.value.Value = Utility.GeoProgression(stat.baseValue, stat.upgradeRate, stat.level.Value);
+
+
     }
 
     FinalDamage fDamage = new();
 
     public FinalDamage Damage()
     {
-        
+
         BigInteger damage = stats[(int)StatType.AttackDamage].value.Value;
         Stat cDamage = stats[(int)StatType.CriticalDamage];
-         
+
         double rand = Random.value;
 
-        Debug.Log(rand +"  :" +stats[(int)StatType.CriticalRate].GetFValue() );
-        if(rand < stats[(int)StatType.CriticalRate].GetFValue())
+        Debug.Log(rand + "  :" + stats[(int)StatType.CriticalRate].GetFValue());
+        if (rand < stats[(int)StatType.CriticalRate].GetFValue())
         {
-            
+
             BigInteger criticalDamage = damage * cDamage.value.Value / cDamage.floatScale;
             fDamage.damage = criticalDamage;
             fDamage.isCritical = true;
@@ -276,15 +277,15 @@ public class StatsSO : ScriptableObject
         }
         fDamage.damage = damage;
         fDamage.isCritical = false;
-       
-        return fDamage; 
+
+        return fDamage;
     }
 
 
     public void LevelUp()
     {
-       
-        while(Exp.Value >= Level.Value)
+
+        while (Exp.Value >= Level.Value)
         {
             Exp.Value -= Level.Value;
             Level.Value++;
@@ -294,9 +295,9 @@ public class StatsSO : ScriptableObject
 
     public void AddExp(int exp)
     {
-       
+
         Exp.Value += exp;
-        if(Exp.Value >= Level.Value)
+        if (Exp.Value >= Level.Value)
             LevelUp();
 
         DataManager.Instance.SaveData();
@@ -308,16 +309,16 @@ public class StatsSO : ScriptableObject
     }
 
     public void UseGold(BigInteger useGold)
-    {   
-       
+    {
+
         Debug.Log("골드 사용 " + useGold);
         Gold.Value -= useGold;
-        
+
     }
 
 
 
-    
+
 }
 
 public struct FinalDamage
@@ -337,35 +338,35 @@ public class Stat
     public string textName;
     public ReactiveProperty<BigInteger> value;
 
-    
+
     public ReactiveProperty<int> level;
 
     public void LevelUp(int increase)
     {
 
         level.Value += increase;
-        if(level.Value > maxLevel)
+        if (level.Value > maxLevel)
         {
             level.Value = maxLevel;
         }
-        
-        
+
+
     }
-   
+
     public int maxLevel;
 
     public int floatScale;
 
     public int baseValue;
 
-    
+
 
     public int baseCost;
     public ReactiveProperty<BigInteger> cost;
     public float costRate;
     public float upgradeRate;
 
-    public Stat() {}
+    public Stat() { }
 
     // public Stat(BigInteger value,StatType key,string textName,BigInteger cost ,float costRate = 1,float upgradeRate = 1,int level = 1,int floatScale = 0)
     // {
@@ -381,15 +382,15 @@ public class Stat
 
     public double GetFValue()
     {
-        if(floatScale == 0)
+        if (floatScale == 0)
         {
-           throw new InvalidOperationException("floatScale이 0이므로 GetFValue()를 호출할 수 없습니다.");
+            throw new InvalidOperationException("floatScale이 0이므로 GetFValue()를 호출할 수 없습니다.");
         }
 
         double fValue = (int)value.Value / (double)floatScale;
 
-        
-       
+
+
 
 
         return fValue;
@@ -397,29 +398,29 @@ public class Stat
 
     }
 
-  
-  
-   
+
+
+
 }
 
 public enum StatType
 {
-    AttackDamage, 
-    MaxHP, 
-    AttackRange, 
-    AttackCnt, 
+    AttackDamage,
+    MaxHP,
+    AttackRange,
+    AttackCnt,
     AttackSpeed,
-    AddGoldAmount, 
-    StunTime, 
-    StunRate, 
-    CriticalRate, 
+    AddGoldAmount,
+    StunTime,
+    StunRate,
+    CriticalRate,
     CriticalDamage
 
 }
 
 
 
-    
+
 
 
 
