@@ -7,10 +7,7 @@ public class AdMobManager : MonoBehaviour
 {
     public event Action Reward;
     public event Action Failure;
-    // 광고 단위 ID (실제 광고 단위 ID로 교체 필요)
-    private string _androidAdUnitId = "";  // 테스트용 ID
-    private string _iOSAdUnitId = "ca-app-pub-3940256099942544/1712485313";  // IOS Reward //ca-app-pub-5851180076675485/2525714659
-   
+    // 광고 단위 ID (실제 광고 단위 ID로 교체 필요
 
     private string _adUnitId = "";
 
@@ -24,7 +21,7 @@ public class AdMobManager : MonoBehaviour
 #if UNITY_ANDROID
         Destroy(this);
 #elif UNITY_IOS
-        _adUnitId = _iOSAdUnitId;
+        _adUnitId = new AdsID().adsMobiOSRewardTestId;
 #else
         _adUnitId = ""; // 다른 플랫폼에 대한 처리 추가 가능
 #endif
@@ -49,7 +46,6 @@ public class AdMobManager : MonoBehaviour
         // Google Mobile Ads SDK 초기화
         MobileAds.Initialize(initStatus =>
         {
-           
             Debug.Log("Google Mobile Ads SDK 초기화 완료");
         });
 
@@ -66,7 +62,7 @@ public class AdMobManager : MonoBehaviour
             _rewardedAd.Destroy();
             _rewardedAd = null;
         }
-        HUD.mobileDebug.text = "Ads Lodings~";
+      
         Debug.Log("보상형 광고 로드 중...");
 
         // 광고 요청 생성
@@ -78,7 +74,7 @@ public class AdMobManager : MonoBehaviour
             // 로드 실패 시
             if (error != null || ad == null)
             {
-                HUD.mobileDebug.text = $"{_adUnitId}\nCode: {error.GetCode()}\nMsg: {error.GetMessage()}";
+               
                 Debug.LogError("보상형 광고 로드 실패: " + error);
                 return;
             }
@@ -106,11 +102,11 @@ public class AdMobManager : MonoBehaviour
     // 보상형 광고 표시 함수
     public void ShowRewardedAd()
     {
-           HUD.mobileDebug.text = "clcik ";
+         
         // 광고가 준비되었으면 표시
         if (_rewardedAd != null && _rewardedAd.CanShowAd())
         {
-            HUD.mobileDebug.text = "ready ";
+           
             _rewardedAd.Show((Reward reward) =>
             {
                 Debug.Log("광고 완료 후 보상 지급");
@@ -119,7 +115,6 @@ public class AdMobManager : MonoBehaviour
         }
         else
         {
-             HUD.mobileDebug.text = "not load ";
           
             Debug.Log("광고가 아직 로드되지 않았습니다.");
         }

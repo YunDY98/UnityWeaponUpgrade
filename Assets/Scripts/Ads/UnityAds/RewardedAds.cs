@@ -40,7 +40,7 @@ public class RewardedAds : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLi
 
     public void OnUnityAdsAdLoaded(string placementId)
     {
-        HUD.mobileDebug.text = "ad Loaded";
+      
         Debug.Log("Rewardedl Ad Loaded");
     }
 
@@ -54,24 +54,24 @@ public class RewardedAds : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLi
 
     public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message)
     {
-        HUD.mobileDebug.text = "FailedToLoad" + " :" + message;
+      
     }
 
     #region ShowCallbacks
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
     {
-        HUD.mobileDebug.text = "ShowFailure" + " :" + message;
+       
         Failure?.Invoke();
     }
 
     public void OnUnityAdsShowStart(string placementId)
     {
-        HUD.mobileDebug.text = "Ads show Start";
+       
     }
 
     public void OnUnityAdsShowClick(string placementId)
     {
-        HUD.mobileDebug.text = "Ads show Click";
+       
 
     }
 
@@ -79,7 +79,7 @@ public class RewardedAds : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLi
     {
         if (placementId == adUnitId && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
         {
-            HUD.mobileDebug.text = "Ads Fully Watched";
+           
             Debug.Log("Ads Fully Watched");
             GameManager.Instance.isReward = true;
             Reward?.Invoke();

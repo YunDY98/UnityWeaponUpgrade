@@ -10,13 +10,13 @@ public class InitializeAds : MonoBehaviour,IUnityAdsInitializationListener
 
     public void OnInitializationComplete()
     { 
-        HUD.mobileDebug.text = "InitComplete";
+       
         Debug.Log("Ads Insitalized");
     }
 
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
     {
-        HUD.mobileDebug.text = message;
+       
         
     }
 
@@ -26,7 +26,7 @@ public class InitializeAds : MonoBehaviour,IUnityAdsInitializationListener
        
            
         #if UNITY_ANDROID
-            gameId = androidGameId;
+            gameId = new AdsID().unityAdsAndGameId;
         #elif UNITY_IOS
             Destroy(this);
             //gameId = iosGameId;

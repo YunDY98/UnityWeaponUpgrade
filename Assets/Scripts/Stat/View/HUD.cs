@@ -10,7 +10,7 @@ using System.Collections;
 
 public class HUD : MonoBehaviour
 {
-    public static TextMeshProUGUI mobileDebug;
+   
     [SerializeField]
     GameObject levelUP;
     [SerializeField]
@@ -27,11 +27,6 @@ public class HUD : MonoBehaviour
     StatsVM viewModel;
 
     WaitForSeconds wait =  new(1f);
-
-    void Awake()
-    {
-         mobileDebug = GetComponentInChildren<TextMeshProUGUI>();
-    }
 
     void Start()
     {
