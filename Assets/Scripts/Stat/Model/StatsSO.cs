@@ -55,20 +55,20 @@ public class StatsSO : ScriptableObject
                 floatScale = 0
             };
 
-            stats[(int)StatType.AttackRange] = new()
-            {
-                value = new(10000),
-                baseValue = 10000,
-                key = StatType.AttackRange,
-                textName = "공격 범위",
-                baseCost = 1000,
-                cost = new(BigInteger.Parse("1000000000")),
-                costRate = 1.5f,
-                upgradeRate = 1,
-                level = new(1),
-                maxLevel = 100,
-                floatScale = 1000
-            };
+            // stats[(int)StatType.AttackRange] = new()
+            // {
+            //     value = new(10000),
+            //     baseValue = 10000,
+            //     key = StatType.AttackRange,
+            //     textName = "공격 범위",
+            //     baseCost = 1000,
+            //     cost = new(BigInteger.Parse("1000000000")),
+            //     costRate = 1.5f,
+            //     upgradeRate = 1,
+            //     level = new(1),
+            //     maxLevel = 100,
+            //     floatScale = 1000
+            // };
 
             stats[(int)StatType.AttackCnt] = new()
             {
@@ -222,8 +222,8 @@ public class StatsSO : ScriptableObject
             }
             CurHP = new ReactiveProperty<BigInteger>(GetStat(StatType.MaxHP).value.Value);
         }
-        Loading.totalLoadCnt += stats.Length;
-        Loading.spriteLoadCnt += stats.Length;
+        Loading.Instance.totalLoadCnt += stats.Length;
+        Loading.Instance.spriteLoadCnt += stats.Length;
     }
 
     public Stat GetStat(int type)
@@ -407,7 +407,6 @@ public enum StatType
 {
     AttackDamage,
     MaxHP,
-    AttackRange,
     AttackCnt,
     AttackSpeed,
     AddGoldAmount,

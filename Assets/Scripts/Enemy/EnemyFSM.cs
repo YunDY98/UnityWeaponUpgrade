@@ -145,7 +145,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
         float distance = Vector3.Distance(transform.position, player.position);
 
-        float stopDistance = 3f;
+        float stopDistance = 2f;
 
         float moveSpeed = enemySO.moveSpeed;
 

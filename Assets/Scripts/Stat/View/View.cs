@@ -124,9 +124,10 @@ public class View : MonoBehaviour
 
             yield return null;
         }
-
-        Loading.currentLoadCnt += Loading.spriteLoadCnt;
+        
         theList.RowCount = viewModel.datas.Count;
+        Loading.Instance.currentLoadCnt += Loading.Instance.spriteLoadCnt;
+       
 
     }
 

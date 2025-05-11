@@ -225,7 +225,7 @@ public class Player : MonoBehaviour
         cnt = (int)statsSO.GetStat(StatType.AttackCnt).value.Value;
         center = transform.position;
         // 박스 중심과 크기 설정
-        Vector2 size = new Vector2((float)statsSO.GetStat(StatType.AttackRange).GetFValue(), 3f);
+        Vector2 size = new Vector2(5f, 3f);
         float angle = 0f;
 
         // 적 레이어 마스크
