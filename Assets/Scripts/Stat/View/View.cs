@@ -1,5 +1,9 @@
 
-using TMPro;
+using System.Collections;
+using System.Collections.Generic;
+using System.Numerics;
+using Assets.Scripts;
+using R3;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +13,9 @@ using UnityEngine.UI;
 public class View : MonoBehaviour
 {
 
-   
+
+    public RecyclingListView theList;
+
 
 
     [SerializeField]
@@ -44,58 +50,18 @@ public class View : MonoBehaviour
     {
         viewModel = GameManager.Instance.statsVM;
 
-
-
         if (multBtn[0] == null) return;
+
         multBtn[0].onClick.AddListener(() => StatLevelUpMult(1, multBtn[0]));
-        StatLevelUpMult(1, multBtn[0]);
         multBtn[1].onClick.AddListener(() => StatLevelUpMult(10, multBtn[1]));
         multBtn[2].onClick.AddListener(() => StatLevelUpMult(100, multBtn[2]));
+        StatLevelUpMult(1, multBtn[0]);
 
-        //CreateUpgradeUI();
+        theList.ItemCallback = PopulateItem;
 
-        //StartCoroutine(Init());
-
-
+        StartCoroutine(WaitForLoading());
 
     }
-
-
-
-    void Update()
-    {
-        print(viewModel.Gold.Value);
-        
-    }
-    
-
-    // IEnumerator Init()
-    // {
-    //     bool isSprite = false;
-    //     while (!isSprite)
-    //     {
-    //         foreach (var sprite in viewModel.uList)
-    //         {
-    //             if (sprite.sprite == null)
-    //             {
-    //                 isSprite = false;
-    //                 break;
-
-
-    //             }
-    //             isSprite = true;
-
-
-    //         }
-    //         yield return null;
-
-    //     }
-
-    //     for (int i = 0; i < rowCount; ++i)
-    //         viewModel.ShowUpgradeUI(i, i);
-
-
-    // }
 
     void StatLevelUpMult(int x, Button btn)
     {
@@ -120,36 +86,67 @@ public class View : MonoBehaviour
 
     }
 
-    // void CreateUpgradeUI()
-    // {
-    //     for (int i = 0; i < rowCount; ++i)
-    //     {
-    //         var obj = Instantiate(uObject, uContent);
-    //         var ui = obj.GetComponent<UpgradeUI>();
 
-    //         viewModel.showUIList.Add(ui);
+    private void PopulateItem(RecyclingListViewItem item, int rowIndex)
+    {
 
+        var child = item as UpgradeUI;
+        var data = viewModel.datas[rowIndex];
+        child.statName.text = data.statName;
+        child.image.sprite = data.sprite;
 
-    //     }
+        child.sub.Clear();
 
-    // }
+        data.cost.Subscribe(x => child.cost.text = x).AddTo(child.sub);
+        data.level.Subscribe(x => child.level.text = x).AddTo(child.sub);
 
-  
+        child.maxLevelText.text = data.maxLevelText;
 
-
-
-
+        data.description.Subscribe(x => child.description.text = x).AddTo(child.sub);
 
 
+        child.btn.onClick.RemoveAllListeners();
+
+        if (data.level.Value != data.maxLevelText)
+        {
+            child.btn.onClick.AddListener(() => viewModel.StatUpgrade(viewModel.GetStat(data.type), viewModel.statUpMult.Value));
+
+        }
+
+
+
+    }
+
+
+    IEnumerator WaitForLoading()
+    {
+        bool isSprite = false;
+        
+        while (!isSprite)
+        {
+            foreach (var sprite in viewModel.datas)
+            {
+                if (sprite.sprite == null)
+                {
+                    isSprite = false;
+                    break;
+                }
+
+                isSprite = true;
+
+            }
+            yield return null;
+
+        }
+        theList.RowCount = viewModel.datas.Count;
+
+    }
 
 
     public void TestGold()
     {
         viewModel.TestGold();
     }
-
-
-
 
 
 }
