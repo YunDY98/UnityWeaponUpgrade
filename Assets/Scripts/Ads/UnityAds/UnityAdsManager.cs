@@ -1,14 +1,14 @@
 
 using UnityEngine;
 
-public class AdsManager : MonoBehaviour
+public class UnityAdsManager : MonoBehaviour
 {
    
     public RewardedAds rewardedAds;
 
     
 
-    public static AdsManager Instance{get; private set;}
+    public static UnityAdsManager Instance{get; private set;}
 
     void Awake()
     {

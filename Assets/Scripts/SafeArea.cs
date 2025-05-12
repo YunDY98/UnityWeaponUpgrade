@@ -11,6 +11,7 @@ public class SafeArea : MonoBehaviour
         
     }
 
+#if UNITY_EDITOR
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Alpha1))
@@ -18,6 +19,7 @@ public class SafeArea : MonoBehaviour
             ApplySafeArea(panel);
         }
     }
+#endif
     void ApplySafeArea(RectTransform panel)
     {
         Rect safeArea = Screen.safeArea;

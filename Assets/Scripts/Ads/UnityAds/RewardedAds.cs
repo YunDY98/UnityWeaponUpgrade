@@ -23,16 +23,12 @@ public class RewardedAds : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLi
     Destroy(this);
 #endif
 
-      
-
-
-
     }
 
 
     public void LoadRewardedlAd()
     {
-       
+
         Advertisement.Load(adUnitId, this);
 
     }
@@ -40,8 +36,9 @@ public class RewardedAds : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLi
 
     public void OnUnityAdsAdLoaded(string placementId)
     {
-      
+    
         Debug.Log("Rewardedl Ad Loaded");
+        
     }
 
     public void ShowRewardedAd()
@@ -60,26 +57,25 @@ public class RewardedAds : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLi
     #region ShowCallbacks
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
     {
-       
+       //AudioManager.Instance.PlayBGM(true);
         Failure?.Invoke();
     }
 
     public void OnUnityAdsShowStart(string placementId)
     {
-       
+        AudioManager.Instance.PlayBGM(false);
     }
 
     public void OnUnityAdsShowClick(string placementId)
     {
        
-
     }
 
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
     {
         if (placementId == adUnitId && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
         {
-           
+            AudioManager.Instance.PlayBGM(true);
             Debug.Log("Ads Fully Watched");
             GameManager.Instance.isReward = true;
             Reward?.Invoke();

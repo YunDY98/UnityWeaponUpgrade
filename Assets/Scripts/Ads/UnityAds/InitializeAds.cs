@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEngine.Advertisements;
 public class InitializeAds : MonoBehaviour,IUnityAdsInitializationListener
 {
-    [SerializeField] string androidGameId;
-    [SerializeField] string iosGameId;
     [SerializeField] bool isTesting;
 
     string gameId;
@@ -22,8 +20,6 @@ public class InitializeAds : MonoBehaviour,IUnityAdsInitializationListener
 
     void Awake()
     {
-        
-       
            
         #if UNITY_ANDROID
             gameId = new AdsID().unityAdsAndGameId;

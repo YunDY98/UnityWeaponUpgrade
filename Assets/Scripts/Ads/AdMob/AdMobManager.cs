@@ -34,12 +34,7 @@ public class AdMobManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(this);
 
-
-
     }
-
-
-
 
     public void Start()
     {
@@ -52,6 +47,7 @@ public class AdMobManager : MonoBehaviour
         // 광고 로드
         LoadRewardedAd();
     }
+    
 
     // 보상형 광고 로드 함수
     public void LoadRewardedAd()
@@ -89,20 +85,22 @@ public class AdMobManager : MonoBehaviour
         });
     }
 
+
     // 광고가 닫힐 때 처리 (재로딩 등)
     private void HandleAdClosed()
     {
-        Failure?.Invoke();
+        AudioManager.Instance.PlayBGM(true);
         Debug.Log("광고가 닫혔습니다.");
 
         // 광고가 닫히면 새로운 광고를 로드
         LoadRewardedAd();
     }
 
+
     // 보상형 광고 표시 함수
     public void ShowRewardedAd()
     {
-         
+        
         // 광고가 준비되었으면 표시
         if (_rewardedAd != null && _rewardedAd.CanShowAd())
         {
@@ -110,14 +108,17 @@ public class AdMobManager : MonoBehaviour
             _rewardedAd.Show((Reward reward) =>
             {
                 Debug.Log("광고 완료 후 보상 지급");
+               
                 Reward?.Invoke();
             });
         }
         else
         {
-          
+            
             Debug.Log("광고가 아직 로드되지 않았습니다.");
+            return;
         }
+        AudioManager.Instance.PlayBGM(false);
       
     }
 }

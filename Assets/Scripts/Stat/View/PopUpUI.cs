@@ -34,12 +34,13 @@ public class PopUpUI : MonoBehaviour
         AdMobManager.Instance.Failure += Penalty;
         ad.onClick.AddListener(() => AdMobManager.Instance.ShowRewardedAd());
 #elif UNITY_ANDROID
-        AdsManager.Instance.rewardedAds.Reward += WatchedAD;
-        AdsManager.Instance.rewardedAds.Failure += Resurrction;
-        AdsManager.Instance.rewardedAds.Failure += Penalty;
+        
+        UnityAdsManager.Instance.rewardedAds.Reward += WatchedAD;
+        UnityAdsManager.Instance.rewardedAds.Failure += Resurrction;
+        UnityAdsManager.Instance.rewardedAds.Failure += Penalty;
         ad.onClick.AddListener(() =>
         {
-           AdsManager.Instance.rewardedAds.ShowRewardedAd();
+           UnityAdsManager.Instance.rewardedAds.ShowRewardedAd();
         });
 #endif
 
