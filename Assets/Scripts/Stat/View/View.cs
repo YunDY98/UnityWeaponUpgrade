@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Linq;
 using R3;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -110,8 +109,6 @@ public class View : MonoBehaviour
             child.btn.onClick.AddListener(() => viewModel.StatUpgrade(viewModel.GetStat(data.type), viewModel.statUpMult.Value));
 
         }
-
-
 
     }
 

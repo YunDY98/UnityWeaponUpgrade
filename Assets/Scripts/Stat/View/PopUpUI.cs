@@ -44,11 +44,6 @@ public class PopUpUI : MonoBehaviour
         });
 #endif
 
-
-
-
-
-
         viewModel.IsDead.Subscribe(dead => deathUI.SetActive(dead));
 
 

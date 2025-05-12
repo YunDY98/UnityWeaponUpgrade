@@ -382,7 +382,7 @@ public class RecyclingListView : MonoBehaviour
         float height = ChildPrefab.RectTransform.rect.height * rowCount + (rowCount - 1) * RowPadding;
         // apparently 'sizeDelta' is the way to set w / h 
         var sz = scrollRect.content.sizeDelta;
-        scrollRect.content.sizeDelta = new Vector2(sz.x, height * 1.1f);
+        scrollRect.content.sizeDelta = new Vector2(sz.x, height);
     }
 
     protected virtual void DisableAllChildren()
