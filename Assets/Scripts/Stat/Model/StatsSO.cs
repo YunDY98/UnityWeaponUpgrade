@@ -142,7 +142,7 @@ public class StatsSO : ScriptableObject
                 costRate = 1.03f,
                 upgradeRate = 1,
                 level = new(1),
-                maxLevel = 100,
+                maxLevel = 1000,
                 floatScale = 1000
             };
 
