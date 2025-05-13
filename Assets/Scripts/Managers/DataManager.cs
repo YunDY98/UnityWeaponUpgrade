@@ -82,15 +82,15 @@ public class DataManager : MonoBehaviour
         {
            uData.statData[i] = new()
            {
-                key = data.key,
-                textName = data.textName,
-                floatScale  = data.floatScale,
-                baseValue = data.baseValue,
-                baseCost = data.baseCost,
-                costRate = data.costRate,
-                upgradeRate = data.upgradeRate,
+                // key = data.key,
+                // textName = data.textName,
+                // floatScale  = data.floatScale,
+                // baseValue = data.baseValue,
+                // baseCost = data.baseCost,
+                // costRate = data.costRate,
+                // upgradeRate = data.upgradeRate,
                 level = data.level.Value,
-                maxLevel = data.maxLevel,
+                // maxLevel = data.maxLevel,
                 
 
 
@@ -178,17 +178,17 @@ public class StatData
 {
     
 
-    public StatType key;
-    public string textName;
-    public int floatScale;
+    // public StatType key;
+    // public string textName;
+    // public int floatScale;
 
-    public int baseValue;
+    // public int baseValue;
 
     public int level;
-    public int maxLevel;
-    public int baseCost;
-    public float costRate;
-    public float upgradeRate;
+    // public int maxLevel;
+    // public int baseCost;
+    // public float costRate;
+    // public float upgradeRate;
 
 
 }

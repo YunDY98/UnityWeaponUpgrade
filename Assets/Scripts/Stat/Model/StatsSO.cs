@@ -22,7 +22,7 @@ public class StatsSO : ScriptableObject
     {
         stats = new Stat[Enum.GetValues(typeof(StatType)).Length];
 
-        if (uData == null)
+       
         {
             stats[(int)StatType.AttackDamage] = new()
             {
@@ -176,7 +176,26 @@ public class StatsSO : ScriptableObject
                 floatScale = 1000
             };
 
+        }
+        if (uData != null)
+        {
+            Level = new ReactiveProperty<int>(uData.userLevel);
+            Exp = new ReactiveProperty<int>(uData.userExp);
+            Gold = new ReactiveProperty<BigInteger>(BigInteger.Parse(uData.gold));
 
+            for(int i=0; i<stats.Length;++i)
+            {
+                var stat = stats[i];
+             
+                stat.level.Value = uData.statData[i].level;
+                stat.cost.Value = Utility.GeoProgression(stat.baseCost, stat.costRate, stat.level.Value);
+                stat.value.Value = Utility.GeoProgression(stat.baseValue, stat.upgradeRate, stat.level.Value);
+
+            }
+            CurHP = new(GetStat(StatType.MaxHP).value.Value);
+        }
+        else
+        {
 
             CurHP = new(stats[(int)StatType.MaxHP].baseValue);
 
@@ -184,43 +203,6 @@ public class StatsSO : ScriptableObject
             Exp = new(0);
             Gold = new(BigInteger.Parse("1000000"));
 
-
-        }
-        else
-        {
-            Level = new ReactiveProperty<int>(uData.userLevel);
-            Exp = new ReactiveProperty<int>(uData.userExp);
-            Gold = new ReactiveProperty<BigInteger>(BigInteger.Parse(uData.gold));
-
-            foreach (var data in uData.statData)
-            {
-
-
-
-                stats[(int)data.key] = new()
-                {
-                    baseValue = data.baseValue,
-
-                    level = new ReactiveProperty<int>(data.level),
-                    key = data.key,
-                    textName = data.textName,
-                    baseCost = data.baseCost,
-                    costRate = data.costRate,
-                    upgradeRate = data.upgradeRate,
-                    floatScale = data.floatScale,
-                    maxLevel = data.maxLevel,
-
-                    cost = new(),
-                    value = new(),
-
-
-                };
-                Stat stat = stats[(int)data.key];
-                stat.cost.Value = Utility.GeoProgression(stat.baseCost, stat.costRate, stat.level.Value);
-                stat.value.Value = Utility.GeoProgression(stat.baseValue, stat.upgradeRate, stat.level.Value);
-
-            }
-            CurHP = new ReactiveProperty<BigInteger>(GetStat(StatType.MaxHP).value.Value);
         }
         Loading.Instance.totalLoadCnt += stats.Length;
         Loading.Instance.spriteLoadCnt += stats.Length;
