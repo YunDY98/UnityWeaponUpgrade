@@ -42,8 +42,8 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
 
     Rigidbody2D rigid;
-    public float hpRate = 1.01f;
-    public float atkRate = 1.01f;
+    public float hpRate = 1.5f;
+    public float atkRate = 1.5f;
 
     public int exp = 1;
 

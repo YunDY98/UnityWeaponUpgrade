@@ -18,17 +18,12 @@ public class TutorialManager : MonoBehaviour
             startUI.SetActive(true);
             GameManager.Instance.Stop = true;
         
-            
-
         }
         else
         {
             Skip();
            
         }
-
-
-        
     }
 
     public void TutorialStart()

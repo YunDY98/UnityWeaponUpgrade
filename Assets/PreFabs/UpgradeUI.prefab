@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66a726212996f4b9a93698bfe8511327, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  upgradeUI: {fileID: 0}
 --- !u!114 &2728446080767746006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -687,9 +688,8 @@ MonoBehaviour:
   cost: {fileID: 0}
   btn: {fileID: 0}
   description: {fileID: 0}
-  level: {fileID: 0}
+  levelText: {fileID: 0}
   maxLevelText: {fileID: 0}
-  longClick: {fileID: 0}
   image: {fileID: 0}
 --- !u!1 &6918697109561185479
 GameObject:
@@ -997,9 +997,8 @@ MonoBehaviour:
   cost: {fileID: 4018991979687851746}
   btn: {fileID: 3886349985551791886}
   description: {fileID: 1940603673947480972}
-  level: {fileID: 3232338492996894791}
+  levelText: {fileID: 3232338492996894791}
   maxLevelText: {fileID: 6824203407741102410}
-  longClick: {fileID: 6534433157439122982}
   image: {fileID: 2209668720559088740}
 --- !u!1 &8114963174148380789
 GameObject:

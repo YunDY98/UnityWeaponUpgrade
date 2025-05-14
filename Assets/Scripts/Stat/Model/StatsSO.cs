@@ -3,7 +3,6 @@ using System.Numerics;
 using Assets.Scripts;
 using R3;
 using UnityEngine;
-using UnityEngine.InputSystem.Interactions;
 using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "StatsSO", menuName = "ScriptableObjects/Player", order = 1)]
@@ -21,7 +20,8 @@ public class StatsSO : ScriptableObject
     public void Init(UserData uData)
     {
         stats = new Stat[Enum.GetValues(typeof(StatType)).Length];
-
+        Loading.Instance.totalLoadCnt += stats.Length;
+        Loading.Instance.spriteLoadCnt += stats.Length;
        
         {
             stats[(int)StatType.AttackDamage] = new()
@@ -55,20 +55,21 @@ public class StatsSO : ScriptableObject
                 floatScale = 0
             };
 
-            // stats[(int)StatType.AttackRange] = new()
-            // {
-            //     value = new(10000),
-            //     baseValue = 10000,
-            //     key = StatType.AttackRange,
-            //     textName = "공격 범위",
-            //     baseCost = 1000,
-            //     cost = new(BigInteger.Parse("1000000000")),
-            //     costRate = 1.5f,
-            //     upgradeRate = 1,
-            //     level = new(1),
-            //     maxLevel = 100,
-            //     floatScale = 1000
-            // };
+            stats[(int)StatType.AttackRange] = new()
+            {
+                value = new(1000),
+                baseValue = 1000,
+                key = StatType.AttackRange,
+                textName = "공격 범위",
+                format = "배",
+                baseCost = 1000,
+                cost = new(BigInteger.Parse("1000000000")),
+                costRate = 1.5f,
+                upgradeRate = 1.01f,
+                level = new(1),
+                maxLevel = 100,
+                floatScale = 1000
+            };
 
             stats[(int)StatType.AttackCnt] = new()
             {
@@ -76,6 +77,7 @@ public class StatsSO : ScriptableObject
                 baseValue = 1,
                 key = StatType.AttackCnt,
                 textName = "공격 마리 수",
+                format = "마리",
                 baseCost = 1000000000,
                 cost = new(BigInteger.Parse("1000000000")),
                 costRate = 10000,
@@ -92,6 +94,7 @@ public class StatsSO : ScriptableObject
                 baseValue = 3000,
                 key = StatType.AttackSpeed,
                 textName = "공격 속도",
+                format = "초",
                 baseCost = 2000000000,
                 cost = new(BigInteger.Parse("10000000")),
                 costRate = 1.03f,
@@ -107,6 +110,7 @@ public class StatsSO : ScriptableObject
                 baseValue = 1000,
                 key = StatType.AddGoldAmount,
                 textName = "골드 획득량",
+                format = "%",
                 baseCost = 1000,
                 cost = new(BigInteger.Parse("1000")),
                 costRate = 1.01f,
@@ -122,12 +126,13 @@ public class StatsSO : ScriptableObject
                 baseValue = 1,
                 key = StatType.StunTime,
                 textName = "스턴 지속시간",
+                format = "초",
                 baseCost = 1000,
                 cost = new(BigInteger.Parse("1000000")),
                 costRate = 1.03f,
                 upgradeRate = 1,
                 level = new(1),
-                maxLevel = 100,
+                maxLevel = 10000,
                 floatScale = 1000
             };
 
@@ -136,7 +141,8 @@ public class StatsSO : ScriptableObject
                 value = new(1),
                 baseValue = 1,
                 key = StatType.StunRate,
-                textName = "스턴 확률",
+                textName = "넉백 확률",
+                format = "%",
                 baseCost = 1000,
                 cost = new(BigInteger.Parse("100000")),
                 costRate = 1.03f,
@@ -152,6 +158,7 @@ public class StatsSO : ScriptableObject
                 baseValue = 10,
                 key = StatType.CriticalRate,
                 textName = "크리티컬 확률",
+                format = "%",
                 baseCost = 1000000,
                 cost = new(BigInteger.Parse("1000000")),
                 costRate = 1.03f,
@@ -167,6 +174,7 @@ public class StatsSO : ScriptableObject
                 baseValue = 1001,
                 key = StatType.CriticalDamage,
                 textName = "크리티컬 데미지",
+                format = "%",
                 baseCost = 1000,
                 cost = new(BigInteger.Parse("100000")),
                 costRate = 2f,
@@ -179,9 +187,9 @@ public class StatsSO : ScriptableObject
         }
         if (uData != null)
         {
-            Level = new ReactiveProperty<int>(uData.userLevel);
-            Exp = new ReactiveProperty<int>(uData.userExp);
-            Gold = new ReactiveProperty<BigInteger>(BigInteger.Parse(uData.gold));
+            Level = new(uData.userLevel);
+            Exp = new(uData.userExp);
+            Gold = new(BigInteger.Parse(uData.gold));
 
             for(int i=0; i<stats.Length;++i)
             {
@@ -204,16 +212,12 @@ public class StatsSO : ScriptableObject
             Gold = new(BigInteger.Parse("1000000"));
 
         }
-        Loading.Instance.totalLoadCnt += stats.Length;
-        Loading.Instance.spriteLoadCnt += stats.Length;
+       
     }
 
     public Stat GetStat(int type)
     {
-
-
         return stats[type];
-
     }
 
     public Stat GetStat(StatType type)
@@ -318,6 +322,7 @@ public class Stat
 {
     public StatType key;
     public string textName;
+    public string format = "";
     public ReactiveProperty<BigInteger> value;
 
 
@@ -326,10 +331,14 @@ public class Stat
     public void LevelUp(int increase)
     {
 
-        level.Value += increase;
-        if (level.Value > maxLevel)
+       
+        if (level.Value + increase > maxLevel)
         {
             level.Value = maxLevel;
+        }
+        else
+        {
+            level.Value += increase;
         }
 
 
@@ -372,16 +381,10 @@ public class Stat
         double fValue = (int)value.Value / (double)floatScale;
 
 
-
-
-
         return fValue;
 
 
     }
-
-
-
 
 }
 
@@ -389,6 +392,7 @@ public enum StatType
 {
     AttackDamage,
     MaxHP,
+    AttackRange,
     AttackCnt,
     AttackSpeed,
     AddGoldAmount,

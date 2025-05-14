@@ -13,16 +13,9 @@ public class UpgradeUI : RecyclingListViewItem
     public TextMeshProUGUI cost;
     public Button btn;
     public TextMeshProUGUI description;
-    public TextMeshProUGUI level;
+    public TextMeshProUGUI levelText;
     public TextMeshProUGUI maxLevelText;
-    public LongClick longClick;
     public Image image;
-
-
-
-
-
-
 
 }
 
@@ -37,12 +30,5 @@ public class StatInfo
     public string maxLevelText;
     public LongClick longClick;
     public Sprite sprite;
-
-
-
-
-
-
-
 
 }

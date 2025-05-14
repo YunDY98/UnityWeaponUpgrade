@@ -4,6 +4,8 @@ using Spine.Unity;
 
 using System.Collections.Generic;
 using System.Collections;
+using Assets.Scripts;
+using Spine.Unity.Examples;
 public class Player : MonoBehaviour
 {
     
@@ -47,6 +49,8 @@ public class Player : MonoBehaviour
     List<GameObject> enemies = new(); // 적 배열
     int cnt; // 공격 가능 적 수 
     float attackDelay = 0f; // 공격 시간 
+
+    float attackDistance = 2.4f; // 공격 범위 
     Vector2 center;
     #endregion
 
@@ -225,7 +229,7 @@ public class Player : MonoBehaviour
         cnt = (int)statsSO.GetStat(StatType.AttackCnt).value.Value;
         center = transform.position;
         // 박스 중심과 크기 설정
-        Vector2 size = new Vector2(5f, 3f);
+        Vector2 size = new Vector2(attackDistance * (float)statsSO.GetStat(StatType.AttackRange).GetFValue(), 3f);
         float angle = 0f;
 
         // 적 레이어 마스크
@@ -240,6 +244,7 @@ public class Player : MonoBehaviour
         
         foreach (Collider2D col in colliders)
         {
+         
             float distance = Vector2.Distance(transform.position, col.transform.position);
             sortedEnemies.Add((col, distance));
         }
@@ -267,6 +272,7 @@ public class Player : MonoBehaviour
             }
         }
     }
+
 
     IEnumerator HitDelay(Sfx sfx,EnemyFSM enemy,float delay)
     {

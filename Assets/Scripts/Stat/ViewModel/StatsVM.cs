@@ -94,6 +94,12 @@ public class StatsVM
         {
             _model.IncreaseStat(stat, increase);
         }
+        else
+        {
+            if(AudioManager.Instance.longClickSound != null)
+                AudioManager.Instance.longClickSound.Stop();
+        }
+        
 
 
 
@@ -157,6 +163,7 @@ public class StatsVM
                 if (curLevel == nextLevel)
                 {
                     ui.cost.Value = "Max";
+                   
                 }
 
                 float scale = 1;
@@ -165,21 +172,32 @@ public class StatsVM
                 {
                     scale = stat.floatScale;
 
-                    ui.description.Value = $"{(double)curValue / scale * 100} → {(double)nextValue / scale * 100}";
+                    
+
+                    if(stat.format == "%")
+                    {
+                        ui.description.Value = $"{(double)curValue / scale * 100}{stat.format} → {(double)nextValue / scale * 100}{stat.format}";
+                    }
+                    else
+                    {
+                        ui.description.Value = $"{(double)curValue / scale}{stat.format} → {(double)nextValue / scale}{stat.format}";
+                    }
+
+                    
 
                 }
                 else
                 {
-                    ui.description.Value = $"{Utility.FormatNumberKoreanUnit(curValue)} → {Utility.FormatNumberKoreanUnit(nextValue)}";
+                    ui.description.Value = $"{Utility.FormatNumberKoreanUnit(curValue)}{stat.format} → {Utility.FormatNumberKoreanUnit(nextValue)}{stat.format}";
 
                 }
 
-                ui.level.Value = $"Lv.{curLevel}";
+                ui.level.Value = curLevel.ToString();
 
 
             });
 
-            ui.maxLevelText = $"(max: {stat.maxLevel})";
+            ui.maxLevelText = stat.maxLevel.ToString();
 
             datas.Add(ui);
 

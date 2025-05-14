@@ -95,9 +95,9 @@ public class View : MonoBehaviour
         child.sub.Clear();
 
         data.cost.Subscribe(x => child.cost.text = x).AddTo(child.sub);
-        data.level.Subscribe(x => child.level.text = x).AddTo(child.sub);
+        data.level.Subscribe(x => child.levelText.text = $"Lv.{x}").AddTo(child.sub);
 
-        child.maxLevelText.text = data.maxLevelText;
+        child.maxLevelText.text = $"(Max:{data.maxLevelText})";
 
         data.description.Subscribe(x => child.description.text = x).AddTo(child.sub);
 
