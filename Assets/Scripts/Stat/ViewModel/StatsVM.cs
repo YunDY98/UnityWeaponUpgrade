@@ -4,12 +4,15 @@ using R3;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Assets.Scripts;
+using System;
 
 public class StatsVM
 {
 
     // public List<StatInfo> uList = new();
     // public List<UpgradeUI> showUIList = new();
+
+    public event Action GoldWarningEvent;
 
     public List<StatInfo> datas = new();
     readonly StatsSO _model;
@@ -76,7 +79,7 @@ public class StatsVM
             return true;
 
         }
-
+        GoldWarningEvent?.Invoke();
         return false;
 
     }

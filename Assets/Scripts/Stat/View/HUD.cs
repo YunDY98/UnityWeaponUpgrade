@@ -11,8 +11,7 @@ using System.Collections;
 public class HUD : MonoBehaviour
 {
 
-    [SerializeField]
-    GameObject levelUP;
+    
     [SerializeField]
     Slider hpSlider;
 
@@ -26,7 +25,7 @@ public class HUD : MonoBehaviour
 
     StatsVM viewModel;
 
-    WaitForSeconds wait = new(1f);
+  
 
     void Start()
     {
@@ -36,12 +35,7 @@ public class HUD : MonoBehaviour
 
 
     }
-    IEnumerator LevelUp()
-    {
-        levelUP.SetActive(true);
-        yield return wait;
-        levelUP.SetActive(false);
-    }
+    
     public void DrawUI()
     {
         viewModel.Gold.Subscribe(Gold => goldText.text = Utility.FormatNumberKoreanUnit(Gold)); // 골드 표기
@@ -70,11 +64,7 @@ public class HUD : MonoBehaviour
 
 
         });
-        viewModel.Level.Skip(1).Subscribe(level =>
-        {
-            StartCoroutine(LevelUp());
-
-        });
+        
 
     }
 
