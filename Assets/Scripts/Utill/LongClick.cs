@@ -26,7 +26,7 @@ public class LongClick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (upgradeUI.cost.text == "Max")
+        if (upgradeUI != null && upgradeUI.cost.text == "Max")
             return;
         Button btn = GetComponent<Button>();
         startCor = StartCoroutine(StartRepeat(btn));
@@ -76,7 +76,7 @@ public class LongClick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
         while (true)
         {
-            if (upgradeUI.cost.text == "Max")
+            if (upgradeUI != null && upgradeUI.cost.text == "Max")
             {
                 AudioManager.Instance.OffClickSound();
 

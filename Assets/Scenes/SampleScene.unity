@@ -828,7 +828,7 @@ GameObject:
   - component: {fileID: 294799138}
   - component: {fileID: 294799137}
   - component: {fileID: 294799136}
-  - component: {fileID: 294799135}
+  - component: {fileID: 294799139}
   m_Layer: 5
   m_Name: Button (1)
   m_TagString: Untagged
@@ -856,18 +856,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &294799135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 294799133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66a726212996f4b9a93698bfe8511327, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &294799136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -962,6 +950,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 294799133}
   m_CullTransparentMesh: 1
+--- !u!114 &294799139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294799133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66a726212996f4b9a93698bfe8511327, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &352534202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,7 +1015,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &364669459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1960,7 +1960,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1054950318}
-  scrollAmount: 20
   moveSpeed: 1
   moveDirection: {x: -1, y: 0, z: 0}
 --- !u!23 &978869577
@@ -2025,7 +2024,7 @@ Transform:
   m_GameObject: {fileID: 978869575}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.799999, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 30, y: 10, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2458,7 +2457,7 @@ Transform:
   m_GameObject: {fileID: 1054950316}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 37.8, y: 0, z: 1}
+  m_LocalPosition: {x: 30, y: 0, z: 1}
   m_LocalScale: {x: 30, y: 10, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2530,7 +2529,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 978869579}
-  scrollAmount: 20
   moveSpeed: 1
   moveDirection: {x: -1, y: 0, z: 0}
 --- !u!1 &1080168423
@@ -4099,7 +4097,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1888444984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4276,8 +4274,8 @@ RectTransform:
   m_GameObject: {fileID: 1953745867}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1111112, y: 1.1111112, z: 1.1111112}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 951055049}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

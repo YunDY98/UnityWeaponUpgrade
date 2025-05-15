@@ -1,3 +1,5 @@
+using Microsoft.Unity.VisualStudio.Editor;
+using Mono.Cecil;
 using UnityEngine;
 
 
@@ -8,12 +10,16 @@ public class Move : MonoBehaviour
 
     [SerializeField] 
     private Transform target; // 현재 배경과 이어지는 배경
-    [SerializeField] 
     private float scrollAmount; // 이어지는 두 배경 사이의 거리
     [SerializeField] 
     private float moveSpeed; // 이동 스피드
     [SerializeField] 
     private Vector3 moveDirection; // 이동 방향
+
+    void Start()
+    {
+       scrollAmount = target.localScale.x * 0.8f;
+    }
 
     void Update()
     {
