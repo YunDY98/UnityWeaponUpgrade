@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
     
-
+        if(Stop) return;
         if(!isLive) return;
         
         time += Time.deltaTime;

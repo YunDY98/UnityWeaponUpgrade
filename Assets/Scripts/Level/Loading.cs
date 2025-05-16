@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -35,21 +36,37 @@ public class Loading : MonoBehaviour
 
     }
 
+    void OnEnable()
+    {
+        GameManager.Instance.Stop = true;
+        
+    }
+
     void Start()
     {
-        Time.timeScale = 0f;
+        StartCoroutine(LoadInit());
     }
+
+    IEnumerator LoadInit()
+    {
+        
+        load.value = 0;
+        while (load.value < 0.99f)
+        {
+            load.value = (float)currentLoadCnt / totalLoadCnt;
+           
+            yield return null;
+
+        }
+        GameManager.Instance.Stop = false;
+        gameObject.SetActive(false);
+
+    }
+
 
     void Update()
     {
-        load.value = (float)currentLoadCnt / totalLoadCnt;
-
-        if (load.value > 0.99f)
-        {
-            Time.timeScale = 1f;
-            Destroy(gameObject);
-
-        }
+       
 
     }
 
