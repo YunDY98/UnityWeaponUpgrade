@@ -1,24 +1,25 @@
 using System;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class StartTutorial : MonoBehaviour, ICanvasRaycastFilter
 {
     public RectTransform holeRect;
-    RectTransform attackButton; 
+    Button[] tutoBtn =  new Button[Enum.GetValues(typeof(Tutorial)).Length]; 
 
     public GameObject content;
 
-    public RectTransform x10;
+    public Button x10;
 
     public TextMeshProUGUI tutorialDec;
 
     public event Action EndEvent;
 
     public int step = 0;
-
     
+  
 
     public bool IsRaycastLocationValid(Vector2 sp, Camera eventCamera)
     {
@@ -30,17 +31,21 @@ public class StartTutorial : MonoBehaviour, ICanvasRaycastFilter
         
         return true;
     }
+    
 
     public void AttakUpTutorial()
     {
 
         tutorialDec.text = "공격력 업그레이드";
+        int type = (int)Tutorial.Attack;
+        if(tutoBtn[type] == null)
+        {
+            tutoBtn[type] = content.GetComponentInChildren<Button>();
+    
+        }
+           
 
-        if(attackButton == null)
-            attackButton = content.GetComponentInChildren<Button>().GetComponent<RectTransform>();
-            //attackButton = content.GetComponentsInChildren<Button>()[(int)StatType.AttackDamage].GetComponent<RectTransform>();
-
-        UpgradeTutorial(attackButton);
+        UpgradeTutorial(tutoBtn[type]);
     }
 
     public void MultUpTutorial()
@@ -49,27 +54,35 @@ public class StartTutorial : MonoBehaviour, ICanvasRaycastFilter
         UpgradeTutorial(x10);
     }
 
-    public void UpgradeTutorial(RectTransform target)
+    public void UpgradeTutorial(Button target)
     {
         gameObject.SetActive(true);
 
-        Button btn = target.GetComponent<Button>();
+
+        target.TryGetComponent<LongClick>(out var longClick);
+
+        if(longClick != null)
+            longClick.enabled = false;   
         
         UnityEngine.Events.UnityAction oneTimeListener = null;
 
         oneTimeListener = () =>
         {
             StartTutorialStep(++step);
-            btn.onClick.RemoveListener(oneTimeListener);
+            if(longClick != null)
+                longClick.enabled = true;
+            target.onClick.RemoveListener(oneTimeListener);
            
         };
-        btn.onClick.AddListener(oneTimeListener);
+        target.onClick.AddListener(oneTimeListener);
+
+        var rect = target.GetComponent<RectTransform>();
        
         
-        holeRect.position = target.position;
+        holeRect.position = rect.position;
        
        
-        holeRect.sizeDelta = target.sizeDelta;
+        holeRect.sizeDelta = rect.sizeDelta;
 
        
 
@@ -102,5 +115,11 @@ public class StartTutorial : MonoBehaviour, ICanvasRaycastFilter
 
 
 
+}
+
+
+enum Tutorial
+{
+    Attack,
 }
 
