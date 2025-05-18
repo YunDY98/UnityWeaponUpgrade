@@ -9,14 +9,18 @@ public class TutorialManager : MonoBehaviour
 
     public GameObject startUI;
 
+    [SerializeField]
+    GameObject mission;
+
+
     void Start()
     {
         startTutorial.EndEvent += StartTutorialEnd;
-        print(statsSO.Level.Value + " Lv");
         if (statsSO.Level.Value == 1)
         {
         
             startUI.SetActive(true);
+            mission.SetActive(false);
 
             Time.timeScale = 0;
          
@@ -25,12 +29,14 @@ public class TutorialManager : MonoBehaviour
         else
         {
             GameManager.Instance.Stop = false;
-
+            mission.SetActive(true);
             Destroy(startTutorial.gameObject);
             Destroy(startUI);
             Destroy(gameObject);
 
         }
+      
+       
     }
 
     public void TutorialStart()
@@ -45,11 +51,13 @@ public class TutorialManager : MonoBehaviour
 
     public void Skip()
     {
+        
         GameManager.Instance.Stop = false;
         statsSO.AddExp(1);
         Destroy(startTutorial.gameObject);
         Destroy(startUI);
         Destroy(gameObject);
+        mission.SetActive(true);
 
 
     }
@@ -65,7 +73,10 @@ public class TutorialManager : MonoBehaviour
 
     void OnDisable()
     {
+       
+       
         Time.timeScale = 1;
+        
         
     }
 

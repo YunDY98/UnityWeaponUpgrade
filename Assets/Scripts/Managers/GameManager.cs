@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
         enemySort = Enum.GetValues(typeof(EnemyType)).Length;
 
         statsVM = new(statsSO);
-
+        
         Loading.Instance.totalLoadCnt += statsSO.GetStats().Length;
         Loading.Instance.spriteLoadCnt += statsSO.GetStats().Length;
        
@@ -97,7 +97,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         
-       
         AudioManager.Instance.PlayBGM(true);
         
        

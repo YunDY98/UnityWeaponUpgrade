@@ -34,23 +34,18 @@ public class DataManager : MonoBehaviour
 
             DontDestroyOnLoad(gameObject);
         }
+        userDataFilePath = $"{Application.persistentDataPath}/data.json";
+        missionDataFilePath = $"{Application.persistentDataPath}/Mission.json";
 
-        UserData();
-      
-
-    }
-
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Alpha0))
-        {SaveData();}
+        statsSO.Init(LoadUserData());
         
+
     }
 
     public MissionList Mission()
     {
-        missionDataFilePath = $"{Application.persistentDataPath}/Mission.json";
        
+        
 
         if (File.Exists(missionDataFilePath))
         {
@@ -72,14 +67,6 @@ public class DataManager : MonoBehaviour
             return null;
         }
 
-
-    }
-
-    void UserData()
-    {
-        userDataFilePath = $"{Application.persistentDataPath}/data.json";
-        Debug.Log($"파일 저장됨: { userDataFilePath}");
-        statsSO.Init(LoadUserData());
 
     }
 

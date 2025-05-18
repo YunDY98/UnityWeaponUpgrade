@@ -19,9 +19,9 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
     }
 
     #region MissionData
-    public int missionID;
-    public int kill;
-    public int earnedGold;
+    public int missionID = 0;
+    public int kill = 0;
+    public int earnedGold = 0;
 
     #endregion MissionData
 
@@ -57,7 +57,7 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
 
     void Start()
     {
-        var missionData = DataManager.Instance.LoadUserData().missionData;
+        var missionData = DataManager.Instance.LoadUserData()?.missionData;
 
         if(missionData == null)
         {
@@ -194,8 +194,6 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
         statType = StatType.None;
         CurMission();
         isClear = true;
-
-        DataManager.Instance.SaveData();
 
 
         if (rewardType == "Gold")

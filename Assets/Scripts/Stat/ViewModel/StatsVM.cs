@@ -46,6 +46,7 @@ public class StatsVM
             IsDead.Value = newHP <= 0;
 
         });
+        
 
         RetrieveData();
 
