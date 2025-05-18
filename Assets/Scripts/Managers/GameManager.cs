@@ -85,8 +85,8 @@ public class GameManager : MonoBehaviour
 
         statsVM = new(statsSO);
         
-        Loading.Instance.totalLoadCnt += statsSO.GetStats().Length;
-        Loading.Instance.spriteLoadCnt += statsSO.GetStats().Length;
+        Loading.Instance.totalLoadCnt += 2;
+       
        
        
        

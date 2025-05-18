@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 using System.Collections;
-using Unity.Android.Gradle.Manifest;
+
 
 
 public class MissionManager : MonoBehaviour, IPointerDownHandler
@@ -75,23 +75,9 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
         }
         
 
-        missions = DataManager.Instance.Mission().missions;
-        CurMission();
-        curValue.Subscribe(value => 
-        {
-            missionProgress.text = $"({value}/{goal})";
+        DataManager.Instance.LoadMission(missinoList => missions = missinoList.missions);
 
-            if(value >= goal && twinkle == null)
-            {
-                
-                twinkle = StartCoroutine(Twinkle());
-               
-
-            }
-                
-            
-        });
-
+       StartCoroutine(LoadMission());
         
     }
 
@@ -213,10 +199,40 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
         while (true)
         {
             float t = Mathf.PingPong(Time.time, 1f);  // t = 0~1 사이
-            float alpha = Mathf.Lerp(0.3f, 0.8f, t);  // t를 원하는 범위로 보간
+            float alpha = Mathf.Lerp(0.3f, 1f, t);  // t를 원하는 범위로 보간
             panel.color = new Color(panelColor.r, panelColor.g, panelColor.b, alpha);
             yield return null;
         }
+    }
+
+    IEnumerator LoadMission()
+    {
+
+        while(missions == null)
+        {
+            yield return null;
+        }
+        CurMission();
+        curValue.Subscribe(value => 
+        {
+            missionProgress.text = $"({value}/{goal})";
+
+            if(value >= goal && twinkle == null)
+            {
+                
+                twinkle = StartCoroutine(Twinkle());
+               
+
+            }
+                
+            
+        });
+
+        Loading.Instance.currentLoadCnt += 1;
+
+
+
+
     }
 
 }

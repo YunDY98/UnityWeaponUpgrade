@@ -123,7 +123,7 @@ public class View : MonoBehaviour
         }
         
         theList.RowCount = viewModel.datas.Count;
-        Loading.Instance.currentLoadCnt += Loading.Instance.spriteLoadCnt;
+        Loading.Instance.currentLoadCnt += 1;
        
 
     }

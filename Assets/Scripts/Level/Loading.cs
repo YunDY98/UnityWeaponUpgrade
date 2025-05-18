@@ -17,7 +17,6 @@ public class Loading : MonoBehaviour
 
     public int totalLoadCnt = 0;
     public int currentLoadCnt = 0;
-    public int spriteLoadCnt;
 
     void Awake()
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 
 public class DataManager : MonoBehaviour
@@ -11,13 +12,13 @@ public class DataManager : MonoBehaviour
     private string missionDataFilePath;
     private readonly string keyWord = "Weapon";
     public StatsSO statsSO;
-   
+
 
     private static DataManager _instance;
     public static DataManager Instance
     {
-        get{ return _instance;}
-    
+        get { return _instance; }
+
 
     }
 
@@ -26,7 +27,7 @@ public class DataManager : MonoBehaviour
 
         if (_instance != null)
         {
-           Destroy(gameObject);
+            Destroy(gameObject);
         }
         else
         {
@@ -38,45 +39,38 @@ public class DataManager : MonoBehaviour
         missionDataFilePath = $"{Application.persistentDataPath}/Mission.json";
 
         statsSO.Init(LoadUserData());
-        
+
 
     }
 
-    public MissionList Mission()
+  
+
+
+    public void LoadMission(Action<MissionList> onLoaded)
     {
-       
-        
-
-        if (File.Exists(missionDataFilePath))
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Mission/Mission.json").Completed += handle =>
         {
-            // 파일에서 JSON 데이터 읽기
-            string jsonData = File.ReadAllText(missionDataFilePath);
-
-            if (string.IsNullOrWhiteSpace(jsonData))
+            if (handle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
             {
-                Debug.LogWarning("미션 파일은 존재하지만 내용이 없습니다.");
-                
+                string json = handle.Result.text;
+                var list = JsonUtility.FromJson<MissionList>(json);
+                onLoaded?.Invoke(list);
             }
-            
-            return JsonUtility.FromJson<MissionList>((jsonData));
-        }
-        else
-        {
-          
-            Debug.LogError("미션 파일이 존재하지 않습니다.");
-            return null;
-        }
-
-
+            else
+            {
+                Debug.LogError("Addressable JSON 로드 실패!");
+                onLoaded?.Invoke(null);
+            }
+        };
     }
 
 
 
     void OnApplicationQuit()
     {
-       //SaveData();
-       
-        
+        //SaveData();
+
+
     }
     public void DeleteData()
     {
@@ -108,17 +102,17 @@ public class DataManager : MonoBehaviour
         {
             statData = new StatData[statsSO.GetStats().Length]
         };
-       
+
 
         uData.missionData.earnedGold = MissionManager.Instance.earnedGold;
         uData.missionData.kill = MissionManager.Instance.kill;
         uData.missionData.missionID = MissionManager.Instance.missionID;
 
         int i = 0;
-        foreach(Stat data in statsSO.GetStats())
+        foreach (Stat data in statsSO.GetStats())
         {
-           uData.statData[i] = new()
-           {
+            uData.statData[i] = new()
+            {
                 // key = data.key,
                 // textName = data.textName,
                 // floatScale  = data.floatScale,
@@ -127,33 +121,33 @@ public class DataManager : MonoBehaviour
                 // costRate = data.costRate,
                 // upgradeRate = data.upgradeRate,
                 level = data.level.Value,
-                
+
                 // maxLevel = data.maxLevel,
-                
 
 
 
-           };
-           ++i;
+
+            };
+            ++i;
 
         }
         uData.userLevel = statsSO.Level.Value;
         uData.userExp = statsSO.Exp.Value;
-       
+
         uData.gold = statsSO.Gold.Value.ToString();
         // 데이터를 JSON으로 직렬화
         string jsonData = JsonUtility.ToJson(uData);
 
         // JSON 데이터를 파일로 저장
-       // File.WriteAllText(userDataFilePath, EncryptAndDecrypt(jsonData));
+        // File.WriteAllText(userDataFilePath, EncryptAndDecrypt(jsonData));
         File.WriteAllText(userDataFilePath, (jsonData));
-      
+
     }
 
     public UserData LoadUserData()
     {
-       
-      
+
+
         if (File.Exists(userDataFilePath))
         {
             // 파일에서 JSON 데이터 읽기
@@ -169,7 +163,7 @@ public class DataManager : MonoBehaviour
             //return JsonUtility.FromJson<UserData>(EncryptAndDecrypt(jsonData));
             return JsonUtility.FromJson<UserData>((jsonData));
 
-           
+
         }
         else
         {
@@ -180,17 +174,17 @@ public class DataManager : MonoBehaviour
 
     private string EncryptAndDecrypt(string data)
     {
-        
+
         StringBuilder sb = new();
 
-        for(int i=0;i<data.Length;++i)
+        for (int i = 0; i < data.Length; ++i)
         {
-           
+
             sb.Append((char)(data[i] ^ keyWord[i % keyWord.Length]));
         }
-       
+
         return sb.ToString();
-    }   
+    }
 
 
 }
@@ -207,7 +201,7 @@ public class UserData
 
     public UserMissionData missionData = new();
 
-    
+
 
 
 }
@@ -215,7 +209,7 @@ public class UserData
 [Serializable]
 public class StatData
 {
-    
+
 
     // public StatType key;
     // public string textName;
