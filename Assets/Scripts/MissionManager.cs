@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 using System.Collections;
+using Unity.Android.Gradle.Manifest;
 
 
 public class MissionManager : MonoBehaviour, IPointerDownHandler
@@ -17,9 +18,12 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
         get => _instance;
     }
 
-    public int killCnt = 0;
-    public int earnedGold = 0;
-    int ID => statsSO.missionID;
+    #region MissionData
+    public int missionID;
+    public int kill;
+    public int earnedGold;
+
+    #endregion MissionData
 
     ReactiveProperty<int> curValue = new();
     int goal;
@@ -53,32 +57,52 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
 
     void Start()
     {
+        var missionData = DataManager.Instance.LoadUserData().missionData;
+
+        if(missionData == null)
+        {
+            missionID = 0;
+            kill = 0;
+            earnedGold = 0;
+
+        }
+        else
+        {
+            missionID = missionData.missionID;
+            kill = missionData.kill;
+            earnedGold = missionData.earnedGold;
+
+        }
+        
+
         missions = DataManager.Instance.Mission().missions;
         CurMission();
-        curValue.Subscribe(value => {
+        curValue.Subscribe(value => 
+        {
             missionProgress.text = $"({value}/{goal})";
 
             if(value >= goal && twinkle == null)
             {
                 
                 twinkle = StartCoroutine(Twinkle());
-                panel.color = panelColor;
-
+               
 
             }
                 
             
         });
+
+        
     }
 
 
     public void CurMission()
     {
         
-        var mission = missions[ID % missions.Length];
-        iDText.text = $"Mission {ID}";
+        var mission = missions[missionID % missions.Length];
+        iDText.text = $"Mission {missionID + 1}";
        
-        goal = mission.goal + ID / missions.Length;
+        goal = mission.goal + missionID / missions.Length;
         missionDesc.text = string.Format(mission.description, goal); 
         missionType = mission.type;
 
@@ -99,18 +123,16 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
         switch (missionType)
         {
             case "Kill":
-                if(isClear) statsSO.kill = 0;
+                if(isClear) kill = 0;
                 isClear = false;
-                killCnt = statsSO.kill;
-                curValue.Value = killCnt;
+                curValue.Value = kill;
                 
-                break;
+                return;
             case "EarnedGold":
-                if(isClear) statsSO.earnedGold = 0;
+                if(isClear) earnedGold = 0;
                 isClear = false;
-                earnedGold = statsSO.earnedGold;
                 curValue.Value = earnedGold;
-                break;
+                return;
 
            
         }
@@ -141,14 +163,14 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
     public void Kill()
     {
         if (missionType != "Kill") return;
-        killCnt += 1;
-        curValue.Value = killCnt;
+        kill++;
+        curValue.Value = kill;
 
         
 
     }
 
-    public void EarnedGold(int gold = 0)
+    public void EarnedGold(int gold)
     {
         if (missionType != "EarnedGold") return;
         earnedGold += gold;
@@ -165,11 +187,15 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
 
         StopCoroutine(twinkle);
         twinkle = null;
+        panel.color = panelColor;
 
-        statsSO.missionID += 1;
+
+        missionID += 1;
         statType = StatType.None;
         CurMission();
         isClear = true;
+
+        DataManager.Instance.SaveData();
 
 
         if (rewardType == "Gold")

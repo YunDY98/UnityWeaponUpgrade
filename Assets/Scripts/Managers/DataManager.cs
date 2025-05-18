@@ -40,6 +40,13 @@ public class DataManager : MonoBehaviour
 
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha0))
+        {SaveData();}
+        
+    }
+
     public MissionList Mission()
     {
         missionDataFilePath = $"{Application.persistentDataPath}/Mission.json";
@@ -114,6 +121,11 @@ public class DataManager : MonoBehaviour
         {
             statData = new StatData[statsSO.GetStats().Length]
         };
+       
+
+        uData.missionData.earnedGold = MissionManager.Instance.earnedGold;
+        uData.missionData.kill = MissionManager.Instance.kill;
+        uData.missionData.missionID = MissionManager.Instance.missionID;
 
         int i = 0;
         foreach(Stat data in statsSO.GetStats())
@@ -138,8 +150,6 @@ public class DataManager : MonoBehaviour
            ++i;
 
         }
-        uData.missionData.missionID = statsSO.missionID;
-        uData.missionData.kill = statsSO.kill;
         uData.userLevel = statsSO.Level.Value;
         uData.userExp = statsSO.Exp.Value;
        
@@ -207,9 +217,10 @@ public class UserData
     public int userExp = 0;
     public string gold = " ";
 
-   
 
     public UserMissionData missionData = new();
+
+    
 
 
 }
