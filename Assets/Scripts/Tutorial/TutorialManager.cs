@@ -12,12 +12,15 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         startTutorial.EndEvent += StartTutorialEnd;
-
+        print(statsSO.Level.Value + " Lv");
         if (statsSO.Level.Value == 1)
         {
+        
             startUI.SetActive(true);
-            GameManager.Instance.Stop = true;
 
+            Time.timeScale = 0;
+         
+            //GameManager.Instance.Stop = true;
         }
         else
         {
@@ -59,6 +62,12 @@ public class TutorialManager : MonoBehaviour
 
     }
 
+
+    void OnDisable()
+    {
+        Time.timeScale = 1;
+        
+    }
 
 
 

@@ -16,6 +16,7 @@ public class EnemyFactory: ObjectPool
     [SerializeField]
     EffectManager effect;
 
+
     WaitForSeconds spawnDelay = new (1f);
 
 

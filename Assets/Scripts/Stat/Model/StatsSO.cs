@@ -3,6 +3,7 @@ using System.Numerics;
 using Assets.Scripts;
 using R3;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "StatsSO", menuName = "ScriptableObjects/Player", order = 1)]
@@ -16,12 +17,14 @@ public class StatsSO : ScriptableObject
     public ReactiveProperty<int> Level;
     public ReactiveProperty<int> Exp;
     public ReactiveProperty<BigInteger> Gold;
+    public int missionID;
+    public int kill;
+    public int earnedGold;
 
     public void Init(UserData uData)
     {
-        stats = new Stat[Enum.GetValues(typeof(StatType)).Length];
-        Loading.Instance.totalLoadCnt += stats.Length;
-        Loading.Instance.spriteLoadCnt += stats.Length;
+        stats = new Stat[Enum.GetValues(typeof(StatType)).Length-1];
+       
        
         {
             stats[(int)StatType.AttackDamage] = new()
@@ -201,10 +204,16 @@ public class StatsSO : ScriptableObject
 
             }
             CurHP = new(GetStat(StatType.MaxHP).value.Value);
+            missionID = uData.missionData.missionID;
+            kill = uData.missionData.kill;
+            earnedGold = uData.missionData.earnedGold;
         }
         else
         {
-
+            missionID = 1;
+            kill = 0;
+            earnedGold = 0;
+            
             CurHP = new(stats[(int)StatType.MaxHP].baseValue);
 
             Level = new(1);
@@ -212,6 +221,7 @@ public class StatsSO : ScriptableObject
             Gold = new(BigInteger.Parse("1000000"));
 
         }
+      
        
     }
 
@@ -291,6 +301,8 @@ public class StatsSO : ScriptableObject
 
     public void AddGold(BigInteger gold)
     {
+        MissionManager.Instance.EarnedGold((int)gold);
+        Debug.Log("Gold" + (int)gold);
         Gold.Value += gold;
     }
 
@@ -399,9 +411,16 @@ public enum StatType
     StunTime,
     StunRate,
     CriticalRate,
-    CriticalDamage
+    CriticalDamage,
+    None
 
 }
+
+
+
+
+
+
 
 
 

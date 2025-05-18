@@ -10,7 +10,6 @@ using Assets.Scripts;
 
 public class EnemyFSM : MonoBehaviour,IPoolable
 {
-
     public event Action<GameObject,int> ReturnEvent;
     public event Action<int,Vector3> DropItemEvent;
    
@@ -240,8 +239,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
         pStats.AddExp(exp);
 
-      
-      
+        MissionManager.Instance.Kill();      
 
     }
 

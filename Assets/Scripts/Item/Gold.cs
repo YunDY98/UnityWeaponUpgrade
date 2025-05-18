@@ -20,7 +20,7 @@ public class Gold : ItemMove,IPoolable
     void OnDisable()
     {
         ReturnEvent?.Invoke(gameObject,(int)type);
-        statsSO.Gold.Value += statsSO.GetStat(StatType.AddGoldAmount).value.Value * statsSO.Level.Value;
+        statsSO.AddGold( statsSO.GetStat(StatType.AddGoldAmount).value.Value * statsSO.Level.Value);
     }
 
 

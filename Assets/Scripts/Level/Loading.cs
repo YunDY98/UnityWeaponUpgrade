@@ -6,14 +6,12 @@ using UnityEngine.UI;
 
 public class Loading : MonoBehaviour
 {
-
     private static Loading _instance;
     public static Loading Instance
     {
-        get { return _instance; }
-        set { _instance = value; }
-
+        get => _instance;
     }
+
     [SerializeField]
     Slider load;
 
@@ -30,45 +28,27 @@ public class Loading : MonoBehaviour
         else
         {
             _instance = this;
-
             DontDestroyOnLoad(gameObject);
         }
-
-    }
-
-    void OnEnable()
-    {
-        GameManager.Instance.Stop = true;
-        
     }
 
     void Start()
     {
+    
         StartCoroutine(LoadInit());
     }
 
     IEnumerator LoadInit()
     {
+        GameManager.Instance.Stop = true;
         
         load.value = 0;
         while (load.value < 0.99f)
         {
             load.value = (float)currentLoadCnt / totalLoadCnt;
-           
             yield return null;
-
         }
         GameManager.Instance.Stop = false;
         gameObject.SetActive(false);
-
     }
-
-
-    void Update()
-    {
-       
-
-    }
-
-
 }

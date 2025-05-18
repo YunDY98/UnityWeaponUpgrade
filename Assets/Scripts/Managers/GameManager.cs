@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public bool isLive;
     float time;
     float spawnTime = 2f;
-    int _enemyCnt;
+    
 
     #region Ads
 
@@ -19,9 +19,10 @@ public class GameManager : MonoBehaviour
     #endregion
 
     int enemySort;
+    int _enemyCnt;
     public int EnemyCnt
     {
-        get { return _enemyCnt; }
+        get => _enemyCnt;
         set { _enemyCnt = value; }
     }
 
@@ -76,7 +77,7 @@ public class GameManager : MonoBehaviour
 
             DontDestroyOnLoad(gameObject);
         }
-
+        Stop = true;
         Application.targetFrameRate = 120;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
@@ -84,6 +85,8 @@ public class GameManager : MonoBehaviour
 
         statsVM = new(statsSO);
 
+        Loading.Instance.totalLoadCnt += statsSO.GetStats().Length;
+        Loading.Instance.spriteLoadCnt += statsSO.GetStats().Length;
       
         
     }

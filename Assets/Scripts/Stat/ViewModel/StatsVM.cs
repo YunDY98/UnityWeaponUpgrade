@@ -2,7 +2,6 @@
 using System.Numerics;
 using R3;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Assets.Scripts;
 using System;
 
@@ -31,6 +30,7 @@ public class StatsVM
     public ReactiveProperty<int> Exp => _model.Exp;
 
     public ReactiveProperty<int> Level => _model.Level;
+
 
     public ReactiveProperty<bool> IsDead = new();
 
@@ -154,6 +154,8 @@ public class StatsVM
                 {
                     nextLevel = stat.maxLevel;
                 }
+
+                MissionManager.Instance.StatMission(stat.key);
 
                 BigInteger curValue = Utility.GeoProgression(stat.baseValue, stat.upgradeRate, curLevel);
 
