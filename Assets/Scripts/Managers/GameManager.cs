@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         Stop = true;
-        Application.targetFrameRate = 120;
+        Application.targetFrameRate = 120; 
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         enemySort = Enum.GetValues(typeof(EnemyType)).Length;
@@ -87,12 +87,17 @@ public class GameManager : MonoBehaviour
 
         Loading.Instance.totalLoadCnt += statsSO.GetStats().Length;
         Loading.Instance.spriteLoadCnt += statsSO.GetStats().Length;
+       
+       
+       
       
         
     }
 
     void Start()
     {
+        
+       
         AudioManager.Instance.PlayBGM(true);
         
        

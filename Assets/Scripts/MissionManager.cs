@@ -3,8 +3,9 @@ using TMPro;
 using R3;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Unity.VisualScripting;
+using UnityEngine.UI;
 using System;
+using System.Collections;
 
 
 public class MissionManager : MonoBehaviour, IPointerDownHandler
@@ -32,9 +33,14 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
 
 
 
+
+
     [SerializeField] TextMeshProUGUI iDText;
     [SerializeField] TextMeshProUGUI missionDesc;
     [SerializeField] TextMeshProUGUI missionProgress;
+    [SerializeField] Image panel;
+    Color panelColor;
+    Coroutine twinkle;
     MissionData[] missions;
 
     [SerializeField] StatsSO statsSO;
@@ -42,13 +48,27 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
     void Awake()
     {
         _instance = this;
+        panelColor = panel.color;
     }
 
     void Start()
     {
         missions = DataManager.Instance.Mission().missions;
         CurMission();
-        curValue.Subscribe(value => missionProgress.text = $"({value}/{goal})");
+        curValue.Subscribe(value => {
+            missionProgress.text = $"({value}/{goal})";
+
+            if(value >= goal && twinkle == null)
+            {
+                
+                twinkle = StartCoroutine(Twinkle());
+                panel.color = panelColor;
+
+
+            }
+                
+            
+        });
     }
 
 
@@ -143,6 +163,9 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
         if (goal > curValue.Value)
             return;
 
+        StopCoroutine(twinkle);
+        twinkle = null;
+
         statsSO.missionID += 1;
         statType = StatType.None;
         CurMission();
@@ -158,6 +181,18 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
             statsSO.AddExp((int)reward);
         }
 
+    }
+
+   IEnumerator Twinkle()
+    {
+    
+        while (true)
+        {
+            float t = Mathf.PingPong(Time.time, 1f);  // t = 0~1 사이
+            float alpha = Mathf.Lerp(0.3f, 0.8f, t);  // t를 원하는 범위로 보간
+            panel.color = new Color(panelColor.r, panelColor.g, panelColor.b, alpha);
+            yield return null;
+        }
     }
 
 }
