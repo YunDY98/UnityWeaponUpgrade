@@ -1,10 +1,9 @@
 using System;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StartTutorial : MonoBehaviour, ICanvasRaycastFilter
+public class BasicTutorial : MonoBehaviour, ICanvasRaycastFilter
 {
     public RectTransform holeRect;
     Button[] tutoBtn =  new Button[Enum.GetValues(typeof(Tutorial)).Length]; 

@@ -96,12 +96,14 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     void Update()
     {
+        if (GameManager.Instance.IsLoding)
+            return;
         
-        if(GameManager.Instance.Stop)
+        if(GameManager.Instance.Pause)
             return;
 
        
-        if(!GameManager.Instance.isLive)
+        if(!GameManager.Instance.IsLive)
             ReturnEvent?.Invoke(gameObject,(int)enemySO.type);
 
         
@@ -123,7 +125,9 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
     void FixedUpdate()
     {
-        if(GameManager.Instance.Stop)
+        if (GameManager.Instance.IsLoding)
+            return;
+        if(GameManager.Instance.Pause)
             return;
         switch(state)
         {
@@ -144,12 +148,12 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
         float distance = Vector3.Distance(transform.position, player.position);
 
-        float stopDistance = 2f;
+        float PauseDistance = 2f;
 
         float moveSpeed = enemySO.moveSpeed;
 
 
-        if (distance <= stopDistance)
+        if (distance <= PauseDistance)
         {
             state = State.Attack;
             return;

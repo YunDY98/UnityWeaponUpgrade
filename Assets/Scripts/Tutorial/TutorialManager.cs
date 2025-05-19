@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
-    public StartTutorial startTutorial;
+    public BasicTutorial basicTutorial;
 
     public StatsSO statsSO;
 
@@ -15,22 +15,20 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
-        startTutorial.EndEvent += StartTutorialEnd;
+        basicTutorial.EndEvent += BasicTutorialEnd;
         if (statsSO.Level.Value == 1)
         {
         
             startUI.SetActive(true);
             mission.SetActive(false);
 
-            Time.timeScale = 0;
-         
-            //GameManager.Instance.Stop = true;
+            GameManager.Instance.Pause = true;
         }
         else
         {
-            GameManager.Instance.Stop = false;
+            GameManager.Instance.Pause = false;
             mission.SetActive(true);
-            Destroy(startTutorial.gameObject);
+            Destroy(basicTutorial.gameObject);
             Destroy(startUI);
             Destroy(gameObject);
 
@@ -43,18 +41,18 @@ public class TutorialManager : MonoBehaviour
     {
 
         Destroy(startUI);
-        startTutorial.gameObject.SetActive(true);
-        startTutorial.AttakUpTutorial();
+        basicTutorial.gameObject.SetActive(true);
+        basicTutorial.AttakUpTutorial();
 
 
     }
 
     public void Skip()
     {
-        
-        GameManager.Instance.Stop = false;
+
+        GameManager.Instance.Pause = false;
         statsSO.AddExp(1);
-        Destroy(startTutorial.gameObject);
+        Destroy(basicTutorial.gameObject);
         Destroy(startUI);
         Destroy(gameObject);
         mission.SetActive(true);
@@ -62,22 +60,12 @@ public class TutorialManager : MonoBehaviour
 
     }
 
-    public void StartTutorialEnd()
+    public void BasicTutorialEnd()
     {
         statsSO.AddExp(1);
 
         Skip();
 
-    }
-
-
-    void OnDisable()
-    {
-       
-       
-        Time.timeScale = 1;
-        
-        
     }
 
 

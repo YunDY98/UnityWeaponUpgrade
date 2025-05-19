@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
 
 
-    public bool isLive;
+   
     float time;
     float spawnTime = 2f;
     
@@ -34,16 +34,36 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public StatsVM statsVM;
 
-    bool _stop = false;
-
-    public bool Stop
+    #region
+    private bool _isLive;
+    public bool IsLive
     {
-        get => _stop;
+        get => _isLive;
         set
         {
-            _stop = value;
+            _isLive = value;
         }
     }
+    private bool _isLoding;
+    public bool IsLoding
+    {
+        get => _isLoding;
+        set
+        {
+            _isLoding = value;
+        }
+    }
+
+    bool _pause = false;
+    public bool Pause
+    {
+        get => _pause;
+        set
+        {
+            _pause = value;
+        }
+    }
+    #endregion
 
 
 
@@ -77,20 +97,13 @@ public class GameManager : MonoBehaviour
 
             DontDestroyOnLoad(gameObject);
         }
-        Stop = true;
+        Pause = true;
         Application.targetFrameRate = 120; 
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         enemySort = Enum.GetValues(typeof(EnemyType)).Length;
 
         statsVM = new(statsSO);
-        
-        Loading.Instance.totalLoadCnt += 2;
-       
-       
-       
-       
-      
         
     }
 
@@ -107,8 +120,9 @@ public class GameManager : MonoBehaviour
     void Update()
     {
     
-        if(Stop) return;
-        if(!isLive) return;
+        if(Pause) return;
+        if(!IsLive) return;
+        if(IsLoding) return;
         
         time += Time.deltaTime;
 

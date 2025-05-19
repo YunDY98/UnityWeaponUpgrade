@@ -9,7 +9,7 @@ using UnityEngine.AddressableAssets;
 public class DataManager : MonoBehaviour
 {
     private string userDataFilePath;
-    private string missionDataFilePath;
+
     private readonly string keyWord = "Weapon";
     public StatsSO statsSO;
 
@@ -36,7 +36,6 @@ public class DataManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         userDataFilePath = $"{Application.persistentDataPath}/data.json";
-        missionDataFilePath = $"{Application.persistentDataPath}/Mission.json";
 
         statsSO.Init(LoadUserData());
 

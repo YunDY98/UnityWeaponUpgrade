@@ -29,6 +29,7 @@ public class Loading : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        totalLoadCnt += 2;
     }
 
     void Start()
@@ -39,7 +40,7 @@ public class Loading : MonoBehaviour
 
     IEnumerator LoadInit()
     {
-        GameManager.Instance.Stop = true;
+        GameManager.Instance.IsLoding = true;
         
         load.value = 0;
         while (load.value < 0.99f)
@@ -47,7 +48,7 @@ public class Loading : MonoBehaviour
             load.value = (float)currentLoadCnt / totalLoadCnt;
             yield return null;
         }
-        GameManager.Instance.Stop = false;
+        GameManager.Instance.IsLoding = false;
         gameObject.SetActive(false);
     }
 }
