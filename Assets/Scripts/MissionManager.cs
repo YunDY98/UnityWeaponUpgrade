@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 using System.Collections;
+using Assets.Scripts;
 
 
 
@@ -21,12 +22,12 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
     #region MissionData
     public int missionID = 0;
     public int kill = 0;
-    public int earnedGold = 0;
+    public BigInteger earnedGold = new();
 
     #endregion MissionData
 
-    ReactiveProperty<int> curValue = new();
-    int goal;
+    ReactiveProperty<BigInteger> curValue = new();
+    BigInteger goal = new();
     //int curValue;
     string missionType;
     StatType statType;
@@ -70,7 +71,7 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
         {
             missionID = missionData.missionID;
             kill = missionData.kill;
-            earnedGold = missionData.earnedGold;
+            earnedGold = BigInteger.Parse(missionData.earnedGold);
 
         }
         
@@ -88,7 +89,7 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
         var mission = missions[missionID % missions.Length];
         iDText.text = $"Mission {missionID + 1}";
        
-        goal = mission.goal + missionID / missions.Length;
+        goal = BigInteger.Parse(mission.goal) + missionID / missions.Length;
         missionDesc.text = string.Format(mission.description, goal); 
         missionType = mission.type;
 
@@ -156,7 +157,7 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
 
     }
 
-    public void EarnedGold(int gold)
+    public void EarnedGold(BigInteger gold)
     {
         if (missionType != "EarnedGold") return;
         earnedGold += gold;
@@ -170,9 +171,14 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
 
         if (goal > curValue.Value)
             return;
+        if(twinkle != null)
+        {
+            StopCoroutine(twinkle);
+            twinkle = null;
 
-        StopCoroutine(twinkle);
-        twinkle = null;
+        }
+           
+        
         panel.color = panelColor;
 
 
@@ -215,7 +221,7 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
         CurMission();
         curValue.Subscribe(value => 
         {
-            missionProgress.text = $"({value}/{goal})";
+            missionProgress.text = $"({Utility.FormatNumberKoreanUnit(value)}/{Utility.FormatNumberKoreanUnit(goal)})";
 
             if(value >= goal && twinkle == null)
             {

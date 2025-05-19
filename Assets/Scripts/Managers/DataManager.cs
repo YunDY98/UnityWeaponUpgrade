@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Numerics;
 using System.Text;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -53,6 +53,7 @@ public class DataManager : MonoBehaviour
             {
                 string json = handle.Result.text;
                 var list = JsonUtility.FromJson<MissionList>(json);
+                print(json);
                 onLoaded?.Invoke(list);
             }
             else
@@ -103,7 +104,7 @@ public class DataManager : MonoBehaviour
         };
 
 
-        uData.missionData.earnedGold = MissionManager.Instance.earnedGold;
+        uData.missionData.earnedGold =  MissionManager.Instance.earnedGold.ToString();
         uData.missionData.kill = MissionManager.Instance.kill;
         uData.missionData.missionID = MissionManager.Instance.missionID;
 
@@ -236,7 +237,7 @@ public class MissionData
     public int id = 1;
     public string type = "";
     public string description = "";
-    public int goal = 0;
+    public string goal = "0";
 
     public MissionReward rewards = new();
 }
@@ -253,7 +254,7 @@ public class UserMissionData
 {
     public int missionID = 1;
     public int kill = 0;
-    public int earnedGold = 0;
+    public string earnedGold = "0";
 
 
 }

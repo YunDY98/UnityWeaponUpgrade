@@ -295,7 +295,7 @@ public class StatsSO : ScriptableObject
 
     public void AddGold(BigInteger gold)
     {
-        MissionManager.Instance.EarnedGold((int)gold);
+        MissionManager.Instance.EarnedGold(gold);
         Gold.Value += gold;
         DataManager.Instance.SaveData();
     }
