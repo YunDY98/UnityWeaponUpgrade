@@ -91,6 +91,7 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
         
         goal = BigInteger.Parse(mission.goal) + missionID / missions.Length;
         missionDesc.text = string.Format(mission.description, Utility.FormatNumberKoreanUnit(goal)); 
+        
         missionType = mission.type;
 
         rewardType = mission.rewards.type;
@@ -107,6 +108,7 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
     void MissionInfo()
     {
         statType = StatType.None;
+        curValue.Value = -1;
         switch (missionType)
         {
             case "Kill":
@@ -221,6 +223,8 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
         CurMission();
         curValue.Subscribe(value => 
         {
+            if(curValue.Value == -1) return;
+            
             missionProgress.text = $"({Utility.FormatNumberKoreanUnit(value)}/{Utility.FormatNumberKoreanUnit(goal)})";
 
             if(value >= goal && twinkle == null)

@@ -60,25 +60,6 @@ public class HUD : MonoBehaviour
             expSlider.DOValue(ratio, tweenDuration).SetEase(Ease.OutCubic);
         });
 
-
-        // Observable.CombineLatest(viewModel.CurHP, viewModel.GetStat(StatType.MaxHP).value,
-        // (curHP, maxHP) => new { curHP, maxHP })
-        // .Subscribe(data =>
-        // {
-        //     hpSlider.value = (float)((double)data.curHP / (double)data.maxHP);
-        //     float ratio = (float)((double)data.curHP / (double)data.maxHP);
-
-        //     hpSlider.DOValue(ratio, tweenDuration).SetEase(Ease.OutCubic);
-
-        // });
-
-        // viewModel.Exp.Subscribe(exp =>
-        // {
-        //     expSlider.value = (float)exp / (float)viewModel.Level.Value;
-
-
-        // });
-
         viewModel.Level.Subscribe(level =>
         {
             levelText.text = $"Lv.{level}";
