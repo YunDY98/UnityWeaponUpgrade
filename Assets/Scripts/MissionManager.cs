@@ -88,9 +88,9 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
         
         var mission = missions[missionID % missions.Length];
         iDText.text = $"Mission {missionID + 1}";
-       
+        
         goal = BigInteger.Parse(mission.goal) + missionID / missions.Length;
-        missionDesc.text = string.Format(mission.description, goal); 
+        missionDesc.text = string.Format(mission.description, Utility.FormatNumberKoreanUnit(goal)); 
         missionType = mission.type;
 
         rewardType = mission.rewards.type;

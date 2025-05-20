@@ -2675,7 +2675,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missionID: 0
   kill: 0
-  earnedGold: 0
   iDText: {fileID: 1879356450}
   missionDesc: {fileID: 214785508}
   missionProgress: {fileID: 1355199593}
@@ -2828,8 +2827,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: (10000000/10000000)
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b251f2b9efbd443cf84d6d72c99a33d5, type: 2}
+  m_sharedMaterial: {fileID: -6416985410272364643, guid: b251f2b9efbd443cf84d6d72c99a33d5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

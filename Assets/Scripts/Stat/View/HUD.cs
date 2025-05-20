@@ -4,6 +4,7 @@ using R3;
 using TMPro;
 using Assets.Scripts;
 using System.Collections;
+using DG.Tweening;
 
 
 
@@ -23,6 +24,8 @@ public class HUD : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI levelText;
 
+    [SerializeField] float tweenDuration = 0.3f;
+
     StatsVM viewModel;
 
   
@@ -40,23 +43,41 @@ public class HUD : MonoBehaviour
     {
         viewModel.Gold.Subscribe(Gold => goldText.text = Utility.FormatNumberKoreanUnit(Gold)); // 골드 표기
 
-
-        Observable.CombineLatest(viewModel.CurHP, viewModel.GetStat(StatType.MaxHP).value,
-        (curHP, maxHP) => new { curHP, maxHP })
+        Observable.CombineLatest(
+            viewModel.CurHP,
+            viewModel.GetStat(StatType.MaxHP).value,
+            (curHP, maxHP) => new { curHP, maxHP }
+        )
         .Subscribe(data =>
         {
-            hpSlider.value = (float)((double)data.curHP / (double)data.maxHP);
-
-
-
+            float ratio = (float)((double)data.curHP / (double)data.maxHP);
+            hpSlider.DOValue(ratio, tweenDuration).SetEase(Ease.OutCubic);
         });
 
         viewModel.Exp.Subscribe(exp =>
         {
-            expSlider.value = (float)exp / (float)viewModel.Level.Value;
-
-
+            float ratio = (float)exp / (float)viewModel.Level.Value;
+            expSlider.DOValue(ratio, tweenDuration).SetEase(Ease.OutCubic);
         });
+
+
+        // Observable.CombineLatest(viewModel.CurHP, viewModel.GetStat(StatType.MaxHP).value,
+        // (curHP, maxHP) => new { curHP, maxHP })
+        // .Subscribe(data =>
+        // {
+        //     hpSlider.value = (float)((double)data.curHP / (double)data.maxHP);
+        //     float ratio = (float)((double)data.curHP / (double)data.maxHP);
+
+        //     hpSlider.DOValue(ratio, tweenDuration).SetEase(Ease.OutCubic);
+
+        // });
+
+        // viewModel.Exp.Subscribe(exp =>
+        // {
+        //     expSlider.value = (float)exp / (float)viewModel.Level.Value;
+
+
+        // });
 
         viewModel.Level.Subscribe(level =>
         {

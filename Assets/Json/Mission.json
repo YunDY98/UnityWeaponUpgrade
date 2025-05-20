@@ -14,7 +14,7 @@
             "id": 2,
             "type": "Kill",
             "description": "적 {0}마리 처치",
-            "goal": 10,
+            "goal": 1,
             "rewards": {
                 "type": "Exp",
                 "amount": 10
