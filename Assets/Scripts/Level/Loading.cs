@@ -35,20 +35,20 @@ public class Loading : MonoBehaviour
     void Start()
     {
     
-        StartCoroutine(LoadInit());
+       // StartCoroutine(LoadInit());
     }
 
-    IEnumerator LoadInit()
-    {
-        GameManager.Instance.IsLoding = true;
+    // IEnumerator LoadInit()
+    // {
+    //     GameManager.Instance.IsLoding = true;
         
-        load.value = 0;
-        while (load.value < 0.99f)
-        {
-            load.value = (float)currentLoadCnt / totalLoadCnt;
-            yield return null;
-        }
-        GameManager.Instance.IsLoding = false;
-        gameObject.SetActive(false);
-    }
+    //     load.value = 0;
+    //     while (load.value < 0.99f)
+    //     {
+    //         load.value = (float)currentLoadCnt / totalLoadCnt;
+    //         yield return null;
+    //     }
+    //     GameManager.Instance.IsLoding = false;
+    //     gameObject.SetActive(false);
+    // }
 }

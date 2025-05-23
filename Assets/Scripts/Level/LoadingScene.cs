@@ -17,7 +17,7 @@ public class LodingScene : MonoBehaviour
     {   
       
        StartCoroutine(TransitionNextScene(1));
-       gameStart.onClick.AddListener(GameStart);
+
     }
     
     IEnumerator TransitionNextScene(int num)
@@ -36,9 +36,9 @@ public class LodingScene : MonoBehaviour
            
             if(ao.progress >= 0.9f)
             {
-                
-                loadingBar.gameObject.SetActive(false);
-                gameStart.gameObject.SetActive(true);
+                ao.allowSceneActivation = true;
+                // loadingBar.gameObject.SetActive(false);
+                // gameStart.gameObject.SetActive(true);
 
             }
 
@@ -46,12 +46,6 @@ public class LodingScene : MonoBehaviour
         }
 
         
-    }
-
-    void GameStart()
-    {
-
-        ao.allowSceneActivation = true;
     }
 
 }

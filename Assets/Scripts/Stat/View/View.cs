@@ -56,7 +56,8 @@ public class View : MonoBehaviour
 
         theList.ItemCallback = PopulateItem;
 
-        StartCoroutine(WaitForLoading());
+       
+        theList.RowCount = viewModel.datas.Count;
 
     }
 
@@ -112,21 +113,6 @@ public class View : MonoBehaviour
 
     }
 
-
-    IEnumerator WaitForLoading()
-    {
-
-        while (!viewModel.datas.All(d => d.sprite != null))
-        {
-
-            yield return null;
-        }
-        
-        theList.RowCount = viewModel.datas.Count;
-        Loading.Instance.currentLoadCnt += 1;
-       
-
-    }
 
 
     public void TestGold()

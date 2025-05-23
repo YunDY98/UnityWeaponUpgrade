@@ -4,6 +4,7 @@ using System;
 
 public class AdMobManager : MonoBehaviour
 {
+
     public event Action Reward;
     public event Action Failure;
 
@@ -87,22 +88,23 @@ public class AdMobManager : MonoBehaviour
     public void ShowRewardedAd()
     {
 
+
         // 광고가 준비되었으면 표시
         if (_rewardedAd != null && _rewardedAd.CanShowAd())
         {
             bool isRewarded = false;
             _rewardedAd.Show((Reward reward) =>
             {
-                Debug.Log("광고 완료 후 보상 지급");
-
+                Debug.Log("광고 끝까지 시청 후 보상 지급");
+                isRewarded = true;
                 Reward?.Invoke();
             });
-            
-            // 광고가 끝나고 닫혔을 때 보상이 지급되지 않았다면 Failure 호출
+
+            // 광고가 닫혔을 때 보상이 지급되지 않았다면 Failure 호출
             _rewardedAd.OnAdFullScreenContentClosed += () =>
             {
                 AudioManager.Instance.PlayBGM(true);
-                isRewarded = true;
+                
                 Debug.Log("광고가 닫혔습니다.");
 
                 if (!isRewarded)

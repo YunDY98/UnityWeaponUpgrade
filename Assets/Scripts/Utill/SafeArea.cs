@@ -27,10 +27,10 @@ public class SafeArea : MonoBehaviour
         // 현재 기기의 Safe Area를 가져옴 (노치, 홈 바 등을 제외한 실제 표시 영역)
         Rect safeArea = Screen.safeArea;
 
-        // Safe Area의 시작 위치 (0,0)
+        // Safe Area의 시작 위치 좌측하단
         Vector2 anchorMin = safeArea.position;
 
-        // Safe Area의 끝 위치 (1,1)
+        // Safe Area의 끝 위치 우측상단
         Vector2 anchorMax = safeArea.position + safeArea.size;
 
         // 화면 전체 크기에 비례한 0~1 사이의 정규화된 값으로 환산

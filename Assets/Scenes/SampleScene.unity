@@ -1015,7 +1015,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &364669459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1375,6 +1375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statsSO: {fileID: 11400000, guid: b17bee0fc41134e21b2d488e42731a0c, type: 2}
+  missions: []
 --- !u!4 &528915404
 Transform:
   m_ObjectHideFlags: 0
@@ -3778,7 +3779,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1573612315
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3923,7 +3924,7 @@ RectTransform:
   m_Father: {fileID: 2029717565}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 2.5, y: 0}
   m_SizeDelta: {x: 5, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4493,7 +4494,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1888444984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4550,7 +4551,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dee2ad089ebd476098fa627d64a4044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isReward: 0
   EnemyFactory: {fileID: 1286675215}
   statsSO: {fileID: 11400000, guid: b17bee0fc41134e21b2d488e42731a0c, type: 2}
 --- !u!4 &1888747115
@@ -6320,7 +6320,7 @@ GameObject:
   - component: {fileID: 8019171580627129482}
   - component: {fileID: 5254334275474301376}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Hole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -15,8 +15,6 @@ public class PopUpUI : MonoBehaviour
     [SerializeField]
     GameObject goldWarning;
 
- 
-
     WaitForSeconds wait = new(1f);
 
     [SerializeField]

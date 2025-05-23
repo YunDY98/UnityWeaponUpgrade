@@ -23,7 +23,7 @@ public class BasicTutorial : MonoBehaviour, ICanvasRaycastFilter
 
     public bool IsRaycastLocationValid(Vector2 sp, Camera eventCamera)
     {
-        
+
         if (RectTransformUtility.RectangleContainsScreenPoint(holeRect, sp, eventCamera))
         {
             //해당 영역에 있을경우 레이케스트 무시 
@@ -68,7 +68,7 @@ public class BasicTutorial : MonoBehaviour, ICanvasRaycastFilter
         oneTimeListener = () =>
         {
             //다음 튜토리얼로 이동
-            StartTutorialStep(++step);
+            BasicTutorialStep(++step);
 
             //튜토리얼 종료시 롱클릭 on
             if (longClick != null)
@@ -87,7 +87,7 @@ public class BasicTutorial : MonoBehaviour, ICanvasRaycastFilter
     }
 
 
-    void StartTutorialStep(int step)
+    void BasicTutorialStep(int step)
     {
         switch (step)
         {
@@ -114,3 +114,4 @@ enum Tutorial
 {
     Attack,
 }
+

@@ -13,8 +13,6 @@ public class GameManager : MonoBehaviour
 
     #region Ads
 
-    public bool isReward = false;
-
 
     #endregion
 

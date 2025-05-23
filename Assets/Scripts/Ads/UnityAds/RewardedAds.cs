@@ -11,7 +11,7 @@ public class RewardedAds : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLi
 
 
     string adUnitId;
- 
+
 
     void Awake()
     {
@@ -19,8 +19,8 @@ public class RewardedAds : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLi
 #if UNITY_ANDROID
     adUnitId = androidAdUnitId;
 #elif UNITY_IOS
-    // adUnitId = iosAdUnitId;  
-    Destroy(this);
+        // adUnitId = iosAdUnitId;  
+        Destroy(this);
 #endif
 
     }
@@ -36,14 +36,14 @@ public class RewardedAds : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLi
 
     public void OnUnityAdsAdLoaded(string placementId)
     {
-    
+
         Debug.Log("Rewardedl Ad Loaded");
-        
+
     }
 
     public void ShowRewardedAd()
     {
-       
+
         Advertisement.Show(adUnitId, this);
         LoadRewardedlAd();
 
@@ -51,13 +51,13 @@ public class RewardedAds : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLi
 
     public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message)
     {
-      
+
     }
 
     #region ShowCallbacks
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
     {
-       //AudioManager.Instance.PlayBGM(true);
+
         Failure?.Invoke();
     }
 
@@ -68,7 +68,7 @@ public class RewardedAds : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLi
 
     public void OnUnityAdsShowClick(string placementId)
     {
-       
+
     }
 
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
@@ -77,7 +77,6 @@ public class RewardedAds : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLi
         {
             AudioManager.Instance.PlayBGM(true);
             Debug.Log("Ads Fully Watched");
-            GameManager.Instance.isReward = true;
             Reward?.Invoke();
         }
     }

@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Numerics;
 using System.Text;
-using Unity.VisualScripting;
+using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Windows.Speech;
 
 
 public class DataManager : MonoBehaviour
@@ -13,6 +14,16 @@ public class DataManager : MonoBehaviour
 
     private readonly string keyWord = "Weapon";
     public StatsSO statsSO;
+
+    #region Mission
+    public MissionData[] missions;
+    #endregion
+
+    #region StatSprite
+
+    public Dictionary<StatType, Sprite> statSprite = new();
+
+    #endregion
 
 
     private static DataManager _instance;
@@ -40,13 +51,16 @@ public class DataManager : MonoBehaviour
 
         statsSO.Init(LoadUserData());
 
+        LoadMission();
+        LoadStatSprite();
+
 
     }
 
-  
 
 
-    public void LoadMission(Action<MissionList> onLoaded)
+
+    public void LoadMission(Action<MissionList> onLoaded = null)
     {
         Addressables.LoadAssetAsync<TextAsset>("Assets/Mission/Mission.json").Completed += handle =>
         {
@@ -54,15 +68,34 @@ public class DataManager : MonoBehaviour
             {
                 string json = handle.Result.text;
                 var list = JsonUtility.FromJson<MissionList>(json);
-                print(json);
-                onLoaded?.Invoke(list);
+                missions = list.missions;
+                //onLoaded?.Invoke(list);
             }
             else
             {
                 Debug.LogError("Addressable JSON 로드 실패!");
-                onLoaded?.Invoke(null);
+                //onLoaded?.Invoke(null);
             }
         };
+    }
+
+    public void LoadStatSprite()
+    {
+        foreach (var stat in statsSO.GetStats())
+        {
+            // LoadSprite 함수가 콜백으로 Sprite를 반환한다고 가정
+            Utility.LoadSprite($"StatIcon/{stat.key}", (sprite) =>
+            {
+                if (sprite != null)
+                {
+                    statSprite[stat.key] = sprite;  // 딕셔너리에 저장
+                }
+                else
+                {
+                    Debug.LogWarning($"Sprite 로드 실패: StatIcon/{stat.key}");
+                }
+            });
+        }
     }
 
 
@@ -105,7 +138,7 @@ public class DataManager : MonoBehaviour
         };
 
 
-        uData.missionData.earnedGold =  MissionManager.Instance.earnedGold.ToString();
+        uData.missionData.earnedGold = MissionManager.Instance.earnedGold.ToString();
         uData.missionData.kill = MissionManager.Instance.kill;
         uData.missionData.missionID = MissionManager.Instance.missionID;
 

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using Assets.Scripts;
+using Unity.Android.Gradle.Manifest;
 
 
 
@@ -33,7 +34,7 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
     StatType statType;
     string rewardType;
     BigInteger reward = new();
-    
+
     bool isClear = false;
 
 
@@ -46,7 +47,7 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
     [SerializeField] Image panel;
     Color panelColor;
     Coroutine twinkle;
-    MissionData[] missions;
+    
 
     [SerializeField] StatsSO statsSO;
 
@@ -60,7 +61,7 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
     {
         var missionData = DataManager.Instance.LoadUserData()?.missionData;
 
-        if(missionData == null)
+        if (missionData == null)
         {
             missionID = 0;
             kill = 0;
@@ -74,24 +75,39 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
             earnedGold = BigInteger.Parse(missionData.earnedGold);
 
         }
-        
 
-        DataManager.Instance.LoadMission(missinoList => missions = missinoList.missions);
 
-       StartCoroutine(LoadMission());
-        
+        //DataManager.Instance.LoadMission(missinoList => missions = missinoList.missions);
+
+        CurMission();
+        curValue.Subscribe(value =>
+        {
+            if (curValue.Value == -1) return;
+
+            missionProgress.text = $"({Utility.FormatNumberKoreanUnit(value)}/{Utility.FormatNumberKoreanUnit(goal)})";
+
+            if (value >= goal && twinkle == null)
+            {
+
+                twinkle = StartCoroutine(Twinkle());
+
+
+            }
+
+
+        });
     }
 
 
     public void CurMission()
     {
-        
-        var mission = missions[missionID % missions.Length];
+        var length = DataManager.Instance.missions.Length;
+        var mission = DataManager.Instance.missions[missionID % length];
         iDText.text = $"Mission {missionID + 1}";
-        
-        goal = BigInteger.Parse(mission.goal) + missionID / missions.Length;
-        missionDesc.text = string.Format(mission.description, Utility.FormatNumberKoreanUnit(goal)); 
-        
+
+        goal = BigInteger.Parse(mission.goal) + missionID / length;
+        missionDesc.text = string.Format(mission.description, Utility.FormatNumberKoreanUnit(goal));
+
         missionType = mission.type;
 
         rewardType = mission.rewards.type;
@@ -112,18 +128,18 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
         switch (missionType)
         {
             case "Kill":
-                if(isClear) kill = 0;
+                if (isClear) kill = 0;
                 isClear = false;
                 curValue.Value = kill;
-                
+
                 return;
             case "EarnedGold":
-                if(isClear) earnedGold = 0;
+                if (isClear) earnedGold = 0;
                 isClear = false;
                 curValue.Value = earnedGold;
                 return;
 
-           
+
         }
 
         if (Enum.TryParse<StatType>(missionType, out var parsedType))
@@ -155,7 +171,7 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
         kill++;
         curValue.Value = kill;
 
-        
+
 
     }
 
@@ -173,14 +189,14 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
 
         if (goal > curValue.Value)
             return;
-        if(twinkle != null)
+        if (twinkle != null)
         {
             StopCoroutine(twinkle);
             twinkle = null;
 
         }
-           
-        
+
+
         panel.color = panelColor;
 
 
@@ -201,9 +217,9 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
 
     }
 
-   IEnumerator Twinkle()
+    IEnumerator Twinkle()
     {
-    
+
         while (true)
         {
             float t = Mathf.PingPong(Time.time, 1f);  // t = 0~1 사이
@@ -211,38 +227,6 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
             panel.color = new Color(panelColor.r, panelColor.g, panelColor.b, alpha);
             yield return null;
         }
-    }
-
-    IEnumerator LoadMission()
-    {
-
-        while(missions == null)
-        {
-            yield return null;
-        }
-        CurMission();
-        curValue.Subscribe(value => 
-        {
-            if(curValue.Value == -1) return;
-            
-            missionProgress.text = $"({Utility.FormatNumberKoreanUnit(value)}/{Utility.FormatNumberKoreanUnit(goal)})";
-
-            if(value >= goal && twinkle == null)
-            {
-                
-                twinkle = StartCoroutine(Twinkle());
-               
-
-            }
-                
-            
-        });
-
-        Loading.Instance.currentLoadCnt += 1;
-
-
-
-
     }
 
 }

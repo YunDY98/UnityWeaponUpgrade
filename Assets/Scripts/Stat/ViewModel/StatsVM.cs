@@ -3,7 +3,6 @@ using System.Numerics;
 using R3;
 using System.Collections.Generic;
 using Assets.Scripts;
-using System;
 
 public class StatsVM
 {
@@ -11,7 +10,7 @@ public class StatsVM
     // public List<StatInfo> uList = new();
     // public List<UpgradeUI> showUIList = new();
 
-    public event Action GoldWarningEvent;
+    public event System.Action GoldWarningEvent;
 
     public List<StatInfo> datas = new();
     readonly StatsSO _model;
@@ -138,7 +137,7 @@ public class StatsVM
 
             };
 
-            Utility.LoadSprite($"StatIcon/{stat.key}", (sprite) => ui.sprite = sprite);
+            ui.sprite = DataManager.Instance.statSprite[stat.key];
 
             int nextLevel = 0;
             int curLevel = 0;
