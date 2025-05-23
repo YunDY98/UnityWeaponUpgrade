@@ -6,8 +6,8 @@ public class AdMobManager : MonoBehaviour
 {
     public event Action Reward;
     public event Action Failure;
-    // 광고 단위 ID (실제 광고 단위 ID로 교체 필요
 
+    // 광고 단위 ID (실제 광고 단위 ID로 교체 필요
     private string _adUnitId = "";
 
     // 보상형 광고 객체
@@ -46,7 +46,7 @@ public class AdMobManager : MonoBehaviour
         // 광고 로드
         LoadRewardedAd();
     }
-    
+
 
     // 보상형 광고 로드 함수
     public void LoadRewardedAd()
@@ -57,7 +57,7 @@ public class AdMobManager : MonoBehaviour
             _rewardedAd.Destroy();
             _rewardedAd = null;
         }
-      
+
         Debug.Log("보상형 광고 로드 중...");
 
         // 광고 요청 생성
@@ -69,7 +69,7 @@ public class AdMobManager : MonoBehaviour
             // 로드 실패 시
             if (error != null || ad == null)
             {
-               
+
                 Debug.LogError("보상형 광고 로드 실패: " + error);
                 return;
             }
@@ -79,45 +79,49 @@ public class AdMobManager : MonoBehaviour
             Debug.Log("보상형 광고 로드 성공");
 
 
-            // 광고가 닫히면 처리
-            _rewardedAd.OnAdFullScreenContentClosed += HandleAdClosed;
         });
-    }
-
-
-    // 광고가 닫힐 때 처리 (재로딩 등)
-    private void HandleAdClosed()
-    {
-        AudioManager.Instance.PlayBGM(true);
-        Debug.Log("광고가 닫혔습니다.");
-
-        // 광고가 닫히면 새로운 광고를 로드
-        LoadRewardedAd();
     }
 
 
     // 보상형 광고 표시 함수
     public void ShowRewardedAd()
     {
-        
+
         // 광고가 준비되었으면 표시
         if (_rewardedAd != null && _rewardedAd.CanShowAd())
         {
-           
+            bool isRewarded = false;
             _rewardedAd.Show((Reward reward) =>
             {
                 Debug.Log("광고 완료 후 보상 지급");
-               
+
                 Reward?.Invoke();
             });
+            
+            // 광고가 끝나고 닫혔을 때 보상이 지급되지 않았다면 Failure 호출
+            _rewardedAd.OnAdFullScreenContentClosed += () =>
+            {
+                AudioManager.Instance.PlayBGM(true);
+                isRewarded = true;
+                Debug.Log("광고가 닫혔습니다.");
+
+                if (!isRewarded)
+                {
+                    Debug.Log("광고를 끝까지 보지 않아 보상 지급 실패");
+                    Failure?.Invoke();
+                }
+
+                LoadRewardedAd(); // 광고 재로드
+            };
+
         }
         else
         {
-            
+            Failure?.Invoke();
             Debug.Log("광고가 아직 로드되지 않았습니다.");
             return;
         }
         AudioManager.Instance.PlayBGM(false);
-      
+
     }
 }

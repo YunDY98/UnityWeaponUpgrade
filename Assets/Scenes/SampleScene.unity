@@ -1015,7 +1015,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &364669459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2712,7 +2712,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 791c5c78d29d44abf9a29408aa3ed188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panel: {fileID: 1209728777}
 --- !u!1 &1286675213
 GameObject:
   m_ObjectHideFlags: 0
@@ -3992,7 +3991,7 @@ Transform:
   m_GameObject: {fileID: 1650745919}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -55, y: 0, z: 0}
+  m_LocalPosition: {x: -6.8, y: -4.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4494,7 +4493,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1888444984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4904,7 +4903,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 791c5c78d29d44abf9a29408aa3ed188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panel: {fileID: 2083335886}
 --- !u!1 &2128159849
 GameObject:
   m_ObjectHideFlags: 0
@@ -6441,6 +6439,7 @@ MonoBehaviour:
   expSlider: {fileID: 3051781554756665461}
   goldText: {fileID: 6050073457397681580}
   levelText: {fileID: 2562725672388548630}
+  tweenDuration: 0.3
 --- !u!224 &4662484349412184961
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7921,7 +7920,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 791c5c78d29d44abf9a29408aa3ed188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panel: {fileID: 7403463195193002314}
 --- !u!114 &8281462995435114266
 MonoBehaviour:
   m_ObjectHideFlags: 0

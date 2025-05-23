@@ -17,8 +17,8 @@ namespace Assets.Scripts
             if (start >= end)
                 return 0;
 
-            var oToE = GeometricSum(a, r, end);
-            var oToS = GeometricSum(a, r, start);
+            var oToE = GeometricSum(a, r, end); // 0에서 end 까지 
+            var oToS = GeometricSum(a, r, start); // 0에서 start
 
             return oToE - oToS;
         }
