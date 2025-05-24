@@ -5,7 +5,7 @@ using System.Text;
 using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Windows.Speech;
+
 
 
 public class DataManager : MonoBehaviour
@@ -15,16 +15,19 @@ public class DataManager : MonoBehaviour
     private readonly string keyWord = "Weapon";
     public StatsSO statsSO;
 
+    public bool isLoad;
+
     #region Mission
     public MissionData[] missions;
-    #endregion
+    #endregion mission
 
     #region StatSprite
 
     public Dictionary<StatType, Sprite> statSprite = new();
 
-    #endregion
+    #endregion statSprite
 
+    public bool[] isLoaded;
 
     private static DataManager _instance;
     public static DataManager Instance
@@ -51,6 +54,9 @@ public class DataManager : MonoBehaviour
 
         statsSO.Init(LoadUserData());
 
+        isLoaded = new bool[(int)DataEnum.Count];
+
+
         LoadMission();
         LoadStatSprite();
 
@@ -60,8 +66,9 @@ public class DataManager : MonoBehaviour
 
 
 
-    public void LoadMission(Action<MissionList> onLoaded = null)
+    public void LoadMission()
     {
+
         Addressables.LoadAssetAsync<TextAsset>("Assets/Mission/Mission.json").Completed += handle =>
         {
             if (handle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
@@ -69,30 +76,39 @@ public class DataManager : MonoBehaviour
                 string json = handle.Result.text;
                 var list = JsonUtility.FromJson<MissionList>(json);
                 missions = list.missions;
-                //onLoaded?.Invoke(list);
+                isLoaded[(int)DataEnum.mission] = true;
+
             }
             else
             {
                 Debug.LogError("Addressable JSON 로드 실패!");
-                //onLoaded?.Invoke(null);
             }
+
         };
     }
 
     public void LoadStatSprite()
     {
+        int count = statsSO.GetStats().Length;
+        int loadedCnt = 0;
+
         foreach (var stat in statsSO.GetStats())
         {
-            // LoadSprite 함수가 콜백으로 Sprite를 반환한다고 가정
             Utility.LoadSprite($"StatIcon/{stat.key}", (sprite) =>
             {
                 if (sprite != null)
                 {
                     statSprite[stat.key] = sprite;  // 딕셔너리에 저장
+
                 }
                 else
                 {
                     Debug.LogWarning($"Sprite 로드 실패: StatIcon/{stat.key}");
+                }
+                loadedCnt++;
+                if (loadedCnt >= count)
+                {
+                    isLoaded[(int)DataEnum.statSprite] = true;
                 }
             });
         }
@@ -291,4 +307,21 @@ public class UserMissionData
     public string earnedGold = "0";
 
 
+}
+
+public enum DataEnum
+{
+    mission,
+    statSprite,
+
+
+
+
+
+
+
+
+
+
+    Count //enum 갯수
 }

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using Assets.Scripts;
-using Unity.Android.Gradle.Manifest;
+
 
 
 
@@ -28,14 +28,14 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
     #endregion MissionData
 
     ReactiveProperty<BigInteger> curValue = new();
-    BigInteger goal = new();
+    BigInteger goal = new(); // 미션 목표
     //int curValue;
     string missionType;
     StatType statType;
     string rewardType;
     BigInteger reward = new();
 
-    bool isClear = false;
+    bool isClear = false; // 미션 클리어 여부 
 
 
 
@@ -47,7 +47,7 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
     [SerializeField] Image panel;
     Color panelColor;
     Coroutine twinkle;
-    
+
 
     [SerializeField] StatsSO statsSO;
 
@@ -79,7 +79,7 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
 
         //DataManager.Instance.LoadMission(missinoList => missions = missinoList.missions);
 
-        CurMission();
+        SetMission();
         curValue.Subscribe(value =>
         {
             if (curValue.Value == -1) return;
@@ -99,25 +99,26 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
     }
 
 
-    public void CurMission()
+    public void SetMission()
     {
+        // 미션 배열 크기 
         var length = DataManager.Instance.missions.Length;
+        // 0 ~ length - 1번째 배열 
         var mission = DataManager.Instance.missions[missionID % length];
+
         iDText.text = $"Mission {missionID + 1}";
 
+        // 미션 단계만큼 목표 상승 
         goal = BigInteger.Parse(mission.goal) + missionID / length;
         missionDesc.text = string.Format(mission.description, Utility.FormatNumberKoreanUnit(goal));
 
+        // 어떤 미션인지 
         missionType = mission.type;
-
+        // 어떤 보상인지 
         rewardType = mission.rewards.type;
         reward = mission.rewards.amount;
 
         MissionInfo();
-
-
-
-
     }
 
 
@@ -141,19 +142,19 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
 
 
         }
-
+        // string missinoType -> StatType
         if (Enum.TryParse<StatType>(missionType, out var parsedType))
         {
             statType = parsedType;
         }
 
-
+        // 스탯과 관련된 미션 
         if (statType != StatType.None)
-            StatMission(statType);
+            SetStatMission(statType);
 
     }
 
-    public void StatMission(StatType type)
+    public void SetStatMission(StatType type)
     {
         if (statType != type)
             return;
@@ -196,13 +197,14 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
 
         }
 
-
+        // 깜빡거리기 전 컬러
         panel.color = panelColor;
 
-
+        // 클리어시 미션 아이디 + 1
         missionID += 1;
-        statType = StatType.None;
-        CurMission();
+
+        // 미션 재설정
+        SetMission();
         isClear = true;
 
 
@@ -230,3 +232,8 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
     }
 
 }
+
+
+
+
+

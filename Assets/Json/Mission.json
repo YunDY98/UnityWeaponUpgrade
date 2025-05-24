@@ -33,7 +33,7 @@
         {
             "id": 4,
             "type": "AddGoldAmount",
-            "description": "골드 획득량 레벨 {0}",
+            "description": "골드 획득량 레벨 {0} 이상",
             "goal": 100,
             "rewards": {
                 "type": "Gold",

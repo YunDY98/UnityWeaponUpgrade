@@ -26,7 +26,7 @@ public class BasicTutorial : MonoBehaviour, ICanvasRaycastFilter
 
         if (RectTransformUtility.RectangleContainsScreenPoint(holeRect, sp, eventCamera))
         {
-            //해당 영역에 있을경우 레이케스트 무시 
+            // 해당 영역에 있을경우 레이케스트 무시 
             return false;
         }
 
@@ -67,20 +67,20 @@ public class BasicTutorial : MonoBehaviour, ICanvasRaycastFilter
 
         oneTimeListener = () =>
         {
-            //다음 튜토리얼로 이동
+            // 다음 튜토리얼로 이동
             BasicTutorialStep(++step);
 
-            //튜토리얼 종료시 롱클릭 on
+            // 튜토리얼 종료시 롱클릭 on
             if (longClick != null)
                 longClick.enabled = true;
 
-            //현재 튜토리얼이 끝나면 리스너 제거 
+            // 현재 튜토리얼이 끝나면 리스너 제거 
             target.onClick.RemoveListener(oneTimeListener);
 
         };
         target.onClick.AddListener(oneTimeListener);
 
-        //현재 튜토리얼 영역에 맞춰 빨갠색으로 강조 
+        // 현재 튜토리얼 영역에 맞춰 빨갠색으로 강조 
         var rect = target.GetComponent<RectTransform>();
         holeRect.position = rect.position;
         holeRect.sizeDelta = rect.sizeDelta;

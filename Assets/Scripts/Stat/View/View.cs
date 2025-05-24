@@ -87,8 +87,9 @@ public class View : MonoBehaviour
 
     private void PopulateItem(RecyclingListViewItem item, int rowIndex)
     {
-
+        // UpgradeUI로 다운캐스팅 
         var child = item as UpgradeUI;
+        // 
         var data = viewModel.datas[rowIndex];
         child.statName.text = data.statName;
         child.image.sprite = data.sprite;

@@ -10,7 +10,6 @@ public class ItemPool : ObjectPool
 
         var obj = Instantiate(objects[type],transform);
 
-        
 
         obj.GetComponent<IPoolable>().ReturnEvent += Return;
         obj.GetComponent<IUITarget>().Target = icons[type];
