@@ -59,25 +59,20 @@ public class EnemyFactory: ObjectPool
            // enemy.statsSO = StatsSO;
             enemy.player = player;
             enemy.DamageEvent += effect.Damage;
-            enemy.ReturnEvent += Return;
+            enemy.OnPoolReturn += ReturnToPool;
             enemy.DropItemEvent += itemPool.DropItem;
-           
-           
-            
             
             tmp.SetActive(false);
-            
-            
            
             pool[(int)enemy.enemySO.type].Enqueue(tmp);
 
         }
 
     }
-    public override void Return(GameObject obj,int type)
+    public override void ReturnToPool(GameObject obj,int type)
     {
-        pool[type].Enqueue(obj);
-        obj.SetActive(false);
+        base.ReturnToPool(obj, type);
+
         GameManager.Instance.EnemyCnt -= 1;
 
 

@@ -2,14 +2,12 @@ using UnityEngine;
 using System;
 
 
-public class Gold : ItemMove,IPoolable
+public class Gold : ItemMove, IPoolable
 {
     public ItemType type;
     public StatsSO statsSO;
 
-    public float goldRate;
-
-    public event Action<GameObject,int> ReturnEvent;
+    public event Action<GameObject, int> OnPoolReturn;
 
     void Awake()
     {
@@ -19,10 +17,9 @@ public class Gold : ItemMove,IPoolable
 
     void OnDisable()
     {
-        ReturnEvent?.Invoke(gameObject,(int)type);
-        statsSO.AddGold( statsSO.GetStat(StatType.AddGoldAmount).value.Value * statsSO.Level.Value);
+        OnPoolReturn?.Invoke(gameObject, (int)type);
+        statsSO.AddGold(statsSO.GetStat(StatType.AddGoldAmount).value.Value * statsSO.Level.Value);
     }
-
 
 
 

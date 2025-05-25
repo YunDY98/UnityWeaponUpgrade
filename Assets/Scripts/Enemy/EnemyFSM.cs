@@ -10,7 +10,7 @@ using Assets.Scripts;
 
 public class EnemyFSM : MonoBehaviour,IPoolable
 {
-    public event Action<GameObject,int> ReturnEvent;
+    public event Action<GameObject,int> OnPoolReturn;
     public event Action<int,Vector3> DropItemEvent;
    
     public event Action<Vector3,FinalDamage> DamageEvent;
@@ -104,7 +104,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
 
        
         if(!GameManager.Instance.IsLive)
-            ReturnEvent?.Invoke(gameObject,(int)enemySO.type);
+            OnPoolReturn?.Invoke(gameObject,(int)enemySO.type);
 
         
         switch(state)
@@ -239,7 +239,7 @@ public class EnemyFSM : MonoBehaviour,IPoolable
         
         DropItemEvent?.Invoke((int)ItemType.Gold,transform.position);
 
-        ReturnEvent?.Invoke(gameObject,(int)enemySO.type);
+        OnPoolReturn?.Invoke(gameObject,(int)enemySO.type);
 
         pStats.AddExp(exp);
 

@@ -86,7 +86,7 @@ public class TouchEffect : ObjectPool
         obj.transform.localScale = Vector3.zero;
 
         // DOTween을 사용하여 스케일을 1까지 확대
-        obj.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack).OnKill(() => Return(obj, 0));
+        obj.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack).OnKill(() => ReturnToPool(obj, 0));
 
     }
  

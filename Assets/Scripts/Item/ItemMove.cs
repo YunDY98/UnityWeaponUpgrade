@@ -3,7 +3,7 @@ using DG.Tweening;
 public abstract class ItemMove : MonoBehaviour, IUITarget, IItemMove
 {
     RectTransform _target;
-    
+
     [HideInInspector]
     public RectTransform Target
     {
@@ -13,7 +13,10 @@ public abstract class ItemMove : MonoBehaviour, IUITarget, IItemMove
             _target = value;
             if (_target != null)
             {
-                SetTarget();
+                // UI의 화면 좌표 → 월드 좌표 변환
+                Vector3 screenPos = Target.position;
+
+                worldTarget = Camera.main.ScreenToWorldPoint(screenPos);
             }
         }
     }
@@ -22,21 +25,13 @@ public abstract class ItemMove : MonoBehaviour, IUITarget, IItemMove
 
     Vector3 worldTarget;
 
-    public void SetTarget()
-    {
-        // UI의 화면 좌표 → 월드 좌표 변환
-        Vector3 screenPos = Target.position;
-
-        worldTarget = Camera.main.ScreenToWorldPoint(screenPos);
-    }
-
     public virtual void Move(Transform transform)
     {
 
 
         worldTarget.z = 0;
 
-        // 코인 이동
+        // 아이템 이동
         transform.DOMove(worldTarget, duration)
             .SetEase(Ease.InOutQuad);
         transform.DOScale(Vector3.zero, duration)

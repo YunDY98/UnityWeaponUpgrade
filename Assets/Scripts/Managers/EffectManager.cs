@@ -70,7 +70,7 @@ public class EffectManager : ObjectPool
 
         obj.transform.DOMoveY(obj.transform.position.y + 30f, duration)
             .SetEase(Ease.OutCubic)
-            .OnKill(() => Return(obj, type));
+            .OnKill(() => ReturnToPool(obj, type));
 
         tmp.DOFade(0, duration).SetEase(Ease.InOutQuad);
 

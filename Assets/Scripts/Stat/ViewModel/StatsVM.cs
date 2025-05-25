@@ -12,7 +12,7 @@ public class StatsVM
 
     public event System.Action GoldWarningEvent;
 
-    public List<StatInfo> datas = new();
+    public List<StatInfo> statInfos = new();
     readonly StatsSO _model;
 
     public Stat GetStat(int type) => _model.GetStat(type); // 최대 체력, 공격력, 크리티컬 등 능력치
@@ -37,7 +37,7 @@ public class StatsVM
         });
 
 
-        datas.Clear();
+        statInfos.Clear();
         SetUpgradeUI();
 
     }
@@ -192,7 +192,7 @@ public class StatsVM
 
             ui.maxLevelText = stat.maxLevel.ToString();
             // 리스트에 추가 
-            datas.Add(ui);
+            statInfos.Add(ui);
 
         }
     }

@@ -1,6 +1,3 @@
-
-using System.Collections;
-using System.Linq;
 using R3;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +5,7 @@ using UnityEngine.UI;
 
 
 
-public class View : MonoBehaviour
+public class StatsView : MonoBehaviour
 {
 
     public RecyclingListView theList;
@@ -56,8 +53,8 @@ public class View : MonoBehaviour
 
         theList.ItemCallback = PopulateItem;
 
-       
-        theList.RowCount = viewModel.datas.Count;
+
+        theList.RowCount = viewModel.statInfos.Count;
 
     }
 
@@ -89,26 +86,27 @@ public class View : MonoBehaviour
     {
         // UpgradeUI로 다운캐스팅 
         var child = item as UpgradeUI;
-        // 
-        var data = viewModel.datas[rowIndex];
-        child.statName.text = data.statName;
-        child.image.sprite = data.sprite;
+        // 보여줄 stat index
+        var statInfo = viewModel.statInfos[rowIndex];
 
+        child.statName.text = statInfo.statName;
+        child.image.sprite = statInfo.sprite;
+        child.maxLevelText.text = $"(Max:{statInfo.maxLevelText})";
+
+        // UI 재사용을 위해 구독 해제후 새로 구독
         child.sub.Clear();
+    
+        statInfo.cost.Subscribe(x => child.cost.text = x).AddTo(child.sub);
+        statInfo.level.Subscribe(x => child.levelText.text = $"Lv.{x}").AddTo(child.sub);
+        statInfo.description.Subscribe(x => child.description.text = x).AddTo(child.sub);
 
-        data.cost.Subscribe(x => child.cost.text = x).AddTo(child.sub);
-        data.level.Subscribe(x => child.levelText.text = $"Lv.{x}").AddTo(child.sub);
-
-        child.maxLevelText.text = $"(Max:{data.maxLevelText})";
-
-        data.description.Subscribe(x => child.description.text = x).AddTo(child.sub);
-
-
+        
         child.btn.onClick.RemoveAllListeners();
-
-        if (data.level.Value != data.maxLevelText)
+        // 스탯이 만렙이 아니라면
+        if (statInfo.level.Value != statInfo.maxLevelText)
         {
-            child.btn.onClick.AddListener(() => viewModel.StatUpgrade(viewModel.GetStat(data.type), viewModel.statUpMult.Value));
+            // 업그레이드 버튼 
+            child.btn.onClick.AddListener(() => viewModel.StatUpgrade(viewModel.GetStat(statInfo.type), viewModel.statUpMult.Value));
 
         }
 
