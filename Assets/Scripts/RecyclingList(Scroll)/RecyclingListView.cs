@@ -266,8 +266,8 @@ public class RecyclingListView : MonoBehaviour
             scrollRect.verticalNormalizedPosition = 1; // 1 == top
         }
 
-        bool childrenChanged = CheckChildItems();
-        bool populateAll = childrenChanged || clearContents;
+       bool childrenChanged = CheckChildItems();
+       bool populateAll = childrenChanged || clearContents;
 
         // Figure out which is the first virtual slot visible
         float ymin = scrollRect.content.localPosition.y;
@@ -292,13 +292,13 @@ public class RecyclingListView : MonoBehaviour
             }
 
         }
-        else if (diff != 0)
+        else if (diff != 0) // else if
         {
             // we scrolled forwards or backwards within the tolerance that we can re-use some of what we have
             // Move our window so that we just re-use from back and place in front
             // children which were already there and contain correct data won't need changing
             int newBufferStart = (childBufferStart + diff) % childItems.Length;
-
+            print("diff" + diff);
             if (diff < 0)
             {
                 // window moved backwards

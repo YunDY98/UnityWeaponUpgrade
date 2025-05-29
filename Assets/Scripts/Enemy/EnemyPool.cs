@@ -1,8 +1,8 @@
 using System.Collections;
-using System.Numerics;
+
 using UnityEngine;
 
-public class EnemyFactory: ObjectPool
+public class EnemyPool: ObjectPool
 {
     [SerializeField]
     Transform player;
@@ -14,7 +14,7 @@ public class EnemyFactory: ObjectPool
     ItemPool itemPool;
 
     [SerializeField]
-    EffectManager effect;
+    EffectPool effect;
 
 
     WaitForSeconds spawnDelay = new (1f);

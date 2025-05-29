@@ -1,11 +1,7 @@
 using UnityEngine;
-
 using Spine.Unity;
-
 using System.Collections.Generic;
 using System.Collections;
-using Assets.Scripts;
-using Spine.Unity.Examples;
 public class Player : MonoBehaviour
 {
 

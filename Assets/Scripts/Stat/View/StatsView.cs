@@ -1,3 +1,4 @@
+using System.Collections;
 using R3;
 using UnityEngine;
 using UnityEngine.UI;
@@ -53,8 +54,9 @@ public class StatsView : MonoBehaviour
 
         theList.ItemCallback = PopulateItem;
 
+        StartCoroutine(LoadStats());
 
-        theList.RowCount = viewModel.statInfos.Count;
+       
 
     }
 
@@ -95,12 +97,12 @@ public class StatsView : MonoBehaviour
 
         // UI 재사용을 위해 구독 해제후 새로 구독
         child.sub.Clear();
-    
+
         statInfo.cost.Subscribe(x => child.cost.text = x).AddTo(child.sub);
         statInfo.level.Subscribe(x => child.levelText.text = $"Lv.{x}").AddTo(child.sub);
         statInfo.description.Subscribe(x => child.description.text = x).AddTo(child.sub);
 
-        
+
         child.btn.onClick.RemoveAllListeners();
         // 스탯이 만렙이 아니라면
         if (statInfo.level.Value != statInfo.maxLevelText)
@@ -112,12 +114,23 @@ public class StatsView : MonoBehaviour
 
     }
 
+    IEnumerator LoadStats()
+    {
+        while (!DataManager.Instance.isLoaded[(int)DataEnum.statSprite])
+            yield return null;
+        viewModel.SetUpgradeUI();
+        theList.RowCount = viewModel.statInfos.Count;
+      
+    }
+
 
 
     public void TestGold()
     {
         viewModel.TestGold();
     }
+
+
 
 
 }

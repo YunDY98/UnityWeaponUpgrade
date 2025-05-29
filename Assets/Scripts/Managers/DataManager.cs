@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Assets.Scripts;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -15,8 +17,6 @@ public class DataManager : MonoBehaviour
     private readonly string keyWord = "Weapon";
     public StatsSO statsSO;
 
-    public bool isLoad;
-
     #region Mission
     public MissionData[] missions;
     #endregion mission
@@ -27,6 +27,7 @@ public class DataManager : MonoBehaviour
 
     #endregion statSprite
 
+    [HideInInspector]
     public bool[] isLoaded;
 
     private static DataManager _instance;
@@ -56,9 +57,7 @@ public class DataManager : MonoBehaviour
 
         isLoaded = new bool[(int)DataEnum.Count];
 
-
-        LoadMission();
-        LoadStatSprite();
+        StartCoroutine(InitializeData());
 
 
     }
@@ -69,14 +68,17 @@ public class DataManager : MonoBehaviour
     public void LoadMission()
     {
 
-        Addressables.LoadAssetAsync<TextAsset>("Assets/Mission/Mission.json").Completed += handle =>
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Json/Mission.json").Completed += handle =>
         {
+
             if (handle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
             {
+
                 string json = handle.Result.text;
                 var list = JsonUtility.FromJson<MissionList>(json);
                 missions = list.missions;
                 isLoaded[(int)DataEnum.mission] = true;
+                Debug.Log("complete");
 
             }
             else
@@ -109,6 +111,7 @@ public class DataManager : MonoBehaviour
                 if (loadedCnt >= count)
                 {
                     isLoaded[(int)DataEnum.statSprite] = true;
+                    Debug.Log("StatsLoad");
                 }
             });
         }
@@ -236,6 +239,17 @@ public class DataManager : MonoBehaviour
         return sb.ToString();
     }
 
+    IEnumerator InitializeData()
+    {
+        // Addressables 초기화 완료될 때까지 기다림
+        yield return Addressables.InitializeAsync();
+        Debug.Log("init addressable");
+
+        // 데이터 로딩 시작
+        LoadMission();
+        LoadStatSprite();
+    }
+
 
 }
 
@@ -313,14 +327,6 @@ public enum DataEnum
 {
     mission,
     statSprite,
-
-
-
-
-
-
-
-
 
 
     Count //enum 갯수

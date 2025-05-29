@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UpgradeUI : RecyclingListViewItem
 {
-    public CompositeDisposable sub = new();
+    public CompositeDisposable sub = new();// 재사용을 위한 구독 정보 
     public TextMeshProUGUI statName;
     public TextMeshProUGUI cost;
     public Button btn;
@@ -14,6 +14,7 @@ public class UpgradeUI : RecyclingListViewItem
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI maxLevelText;
     public Image image;
+    
 
 }
 

@@ -38,7 +38,7 @@ public class StatsVM
 
 
         statInfos.Clear();
-        SetUpgradeUI();
+        //SetUpgradeUI();
 
     }
 

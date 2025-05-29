@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     }
 
     int spawnCnt = 5;
-    public EnemyFactory EnemyFactory;
+    public EnemyPool enemyPool;
 
     public StatsSO statsSO;
 
@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour
 
         yield return wait;
 
-        EnemyFactory.Spawn(cnt,type);
+        enemyPool.Spawn(cnt,type);
 
 
     }

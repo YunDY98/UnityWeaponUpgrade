@@ -3,7 +3,7 @@ using DG.Tweening;
 using TMPro;
 using Assets.Scripts;
 
-public class EffectManager : ObjectPool
+public class EffectPool : ObjectPool
 {
     float duration = 2f;
 

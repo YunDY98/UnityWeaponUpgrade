@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using BigInteger = System.Numerics.BigInteger;
 using UnityEngine;
-
 using Vector3 = UnityEngine.Vector3;
 using Assets.Scripts;
 

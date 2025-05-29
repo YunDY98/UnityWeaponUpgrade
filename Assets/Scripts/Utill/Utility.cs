@@ -8,11 +8,11 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Assets.Scripts
 {
-    public static class Utility 
+    public static class Utility
     {
-        
+
         // 등비 수열 구간 합 
-        public static BigInteger GeometricSumInRange(BigInteger a,double r, int start, int end) 
+        public static BigInteger GeometricSumInRange(BigInteger a, double r, int start, int end)
         {
             if (start >= end)
                 return 0;
@@ -23,36 +23,36 @@ namespace Assets.Scripts
             return oToE - oToS;
         }
         // 등비 수열 합 
-        public static BigInteger GeometricSum(BigInteger a,double r, int n) 
+        public static BigInteger GeometricSum(BigInteger a, double r, int n)
         {
 
             if (r == 1)
             {
-                return a * n; 
+                return a * n;
             }
             else
-            {  
-                return BigIntMult(a,(1 - Math.Pow(r,n))/(1-r));
+            {
+                return BigIntMult(a, (1 - Math.Pow(r, n)) / (1 - r));
             }
         }
         // 등비 수열 일반항  
-        public static BigInteger GeoProgression(BigInteger a,double r, int n) 
+        public static BigInteger GeoProgression(BigInteger a, double r, int n)
         {
-            if(r == 1)
+            if (r == 1)
                 return a * n;
 
             Debug.Log(Math.Pow(r, n - 1));
 
             return BigIntMult(a, Math.Pow(r, n - 1));
         }
-    
 
-        public static BigInteger BigIntMult(BigInteger a,double r,int scale =  1000000000)
-        {     
-           
-           
-            BigInteger result = a * (BigInteger)(r * scale)/ scale;    
-            
+
+        public static BigInteger BigIntMult(BigInteger a, double r, int scale = 1000000000)
+        {
+
+
+            BigInteger result = a * (BigInteger)(r * scale) / scale;
+
             return result;
         }
 
@@ -173,6 +173,10 @@ namespace Assets.Scripts
                 }
             };
         }
+
+
+       
+        
 
     
 

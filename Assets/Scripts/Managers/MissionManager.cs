@@ -11,6 +11,7 @@ using Assets.Scripts;
 
 
 
+
 public class MissionManager : MonoBehaviour, IPointerDownHandler
 {
     private static MissionManager _instance;
@@ -78,24 +79,8 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
 
 
         //DataManager.Instance.LoadMission(missinoList => missions = missinoList.missions);
-
-        SetMission();
-        curValue.Subscribe(value =>
-        {
-            if (curValue.Value == -1) return;
-
-            missionProgress.text = $"({Utility.FormatNumberKoreanUnit(value)}/{Utility.FormatNumberKoreanUnit(goal)})";
-
-            if (value >= goal && twinkle == null)
-            {
-
-                twinkle = StartCoroutine(Twinkle());
-
-
-            }
-
-
-        });
+        StartCoroutine(LoadMission());
+       
     }
 
 
@@ -229,6 +214,30 @@ public class MissionManager : MonoBehaviour, IPointerDownHandler
             panel.color = new Color(panelColor.r, panelColor.g, panelColor.b, alpha);
             yield return null;
         }
+    }
+
+    IEnumerator LoadMission()
+    {
+        while (!DataManager.Instance.isLoaded[(int)DataEnum.mission])
+            yield return null;
+        
+        SetMission();
+        curValue.Subscribe(value =>
+        {
+            if (curValue.Value == -1) return;
+
+            missionProgress.text = $"({Utility.FormatNumberKoreanUnit(value)}/{Utility.FormatNumberKoreanUnit(goal)})";
+
+            if (value >= goal && twinkle == null)
+            {
+
+                twinkle = StartCoroutine(Twinkle());
+
+
+            }
+
+
+        });
     }
 
 }

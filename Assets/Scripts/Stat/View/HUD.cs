@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using R3;
 using TMPro;
 using Assets.Scripts;
-using System.Collections;
 using DG.Tweening;
 
 
