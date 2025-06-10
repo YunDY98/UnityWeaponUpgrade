@@ -8,7 +8,7 @@
 
 ## 🛠️ 설치 방법  
 ### 🔹 **Android**  
-[여기](https://github.com/YunDY98/UnityWeaponUpgrade/releases/download/Android/Android.zip)에서 Android 다운로드.
+[여기](https://github.com/YunDY98/UnityWeaponUpgrade/releases/download/Android/Android.apk)에서 Android 다운로드.
 
 
 
