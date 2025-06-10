@@ -53,6 +53,7 @@ public class RecyclingListView : MonoBehaviour
                 ignoreScrollChange = true;
                 UpdateContentHeight();
                 ignoreScrollChange = false;
+                CheckChildItems();
                 ReorganiseContent(true);
             }
         }
@@ -266,8 +267,8 @@ public class RecyclingListView : MonoBehaviour
             scrollRect.verticalNormalizedPosition = 1; // 1 == top
         }
 
-       bool childrenChanged = CheckChildItems();
-       bool populateAll = childrenChanged || clearContents;
+        // bool childrenChanged = CheckChildItems();
+        // bool populateAll = childrenChanged || clearContents;
 
         // Figure out which is the first virtual slot visible
         float ymin = scrollRect.content.localPosition.y;
@@ -280,7 +281,7 @@ public class RecyclingListView : MonoBehaviour
 
         // If we've moved too far to be able to reuse anything, same as init case
         int diff = newRowStart - sourceDataRowStart;
-        if (populateAll || Mathf.Abs(diff) >= childItems.Length)
+        if (clearContents || Mathf.Abs(diff) >= childItems.Length)
         {
 
             sourceDataRowStart = newRowStart;
@@ -298,7 +299,7 @@ public class RecyclingListView : MonoBehaviour
             // Move our window so that we just re-use from back and place in front
             // children which were already there and contain correct data won't need changing
             int newBufferStart = (childBufferStart + diff) % childItems.Length;
-            print("diff" + diff);
+           
             if (diff < 0)
             {
                 // window moved backwards
@@ -306,6 +307,7 @@ public class RecyclingListView : MonoBehaviour
                 {
                     int bufi = WrapChildIndex(childBufferStart - i);
                     int rowIdx = sourceDataRowStart - i;
+                    print("bufi" + bufi + "rowIdx" + rowIdx);
                     UpdateChild(childItems[bufi], rowIdx);
                 }
             }
@@ -316,9 +318,13 @@ public class RecyclingListView : MonoBehaviour
                 int prevLastRowIdx = sourceDataRowStart + childItems.Length - 1;
                 for (int i = 1; i <= diff; ++i)
                 {
+                    print(prevLastBufIdx + i + "hm");
                     int bufi = WrapChildIndex(prevLastBufIdx + i);
                     int rowIdx = prevLastRowIdx + i;
+                    print("bufi" + bufi + "rowIdx" + rowIdx);
                     UpdateChild(childItems[bufi], rowIdx);
+                    var chi = childItems[bufi] as UpgradeUI;
+                    print(chi.statName.text);
                 }
             }
 
@@ -327,7 +333,6 @@ public class RecyclingListView : MonoBehaviour
         }
 
     }
-
     private int WrapChildIndex(int idx)
     {
         while (idx < 0)

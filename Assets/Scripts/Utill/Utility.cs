@@ -77,22 +77,22 @@ namespace Assets.Scripts
         //     return result;
 
         // }
-
+        static readonly BigInteger a = 10000; // 만
+        static readonly BigInteger b = 1_0000_0000; // 억
+        static readonly BigInteger c = 1_0000_0000_0000; // 조
+        static readonly BigInteger d = 1_0000_0000_0000_0000; // 경
+        static readonly BigInteger e = BigInteger.Parse("100000000000000000000"); // 해
+        static readonly BigInteger f = BigInteger.Parse("1000000000000000000000000"); // 자
+        static readonly BigInteger g = BigInteger.Parse("10000000000000000000000000000"); // 양
+        static readonly BigInteger h = BigInteger.Parse("100000000000000000000000000000000"); // 구
+        static readonly BigInteger i = BigInteger.Parse("1000000000000000000000000000000000000"); // 간
 
         public static string FormatNumberKoreanUnit(BigInteger value)
         {
             var result = "";
 
             int cnt = 0;
-            BigInteger a = 10000; // 만
-            BigInteger b = 1_0000_0000; // 억
-            BigInteger c = 1_0000_0000_0000; // 조
-            BigInteger d = 1_0000_0000_0000_0000; // 경
-            BigInteger e = BigInteger.Parse("100000000000000000000"); // 해
-            BigInteger f = BigInteger.Parse("1000000000000000000000000"); // 자
-            BigInteger g = BigInteger.Parse("10000000000000000000000000000"); // 양
-            BigInteger h = BigInteger.Parse("100000000000000000000000000000000"); // 구
-            BigInteger i = BigInteger.Parse("1000000000000000000000000000000000000"); // 간
+
 
             if (value >= i && cnt < 2)
             {
@@ -175,10 +175,10 @@ namespace Assets.Scripts
         }
 
 
-       
-        
 
-    
+
+
+
 
 
     }

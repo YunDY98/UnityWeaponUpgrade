@@ -13,7 +13,7 @@ public class RecyclingListViewItem : MonoBehaviour
     {
         get => parentList;
     }
-
+    
     private int currentRow;
     public int CurrentRow
     {

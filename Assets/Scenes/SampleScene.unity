@@ -511,7 +511,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &364669459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2606,7 +2606,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1888444984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4306,7 +4306,7 @@ GameObject:
   - component: {fileID: 3977107315621003442}
   - component: {fileID: 658341060509689850}
   m_Layer: 5
-  m_Name: Upgrade(ScrollVIew)
+  m_Name: Scroll View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4947,7 +4947,7 @@ GameObject:
   - component: {fileID: 7595809535447560091}
   - component: {fileID: 2545407821514411241}
   m_Layer: 5
-  m_Name: StatUp(viewport)
+  m_Name: Viewport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
